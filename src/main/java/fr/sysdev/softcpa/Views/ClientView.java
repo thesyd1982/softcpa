@@ -5,6 +5,7 @@
  */
 package fr.sysdev.softcpa.Views;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,11 +13,13 @@ import org.springframework.stereotype.Component;
  * @author COPCGRE
  */
 @Component
+@Scope("prototype")
 public class ClientView extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form ClientView
      */
+    
     public ClientView() {
         initComponents();
     }

@@ -6,11 +6,13 @@
 package fr.sysdev.softcpa.Views;
 
 import fr.sysdev.softcpa.Controllers.PieceController;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author COPCGRE
  */
+@Component
 public class PieceView extends javax.swing.JInternalFrame {
 
     private PieceController pieceController;

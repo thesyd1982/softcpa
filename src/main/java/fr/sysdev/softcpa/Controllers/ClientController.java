@@ -31,5 +31,6 @@ public class ClientController {
         this.view = view;
     }
     
+
     
 }

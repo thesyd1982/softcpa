@@ -5,6 +5,7 @@
  */
 package fr.sysdev.softcpa.Controllers;
 
+
 import fr.sysdev.softcpa.Views.ClientView;
 import fr.sysdev.softcpa.Views.PieceView;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class DefaultController {
     private final DevisController devisController;
     private final AvoirController avoirController;
     private final FactureController factureController;
-
+    
   
     
     
@@ -55,4 +56,7 @@ public class DefaultController {
     public void gestionAvoirs(){
         System.out.println("gestionAvoirs");
     }
+    
+
+    
 }
