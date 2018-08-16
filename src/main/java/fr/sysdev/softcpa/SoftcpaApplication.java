@@ -5,7 +5,7 @@
  */
 package fr.sysdev.softcpa;
 
-import fr.sysdev.softcpa.Controllers.DefaultController;
+import fr.sysdev.softcpa.Controller.DefaultController;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
