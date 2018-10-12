@@ -5,14 +5,17 @@
  */
 package fr.sysdev.softcpa.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -22,10 +25,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "payment")
-public class Payment {
+public class Payment implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_payment")
     private long id;
 
@@ -33,10 +36,11 @@ public class Payment {
     @JoinColumn(name = "id_payment_method")
     private PaymentMethod paymentMethod;
 
-    @Column(name = "value")
-    private long value;
+    @Column(name = "amount")
+    private long amount;
 
     @Column(name = "date_of_payment")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateOfPayments;
 
     public long getId() {
@@ -56,11 +60,11 @@ public class Payment {
     }
 
     public long getValue() {
-        return value;
+        return amount;
     }
 
-    public void setValue(long value) {
-        this.value = value;
+    public void setValue(long amount) {
+        this.amount = amount;
     }
 
     public Date getDateOfPayments() {

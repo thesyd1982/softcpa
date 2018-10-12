@@ -5,6 +5,8 @@
  */
 package fr.sysdev.softcpa.View;
 
+import fr.sysdev.softcpa.View.Piece.PieceView;
+import fr.sysdev.softcpa.View.Client.ClientView;
 import fr.sysdev.softcpa.Controller.DefaultController;
 import java.beans.PropertyVetoException;
 import java.util.HashMap;

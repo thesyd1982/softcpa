@@ -9,7 +9,6 @@ package fr.sysdev.softcpa.entity;
  *
  * @author f
  */
-import fr.sysdev.softcpa.Model.InvoiceStatusEnum;
 import javax.persistence.*;
 import java.util.Date;
 
@@ -20,13 +19,13 @@ public class Invoice {
     
 
     @Id
-    @GeneratedValue
-    @Column(name = "id_invoice")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_invoice") 
     private long id;
 
     @ManyToOne
     @JoinColumn(name = "id_invoice_status")
-    private InvoiceStatusEnum invoiceStatus;
+    private InvoiceStatus invoiceStatus;
 
     @ManyToOne
     @JoinColumn(name = "id_payment")
@@ -67,11 +66,11 @@ public class Invoice {
         this.client = client;
     }
 
-    public InvoiceStatusEnum getInvoiceStatus() {
+    public InvoiceStatus getInvoiceStatus() {
         return invoiceStatus;
     }
 
-    public void setInvoiceStatus(InvoiceStatusEnum invoiceStatus) {
+    public void setInvoiceStatus(InvoiceStatus invoiceStatus) {
         this.invoiceStatus = invoiceStatus;
     }
 

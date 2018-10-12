@@ -6,8 +6,15 @@
 package fr.sysdev.softcpa.Controller;
 
 
-import fr.sysdev.softcpa.View.ClientView;
-import fr.sysdev.softcpa.View.PieceView;
+import fr.sysdev.softcpa.Controller.Piece.PieceController;
+import fr.sysdev.softcpa.Controller.Devis.DevisController;
+import fr.sysdev.softcpa.Controller.Facture.FactureController;
+import fr.sysdev.softcpa.Controller.Client.ClientController;
+import fr.sysdev.softcpa.Controller.Avoir.AvoirController;
+import fr.sysdev.softcpa.Service.IAdrressService;
+import fr.sysdev.softcpa.Service.IClientService;
+import fr.sysdev.softcpa.View.Client.ClientView;
+import fr.sysdev.softcpa.View.Piece.PieceView;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -18,22 +25,25 @@ import org.springframework.stereotype.Controller;
 
 public class DefaultController {
 
-    private  ClientController clientController;
+    private final  ClientController clientController;
     private final PieceController pieceController;
     private final DevisController devisController;
     private final AvoirController avoirController;
     private final FactureController factureController;
-    
+    private final IAdrressService iAdrressService;
+    private final IClientService iClientService;
   
     
     
    
-    public DefaultController() {
-        clientController = new ClientController();
-        pieceController = new PieceController();
-        devisController = new DevisController();
-        avoirController = new AvoirController();
-        factureController = new FactureController();
+    public DefaultController(IClientService iClientService , IAdrressService iAdrressService) {
+        this.iAdrressService = iAdrressService;
+        this.iClientService = iClientService;
+        this.clientController = new ClientController(iClientService, iAdrressService);
+        this.pieceController = new PieceController();
+        this.devisController = new DevisController();
+        this.avoirController = new AvoirController();
+        this.factureController = new FactureController();
         
         System.out.println("DefaultController");
     }

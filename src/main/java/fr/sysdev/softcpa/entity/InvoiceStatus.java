@@ -14,35 +14,35 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "reservation_status")
+@Table(name = "Invoice_status")
 public class InvoiceStatus implements Serializable {
 
     @Id
-    @GeneratedValue
-    @Column(name = "id_reservation_status")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_invoice_status")
     private long id;
 
-    @Column(name = "reservation_status")
-    private String reservationStatus;
+    @Column(name = "invoice_status")
+    private String invoiceStatus;
 
     public long getId() {
         return id;
     }
 
     public String getInvoiceStatus() {
-        return reservationStatus;
+        return invoiceStatus;
     }
 
     public void setId(long id) {
         this.id = id;
     }
 
-    public void setInvoiceStatus(String reservationStatus) {
-        this.reservationStatus = reservationStatus;
+    public void setInvoiceStatus(String invoiceStatus) {
+        this.invoiceStatus = invoiceStatus;
     }
 
     @Override
     public String toString() {
-        return reservationStatus;
+        return invoiceStatus;
     }
 }

@@ -3,34 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.sysdev.softcpa.Controller;
+package fr.sysdev.softcpa.Controller.Piece;
 
 
-import fr.sysdev.softcpa.View.ClientView;
+import fr.sysdev.softcpa.View.Piece.PieceView;
 import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author sysdev
  */
+
 @Controller
-public class ClientController {
-    
-    private ClientView view ;
+public class PieceController {
 
-    public ClientController() {
-        view = new ClientView();
+    private PieceView view ;
+
+    public PieceController() {
+        view = new PieceView();
     }
-    
 
-    public ClientView getView() {
+    public PieceView getView() {
         return view;
     }
 
-    public void setView(ClientView view) {
+    public void setView(PieceView view) {
         this.view = view;
     }
     
-
-    
+   
 }

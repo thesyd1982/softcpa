@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package fr.sysdev.softcpa.entity;
+import java.io.Serializable;
 import javax.persistence.*;
 /**
  *
@@ -13,10 +14,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "payment_method")
-public class PaymentMethod {
+public class PaymentMethod implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_payment_method")
     private long id;
 

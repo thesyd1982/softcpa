@@ -4,7 +4,12 @@
  * and open the template in the editor.
  */
 package fr.sysdev.softcpa.entity;
+import java.io.Serializable;
 import javax.persistence.*;
+
+
+
+ 
 /**
  *
  * @author thesyd
@@ -12,12 +17,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "address")
-public class Address {
+public class Address implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_address")
-    private long idAddress;
+    
+    private Long  idAddress;
 
     @Column(name = "street")
     private String street;
@@ -74,11 +80,11 @@ public class Address {
         this.street = street;
     }
 
-    public long getIdAddress() {
+    public Long getIdAddress() {
         return idAddress;
     }
 
-    public void setIdAddress(long idAddress) {
+    public void setIdAddress(Long idAddress) {
         this.idAddress = idAddress;
     }
 

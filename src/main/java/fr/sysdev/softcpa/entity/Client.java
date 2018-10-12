@@ -12,36 +12,37 @@ package fr.sysdev.softcpa.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "client")
 public class Client implements Serializable {
 
-    @Id
-    @GeneratedValue
+    @Id    
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_client")
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "id_address")
     private Address address;
 
-    @Column(name = "nom")
-    private String nom;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "prenom")
-    private String prenom;
+    @Column(name = "surname")
+    private String surname;
 
-    @Column(name = "telephone")
-    private String telephone;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
     @Column(name = "mail")
     private String email;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long clientId) {
+    public void setId(Long clientId) {
         this.id = clientId;
     }
 
@@ -53,7 +54,29 @@ public class Client implements Serializable {
         this.address = address;
     }
 
-    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     public String getEmail() {
         return email;
@@ -63,33 +86,9 @@ public class Client implements Serializable {
         this.email = email;
     }
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
     @Override
     public String toString() {
-        return "Client{" + "id=" + id + ", address=" + address + ", nom=" + nom + ", prenom=" + prenom + ", telephone=" + telephone + ", email=" + email + '}';
+        return name + " " + surname;
     }
 
     

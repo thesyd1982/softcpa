@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.sysdev.softcpa.View;
+package fr.sysdev.softcpa.View.Piece;
 
-import fr.sysdev.softcpa.Controller.PieceController;
+import fr.sysdev.softcpa.Controller.Piece.PieceController;
 import org.springframework.stereotype.Component;
 
 /**

@@ -6,20 +6,22 @@
 package fr.sysdev.softcpa.Service;
 
 
-import fr.sysdev.softcpa.Model.Avoir;
+import fr.sysdev.softcpa.entity.Client;
 import java.util.List;
-
 
 /**
  *
  * @author sysdev
  */
-
-public interface AvoirService {
+public interface IClientService {
     
-    public void  registerAvoir(Avoir avoir);
-    public Avoir createAvoir();
-    public void  updateAvoir(Avoir avoir);
-    public void  deleteAvoir(Avoir avoir);
-    public  List<Avoir> listAvoir();
+   List<Client> getClients();
+   
+     Client getClientById(long clientId);
+     
+     boolean addClient(Client client);
+     
+     void updateClient(Client client);
+     
+     void deleteClient(Long clientId);
 }

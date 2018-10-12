@@ -5,25 +5,18 @@
  */
 package fr.sysdev.softcpa.Repository;
 
-import fr.sysdev.softcpa.Model.Client;
+import fr.sysdev.softcpa.entity.Client;
 import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author f
  */
-public class ClientRepository   {
 
-    public List<Client> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void save(Client client) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void delete(Client client) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+@Repository
+public interface ClientRepository  extends CrudRepository <Client,Long> {
+    List<Client>findByNameAndSurname(String name, String surname);
 }

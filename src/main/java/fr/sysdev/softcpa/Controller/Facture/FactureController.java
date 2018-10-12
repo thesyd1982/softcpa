@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.sysdev.softcpa.Controller;
+package fr.sysdev.softcpa.Controller.Facture;
 
 import org.springframework.stereotype.Controller;
 
@@ -12,6 +12,10 @@ import org.springframework.stereotype.Controller;
  * @author sysdev
  */
 @Controller
-public class DevisController {
+public class FactureController {
+   
     
+   public void saisieFacture (){
+   
+   }
 }
