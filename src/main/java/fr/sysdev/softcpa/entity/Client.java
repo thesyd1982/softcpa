@@ -22,7 +22,7 @@ public class Client implements Serializable {
     @Column(name = "id_client")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_address")
     private Address address;
 

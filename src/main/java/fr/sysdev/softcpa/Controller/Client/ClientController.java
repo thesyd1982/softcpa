@@ -10,9 +10,12 @@ import fr.sysdev.softcpa.Service.IAdrressService;
 import fr.sysdev.softcpa.Service.IClientService;
 import fr.sysdev.softcpa.View.Client.ClientView;
 import fr.sysdev.softcpa.entity.Client;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import javax.annotation.PostConstruct;
 
 /**
  *
@@ -28,25 +31,37 @@ public class ClientController {
     @Autowired
     private final ClientView view ;
 
+    @PostConstruct
+    private void prepareListeners() {
+        
+        registerAction(view.getRemoveBtn(), (e) -> removeClient());
+        registerAction(view.getAddBtn(), (e) -> addClient());
+    }
+    
+    
     public ClientController(IClientService iClientService,IAdrressService iAdrressService) {
-        log.debug("------«ClientController«---------");
         this.iAdrressService =iAdrressService ;
         this.iClientService = iClientService;
         this.view = new ClientView(iClientService.getClients());
+        prepareListeners();
     }
 
-    public void removeClient(Client client){
-        this.iAdrressService.deleteAddress(client.getAddress().getIdAddress());
-        this.iClientService.deleteClient(client.getId());
+    public void removeClient(){
+        //this.iAdrressService.deleteAddress(this.getView().client.getAddress().getIdAddress());
+        this.iClientService.deleteClient(this.getView().getClient().getId());
     }
     
-    public void removeClientById(){
+    public void addClient(){    
+        Client c = this.getView().getClient();
         
-        log.debug((view.client.getId()).toString()+"affiche");
-           // Client clientToRemove =  this.iClientService.getClientById(clientId);
-        //log.debug(clientToRemove.toString());
-        //this.iAdrressService.deleteAddress(clientToRemove.getAddress().getIdAddress());
-        //this.iClientService.deleteClient(clientToRemove.getId()); 
+        
+        boolean saved = this.iClientService.addClient(c); 
+         log.debug("-----------------------------------------\n");
+        iClientService.getClients().forEach(client -> log.debug(client.toString()));
+        log.debug("-----------------------------------------\n");
+        if(saved)log.debug("Client sauvgardé");
+        else log.debug("Client n'a pas été sauvgardé");
+        
     }
     
     
@@ -54,8 +69,10 @@ public class ClientController {
         return view;
     }
 
-
-
+    
+    protected void registerAction(JButton button, ActionListener listener) {
+        button.addActionListener(listener);
+    }
    
     
 }

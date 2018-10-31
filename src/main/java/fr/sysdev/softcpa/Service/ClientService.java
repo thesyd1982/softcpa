@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClientService implements IClientService {
     @Autowired
-    private ClientRepository clientRepository ;
+    private final ClientRepository clientRepository ;
     @Autowired
     public ClientService(ClientRepository clientRepository) {
         System.out.println("Client Service ");
@@ -50,10 +50,12 @@ public class ClientService implements IClientService {
 
     @Override
     public boolean addClient(Client client) {
+        log.debug("addClient  ------------------------name :"+client.toString());
         List<Client> list = clientRepository.findByNameAndSurname(client.getName(), client.getSurname()); 	
-                if (list.size() > 0) {
+                if (false) {
     	           return false;
                 } else {
+                    
     	        clientRepository.save(client);
     	        return true;
                 }
