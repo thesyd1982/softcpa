@@ -29,13 +29,14 @@ public class ClientController {
     @Autowired
     private final IAdrressService iAdrressService;
     @Autowired
-    private final ClientView view ;
+    private final  ClientView view ;
 
     @PostConstruct
     private void prepareListeners() {
         
         registerAction(view.getRemoveBtn(), (e) -> removeClient());
         registerAction(view.getAddBtn(), (e) -> addClient());
+        registerAction(view.getUpdateBtn(), (e) -> updateClient());
     }
     
     
@@ -47,21 +48,16 @@ public class ClientController {
     }
 
     public void removeClient(){
-        //this.iAdrressService.deleteAddress(this.getView().client.getAddress().getIdAddress());
         this.iClientService.deleteClient(this.getView().getClient().getId());
     }
     
     public void addClient(){    
-        Client c = this.getView().getClient();
+        Client client = this.getView().getClient();
+        log.debug(""+client.getName()+"------------------------------------------");
+        boolean saved = this.iClientService.addClient(client); 
         
-        
-        boolean saved = this.iClientService.addClient(c); 
-         log.debug("-----------------------------------------\n");
-        iClientService.getClients().forEach(client -> log.debug(client.toString()));
-        log.debug("-----------------------------------------\n");
-        if(saved)log.debug("Client sauvgardé");
-        else log.debug("Client n'a pas été sauvgardé");
-        
+       if(saved)log.debug("Client sauvgardé");
+       else log.debug("Client n'a pas été sauvgardé");   
     }
     
     
@@ -72,6 +68,11 @@ public class ClientController {
     
     protected void registerAction(JButton button, ActionListener listener) {
         button.addActionListener(listener);
+    }
+
+    private void updateClient() {
+        Client client = this.getView().getClient();
+        this.iClientService.updateClient(client);
     }
    
     
