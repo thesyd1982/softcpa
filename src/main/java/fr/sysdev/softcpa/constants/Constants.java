@@ -40,9 +40,10 @@ public abstract class Constants {
     public static final String MAIN_MENU = "Hotel reservations";
     public static final String CLIENTS = "Clients";
     public static final String ADDRESSES = "Addresses";
-    public static final String ADD_BTN = "Add";
+    public static final String ADD_BTN = "New";
     public static final String CANCEL_BTN = "Cancel";
-    public static final String REMOVE_BTN = "Remove";
+    public static final String REMOVE_BTN = "Delete";
+    public static final String UPDATE_BTN = "Modify";
     public static final String NAME = "Name";
     public static final String SURNAME = "Surname";
     public static final String PESEL = "Pesel";
@@ -87,6 +88,7 @@ public abstract class Constants {
     public static final String NUMBER_OF_RESERVATIONS = "Number of reservations";
     public static final String CLIENT_RESERVATIONS = "Client's reservations";
     public static final String STREET = "Street";
+    public static final String SEARCH = "Search";
 //</editor-fold>
     
 

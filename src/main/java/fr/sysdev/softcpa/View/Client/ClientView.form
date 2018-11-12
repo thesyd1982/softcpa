@@ -30,43 +30,65 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jButton_cancel" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton_add" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel_Client_Name" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel_Client_Surname" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel_Client_PhoneNumber" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel_Client_Email" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel_Address_PostCode" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel_Address_City" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel_Address_Street" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel_Address_HouseNumber" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jTextField_Client_Surname" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Client_Name" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Client_Email" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Client_PhoneNumber" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Address_HouseNumber" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Address_Street" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Address_PostCode" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Address_City" min="-2" pref="197" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jLabel_Client_Surname" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel_Client_PhoneNumber" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel_Client_Email" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel_Client_Name" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                      <Component id="jTextField_Client_Surname" min="-2" pref="197" max="-2" attributes="0"/>
+                                      <Component id="jTextField_Client_Name" min="-2" pref="197" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                      <Component id="jTextField_Client_Email" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                                      <Component id="jTextField_Client_PhoneNumber" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="jLabel_Address_PostCode" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel_Address_City" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel_Address_Street" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel_Address_HouseNumber" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jTextField_Address_HouseNumber" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                                  <Component id="jTextField_Address_Street" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                                  <Component id="jTextField_Address_PostCode" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                                  <Component id="jTextField_Address_City" min="-2" pref="197" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jButton_add" max="32767" attributes="0"/>
+                                          <Component id="jButton_cancel" pref="89" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jButton_update" max="32767" attributes="0"/>
+                                          <Component id="jButton_remove" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                          </Group>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="557" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="582" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton_remove" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton_save" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="jLabel_Client_Search" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jTextField_Client_Search" min="-2" pref="442" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -76,29 +98,34 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace pref="43" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jTextField_Client_Search" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Client_Search" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jTextField_Client_Name" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_Client_Name" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jTextField_Client_Surname" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel_Client_Surname" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Surname" alignment="3" min="-2" pref="12" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jTextField_Client_Email" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_Client_Email" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jTextField_Client_PhoneNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_Client_PhoneNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jTextField_Address_HouseNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_Address_HouseNumber" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -121,17 +148,17 @@
                   </Group>
                   <Component id="jScrollPane1" min="-2" pref="242" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="123" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButton_remove" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton_add" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton_save" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButton_update" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton_cancel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -188,7 +215,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_add">
       <Properties>
-        <Property name="text" type="java.lang.String" value="add"/>
+        <Property name="text" type="java.lang.String" value="New"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_addActionPerformed"/>
@@ -196,7 +223,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_remove">
       <Properties>
-        <Property name="text" type="java.lang.String" value="remove"/>
+        <Property name="text" type="java.lang.String" value="Delete"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_removeActionPerformed"/>
@@ -204,15 +231,15 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_cancel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="cancel"/>
+        <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton_save">
+    <Component class="javax.swing.JButton" name="jButton_update">
       <Properties>
-        <Property name="text" type="java.lang.String" value="save"/>
+        <Property name="text" type="java.lang.String" value="Modify"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_saveActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_updateActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -304,6 +331,13 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel_Address_City">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTextField_Client_Search">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_Search">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>

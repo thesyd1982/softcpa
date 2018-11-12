@@ -90,11 +90,11 @@ public class Address implements Serializable {
 
     @Override
     public String toString() {
-        return street + " " +
-                houseNumber + "/" +
-                flatNumber + " " +
-                city + " " +
-                postCode;
+        return houseNumber + ", " +street + " " +
+                
+                //flatNumber + " " +
+                city + " " + 
+                "("+postCode +")";
     }
    
 }

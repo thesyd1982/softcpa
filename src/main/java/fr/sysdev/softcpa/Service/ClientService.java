@@ -50,8 +50,8 @@ public class ClientService implements IClientService {
 
     @Override
     public boolean addClient(Client client) {
-        log.debug("addClient  ------------------------name :"+client.toString());
-        List<Client> list = clientRepository.findByNameAndSurname(client.getName(), client.getSurname()); 	
+      //  log.debug("addClient  ------------------------name :"+client.toString());
+       // List<Client> list = clientRepository.findByNameAndSurname(client.getName(), client.getSurname()); 	
                 if (false) {
     	           return false;
                 } else {
