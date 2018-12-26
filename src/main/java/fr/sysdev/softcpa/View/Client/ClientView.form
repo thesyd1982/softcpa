@@ -2,7 +2,21 @@
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
   <NonVisualComponents>
-    <Component class="fr.sysdev.softcpa.utils.IdConvertor" name="idConvertor1">
+    <Component class="fr.sysdev.softcpa.utils.Converter.IdConvertor" name="idConvertor1">
+    </Component>
+    <Component class="fr.sysdev.softcpa.utils.Converter.ClientStatusConverter" name="clientStatusConverter1">
+    </Component>
+    <Component class="fr.sysdev.softcpa.utils.Validator.NameValidator" name="nameValidator1">
+    </Component>
+    <Component class="fr.sysdev.softcpa.utils.Validator.PhoneNumberValidator" name="phoneNumberValidator1">
+    </Component>
+    <Component class="fr.sysdev.softcpa.utils.Validator.SurnameValidator" name="surnameValidator1">
+    </Component>
+    <Component class="fr.sysdev.softcpa.utils.Validator.EmailValidator" name="emailValidator1">
+    </Component>
+    <Component class="fr.sysdev.softcpa.utils.Validator.HouseNumberValidator" name="houseNumberValidator1">
+    </Component>
+    <Component class="fr.sysdev.softcpa.utils.Validator.PostalCodelValidator" name="postalCodelValidator1">
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -30,67 +44,71 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jLabel_Client_Surname" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel_Client_PhoneNumber" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel_Client_Email" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel_Client_Name" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                      <Component id="jTextField_Client_Surname" min="-2" pref="197" max="-2" attributes="0"/>
-                                      <Component id="jTextField_Client_Name" min="-2" pref="197" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                      <Component id="jTextField_Client_Email" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                                      <Component id="jTextField_Client_PhoneNumber" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="jLabel_Address_PostCode" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel_Address_City" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel_Address_Street" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel_Address_HouseNumber" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jTextField_Address_HouseNumber" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                                  <Component id="jTextField_Address_Street" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                                  <Component id="jTextField_Address_PostCode" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                                  <Component id="jTextField_Address_City" min="-2" pref="197" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jButton_add" max="32767" attributes="0"/>
-                                          <Component id="jButton_cancel" pref="89" max="32767" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jButton_update" max="32767" attributes="0"/>
-                                          <Component id="jButton_remove" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                          </Group>
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel_Client_Id" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Status" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Name" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Surname" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_CompanyName" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Email" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_PhoneNumber" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Address_HouseNumber" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Address_Street" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Address_PostCode" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Address_City" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_CompanyID" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="582" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="jLabel_Client_Search" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jTextField_Client_Search" min="-2" pref="442" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jTextField_Client_Id" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
+                          <Component id="jComboBox_Client_Status" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
+                          <Component id="jTextField_Client_Name" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                          <Component id="jTextField_Client_Surname" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                          <Component id="jTextField_Client_CompanyName" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                          <Component id="jTextField_Client_Email" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                          <Component id="jTextField_Client_PhoneNumber" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                          <Component id="jTextField_Address_HouseNumber" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                          <Component id="jTextField_Address_Street" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                          <Component id="jTextField_Address_PostCode" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                          <Component id="jTextField_Address_City" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                          <Component id="jTextField_Client_CompanyIDNumber" linkSize="1" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jButton_cancel" linkSize="2" max="32767" attributes="0"/>
+                          <Component id="jButton_update" linkSize="2" min="-2" pref="101" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jButton_remove" linkSize="2" max="32767" attributes="0"/>
+                          <Component id="jButton_add" linkSize="2" min="-2" pref="100" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="230" max="-2" attributes="0"/>
+                      <Component id="jLabel_Client_Search" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jTextField_Client_Search" min="-2" pref="423" max="-2" attributes="0"/>
+                      <EmptySpace pref="119" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jLabel_Error" min="-2" pref="1088" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -98,10 +116,17 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace pref="43" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jTextField_Client_Id" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Client_Id" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jTextField_Client_Search" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel_Client_Search" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboBox_Client_Status" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Client_Status" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -115,7 +140,12 @@
                           <Component id="jTextField_Client_Surname" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_Client_Surname" alignment="3" min="-2" pref="12" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jTextField_Client_CompanyName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_CompanyName" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jTextField_Client_Email" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_Client_Email" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -125,7 +155,7 @@
                           <Component id="jTextField_Client_PhoneNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_Client_PhoneNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jTextField_Address_HouseNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_Address_HouseNumber" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -145,36 +175,51 @@
                           <Component id="jTextField_Address_City" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_Address_City" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jTextField_Client_CompanyIDNumber" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_CompanyID" alignment="3" min="-2" pref="12" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jButton_remove" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton_update" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <Component id="jScrollPane1" min="-2" pref="242" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton_remove" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton_add" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton_update" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton_cancel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jLabel_Error" min="-2" pref="26" max="-2" attributes="0"/>
+              <EmptySpace pref="25" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="jTextField_Client_Name">
-      <BindingProperties>
-        <BindingProperty name="text" source="jTable_client" sourcePath="${selectedElement.name}" target="jTextField_Client_Name" targetPath="text" updateStrategy="0" immediately="false">
-          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-        </BindingProperty>
-      </BindingProperties>
-    </Component>
     <Component class="javax.swing.JTextField" name="jTextField_Client_Surname">
       <BindingProperties>
         <BindingProperty name="text" source="jTable_client" sourcePath="${selectedElement.surname}" target="jTextField_Client_Surname" targetPath="text" updateStrategy="0" immediately="false">
           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+          <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.ComponentChooserEditor">
+            <ComponentRef name="surnameValidator1"/>
+          </Property>
+          <Property name="name" type="java.lang.String" value="Surname"/>
+        </BindingProperty>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTextField_Client_Name">
+      <BindingProperties>
+        <BindingProperty name="text" source="jTable_client" sourcePath="${selectedElement.name}" target="jTextField_Client_Name" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+          <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.ComponentChooserEditor">
+            <ComponentRef name="nameValidator1"/>
+          </Property>
+          <Property name="name" type="java.lang.String" value="Client Name"/>
         </BindingProperty>
       </BindingProperties>
     </Component>
@@ -182,6 +227,10 @@
       <BindingProperties>
         <BindingProperty name="text" source="jTable_client" sourcePath="${selectedElement.email}" target="jTextField_Client_Email" targetPath="text" updateStrategy="0" immediately="false">
           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+          <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.ComponentChooserEditor">
+            <ComponentRef name="emailValidator1"/>
+          </Property>
+          <Property name="name" type="java.lang.String" value="Email"/>
         </BindingProperty>
       </BindingProperties>
     </Component>
@@ -189,6 +238,10 @@
       <BindingProperties>
         <BindingProperty name="text" source="jTable_client" sourcePath="${selectedElement.phoneNumber}" target="jTextField_Client_PhoneNumber" targetPath="text" updateStrategy="0" immediately="false">
           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+          <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.ComponentChooserEditor">
+            <ComponentRef name="phoneNumberValidator1"/>
+          </Property>
+          <Property name="name" type="java.lang.String" value="Phone Number"/>
         </BindingProperty>
       </BindingProperties>
     </Component>
@@ -196,6 +249,10 @@
       <BindingProperties>
         <BindingProperty name="text" source="jTable_client" sourcePath="${selectedElement.address.houseNumber}" target="jTextField_Address_HouseNumber" targetPath="text" updateStrategy="0" immediately="false">
           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+          <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.ComponentChooserEditor">
+            <ComponentRef name="houseNumberValidator1"/>
+          </Property>
+          <Property name="name" type="java.lang.String" value="House Number"/>
         </BindingProperty>
       </BindingProperties>
     </Component>
@@ -210,12 +267,16 @@
       <BindingProperties>
         <BindingProperty name="text" source="jTable_client" sourcePath="${selectedElement.address.postCode}" target="jTextField_Address_PostCode" targetPath="text" updateStrategy="0" immediately="false">
           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+          <Property name="validator" type="org.jdesktop.beansbinding.Validator" editor="org.netbeans.modules.form.ComponentChooserEditor">
+            <ComponentRef name="postalCodelValidator1"/>
+          </Property>
+          <Property name="name" type="java.lang.String" value="Postal Code"/>
         </BindingProperty>
       </BindingProperties>
     </Component>
     <Component class="javax.swing.JButton" name="jButton_add">
       <Properties>
-        <Property name="text" type="java.lang.String" value="New"/>
+        <Property name="text" type="java.lang.String" value="Add"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_addActionPerformed"/>
@@ -233,6 +294,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_cancelActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton_update">
       <Properties>
@@ -251,14 +315,23 @@
       <SubComponents>
         <Component class="javax.swing.JTable" name="jTable_client">
           <Properties>
+            <Property name="autoCreateRowSorter" type="boolean" value="true"/>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="4">
+              <Table columnCount="8" rowCount="4">
                 <Column editable="true" title="Title 1" type="java.lang.Object"/>
                 <Column editable="true" title="Title 2" type="java.lang.Object"/>
                 <Column editable="true" title="Title 3" type="java.lang.Object"/>
                 <Column editable="true" title="Title 4" type="java.lang.Object"/>
+                <Column editable="true" title="Title 5" type="java.lang.Object"/>
+                <Column editable="true" title="Title 6" type="java.lang.Object"/>
+                <Column editable="true" title="Title 7" type="java.lang.Object"/>
+                <Column editable="true" title="Title 8" type="java.lang.Object"/>
               </Table>
             </Property>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Curseur en forme de main"/>
+            </Property>
+            <Property name="doubleBuffered" type="boolean" value="true"/>
           </Properties>
           <BindingProperties>
             <BindingProperty name="elements" source="Form" sourcePath="${clients}" target="jTable_client" targetPath="elements" updateStrategy="0" immediately="true">
@@ -279,6 +352,12 @@
               </Subbinding>
               <Subbinding sourcePath="${address}">
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="fr.sysdev.softcpa.entity.Address.class"/>
+              </Subbinding>
+              <Subbinding sourcePath="${status}">
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+              </Subbinding>
+              <Subbinding sourcePath="${company}">
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="fr.sysdev.softcpa.entity.Company.class"/>
               </Subbinding>
             </BindingProperty>
           </BindingProperties>
@@ -336,11 +415,87 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField_Client_Search">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_Client_SearchKeyReleased"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel_Client_Search">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTextField_Client_Id">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="focusable" type="boolean" value="false"/>
+      </Properties>
+      <BindingProperties>
+        <BindingProperty name="text" source="jTable_client" sourcePath="${selectedElement.id}" target="jTextField_Client_Id" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+        </BindingProperty>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_Id">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBox_Client_Status">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="5">
+            <StringItem index="0" value="Individual"/>
+            <StringItem index="1" value="Professional"/>
+            <StringItem index="2" value=" "/>
+            <StringItem index="3" value=" "/>
+            <StringItem index="4" value=" "/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <BindingProperties>
+        <BindingProperty name="selectedItem" source="jTable_client" sourcePath="${selectedElement.status}" target="jComboBox_Client_Status" targetPath="selectedItem" updateStrategy="0" immediately="false">
+          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+            <ComponentRef name="clientStatusConverter1"/>
+          </Property>
+        </BindingProperty>
+      </BindingProperties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBox_Client_StatusItemStateChanged"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_Status">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Error">
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTextField_Client_CompanyIDNumber">
+      <BindingProperties>
+        <BindingProperty name="text" source="jTable_client" sourcePath="${selectedElement.company.cin}" target="jTextField_Client_CompanyIDNumber" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+        </BindingProperty>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_CompanyID">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_CompanyName">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTextField_Client_CompanyName">
+      <BindingProperties>
+        <BindingProperty name="text" source="jTable_client" sourcePath="${selectedElement.company.name}" target="jTextField_Client_CompanyName" targetPath="text" updateStrategy="0" immediately="false">
+          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
+        </BindingProperty>
+      </BindingProperties>
     </Component>
   </SubComponents>
 </Form>
