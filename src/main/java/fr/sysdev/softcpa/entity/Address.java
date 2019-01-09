@@ -93,8 +93,8 @@ public class Address implements Serializable {
         return houseNumber + ", " +street + " " +
                 
                 //flatNumber + " " +
-                city + " " + 
-                "("+postCode +")";
+               
+                "( "+postCode +" )"+" "+ city ;
     }
    
 }

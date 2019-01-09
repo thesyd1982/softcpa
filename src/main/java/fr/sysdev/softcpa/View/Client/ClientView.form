@@ -81,13 +81,13 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jButton_cancel" linkSize="2" max="32767" attributes="0"/>
-                          <Component id="jButton_update" linkSize="2" min="-2" pref="101" max="-2" attributes="0"/>
+                          <Component id="jButton_Cancel" linkSize="2" max="32767" attributes="0"/>
+                          <Component id="jButton_Update" linkSize="2" min="-2" pref="101" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton_remove" linkSize="2" max="32767" attributes="0"/>
-                          <Component id="jButton_add" linkSize="2" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="jButton_Remove" linkSize="2" max="32767" attributes="0"/>
+                          <Component id="jButton_Add" linkSize="2" min="-2" pref="100" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -97,11 +97,17 @@
                       <Component id="jLabel_Client_Search" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jTextField_Client_Search" min="-2" pref="423" max="-2" attributes="0"/>
-                      <EmptySpace pref="119" max="32767" attributes="0"/>
+                      <EmptySpace pref="117" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jScrollPane1" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jButton_Invoicing" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -182,20 +188,21 @@
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton_remove" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton_update" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton_Remove" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton_Update" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton_add" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton_cancel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButton_Add" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButton_Cancel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButton_Invoicing" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jLabel_Error" min="-2" pref="26" max="-2" attributes="0"/>
-              <EmptySpace pref="25" max="32767" attributes="0"/>
+              <EmptySpace pref="29" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -274,36 +281,36 @@
         </BindingProperty>
       </BindingProperties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton_add">
+    <Component class="javax.swing.JButton" name="jButton_Add">
       <Properties>
         <Property name="text" type="java.lang.String" value="Add"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_addActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_AddActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton_remove">
+    <Component class="javax.swing.JButton" name="jButton_Remove">
       <Properties>
         <Property name="text" type="java.lang.String" value="Delete"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_removeActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_RemoveActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton_cancel">
+    <Component class="javax.swing.JButton" name="jButton_Cancel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_cancelActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_CancelActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton_update">
+    <Component class="javax.swing.JButton" name="jButton_Update">
       <Properties>
         <Property name="text" type="java.lang.String" value="Modify"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_updateActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_UpdateActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -496,6 +503,14 @@
           <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
         </BindingProperty>
       </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton_Invoicing">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Invoicing"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_InvoicingActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

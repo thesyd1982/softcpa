@@ -10,6 +10,7 @@ package fr.sysdev.softcpa.entity;
  * @author f
  */
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.*;
 
 
@@ -26,18 +27,32 @@ public class Client implements Serializable {
     @JoinColumn(name = "id_address")
     private Address address;
 
+    
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_provider", insertable = false,updatable = false)
+    private Set<Invoice>invoicies; 
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "surname")
     private String surname;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_company")
+    private Company company;
+    
+    
     @Column(name = "phone_number")
     private String phoneNumber;
 
     @Column(name = "mail")
     private String email;
-
+    
+    @Column(name = "status")
+    private int status;
+    
+    
     public Long getId() {
         return id;
     }
@@ -88,8 +103,32 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return name + " " + surname;
+        String strClient = "{ id : "+id+" name : "+name+", surname:"+surname+", email:"+email+", phone :"+ phoneNumber+"}";
+        return strClient ;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+    
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Set <Invoice> getInvoices() {
+        return invoicies;
+    }
+
+    public void setInvoices(Set <Invoice> invoicies) {
+        this.invoicies = invoicies;
+    }
     
 }

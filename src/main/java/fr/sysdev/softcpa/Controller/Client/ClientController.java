@@ -9,13 +9,13 @@ package fr.sysdev.softcpa.Controller.Client;
 import fr.sysdev.softcpa.Service.IAdrressService;
 import fr.sysdev.softcpa.Service.IClientService;
 import fr.sysdev.softcpa.View.Client.ClientView;
-import fr.sysdev.softcpa.entity.Client;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import javax.annotation.PostConstruct;
+
 
 /**
  *
@@ -37,27 +37,33 @@ public class ClientController {
         registerAction(view.getRemoveBtn(), (e) -> removeClient());
         registerAction(view.getAddBtn(), (e) -> addClient());
         registerAction(view.getUpdateBtn(), (e) -> updateClient());
+        registerAction(view.getInvoicingBtn(), (e) -> invoicingClient());
     }
     
     
-    public ClientController(IClientService iClientService,IAdrressService iAdrressService) {
+    public  ClientController(IClientService iClientService, IAdrressService iAdrressService) {
         this.iAdrressService =iAdrressService ;
         this.iClientService = iClientService;
-        this.view = new ClientView(iClientService.getClients());
-        prepareListeners();
+        this.view = new ClientView(iClientService.getClients()); 
+        prepareListeners();   
     }
 
     public void removeClient(){
-        this.iClientService.deleteClient(this.getView().getClient().getId());
+       
+        this.getView().removeClient();
+        this.iClientService.deleteClient(this.getView().getClientToRemove());
+        
     }
     
     public void addClient(){    
-        Client client = this.getView().getClient();
-        log.debug(""+client.getName()+"------------------------------------------");
-        boolean saved = this.iClientService.addClient(client); 
-        
+
+        this.getView().addClient(this.iClientService.key());
+        boolean saved = this.iClientService.addClient(this.getView().getClientToAdd()); 
+
        if(saved)log.debug("Client sauvgardé");
        else log.debug("Client n'a pas été sauvgardé");   
+
+        
     }
     
     
@@ -71,8 +77,14 @@ public class ClientController {
     }
 
     private void updateClient() {
-        Client client = this.getView().getClient();
-        this.iClientService.updateClient(client);
+        
+        this.getView().updateClient();
+        this.iClientService.updateClient(this.getView().getClientToUpdate());
+    }
+
+    private void invoicingClient() {
+        this.getView().getClientToInvoice();
+  
     }
    
     

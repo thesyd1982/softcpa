@@ -6,15 +6,19 @@
 package fr.sysdev.softcpa.Controller;
 
 
-import fr.sysdev.softcpa.Controller.Piece.PieceController;
+import fr.sysdev.softcpa.Controller.Part.PartController;
 import fr.sysdev.softcpa.Controller.Devis.DevisController;
-import fr.sysdev.softcpa.Controller.Facture.FactureController;
+import fr.sysdev.softcpa.Controller.Invoicing.InvoicingController;
 import fr.sysdev.softcpa.Controller.Client.ClientController;
 import fr.sysdev.softcpa.Controller.Avoir.AvoirController;
 import fr.sysdev.softcpa.Service.IAdrressService;
 import fr.sysdev.softcpa.Service.IClientService;
+import fr.sysdev.softcpa.Service.IPartService;
+import fr.sysdev.softcpa.Service.IProviderService;
 import fr.sysdev.softcpa.View.Client.ClientView;
-import fr.sysdev.softcpa.View.Piece.PieceView;
+import fr.sysdev.softcpa.View.Invoicing.InvoicingView;
+import fr.sysdev.softcpa.View.Part.PartView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -25,25 +29,36 @@ import org.springframework.stereotype.Controller;
 
 public class DefaultController {
 
-    private final  ClientController clientController;
-    private final PieceController pieceController;
+    private final ClientController clientController;
+    private final PartController partController;
     private final DevisController devisController;
     private final AvoirController avoirController;
-    private final FactureController factureController;
+    private final InvoicingController invoicingController;
+    
+    
+    
     private final IAdrressService iAdrressService;
     private final IClientService iClientService;
-  
+    private final IPartService iPartService;
+    private final IProviderService iProviderService;
     
     
    
-    public DefaultController(IClientService iClientService , IAdrressService iAdrressService) {
+    public DefaultController(IClientService iClientService,IAdrressService iAdrressService,IPartService iPartService, IProviderService iProviderService ) {
         this.iAdrressService = iAdrressService;
-        this.iClientService = iClientService;
+        this.iClientService =iClientService;
+        this.iProviderService  =  iProviderService ;
+        this.iPartService= iPartService;
+        
+        
+        
+        
+        
         this.clientController = new ClientController(iClientService, iAdrressService);
-        this.pieceController = new PieceController();
+        this.partController = new PartController(iPartService, iProviderService);
         this.devisController = new DevisController();
         this.avoirController = new AvoirController();
-        this.factureController = new FactureController();
+        this.invoicingController = new InvoicingController(iClientService, iPartService);
         
         System.out.println("DefaultController");
     }
@@ -52,11 +67,18 @@ public class DefaultController {
         return clientController.getView();
         
     }
-    public PieceView gestionStock(){
+    public PartView gestionStock(){
         
         System.out.println("gestionStock");
-        return pieceController.getView();
+        return partController.getView();
     }
+    
+     public InvoicingView invoicing(){
+        return invoicingController.getView();
+    }
+    
+    
+    
     public void gestionFactures(){
         System.out.println("gestionFactures");
     }

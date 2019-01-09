@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.sysdev.softcpa.utils;
+package fr.sysdev.softcpa.utils.Converter;
 import org.jdesktop.beansbinding.Converter;
 /**
  *

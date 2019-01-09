@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="fr.sysdev.softcpa.utils.Converter.IdConvertor" name="idConvertor1">
+    </Component>
+    <Component class="fr.sysdev.softcpa.utils.Converter.ClientStatusConverter" name="clientStatusConverter1">
+    </Component>
+  </NonVisualComponents>
+  <Properties>
+    <Property name="closable" type="boolean" value="true"/>
+    <Property name="iconifiable" type="boolean" value="true"/>
+    <Property name="maximizable" type="boolean" value="true"/>
+    <Property name="resizable" type="boolean" value="true"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+  </SyntheticProperties>
+  <Events>
+    <EventHandler event="internalFrameOpened" listener="javax.swing.event.InternalFrameListener" parameters="javax.swing.event.InternalFrameEvent" handler="formInternalFrameOpened"/>
+  </Events>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="jComboBox_Client" min="-2" pref="258" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jButton_Refresh" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel_Client_Id" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Status" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Name" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Surname" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_CompanyName" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Email" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_PhoneNumber" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Address_HouseNumber" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Address_Street" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Address_PostCode" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Address_City" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_CompanyID" alignment="1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel_Client_Id_Value" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Status_Value" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Name_Value" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Surname_Value" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_CompanyName_Value" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Email_Value" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_PhoneNumber_Value" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Address_HouseNumber_Value" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Address_Street_Value" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Address_PostCode_Value" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Address_City_Value" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_CompanyID_Value" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+              <Component id="jLabel_Search_Part" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                  <Component id="jTextField_Search_Part" pref="446" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace pref="50" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jComboBox_Client" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextField_Search_Part" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButton_Refresh" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Search_Part" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="31" pref="31" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel_Client_Id" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Id_Value" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel_Client_Status" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Status_Value" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel_Client_Name" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Name_Value" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel_Client_Surname" alignment="3" min="-2" pref="12" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Surname_Value" alignment="3" min="-2" pref="12" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel_Client_CompanyName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_CompanyName_Value" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel_Client_Email" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_Email_Value" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel_Client_PhoneNumber" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Client_PhoneNumber_Value" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel_Address_HouseNumber" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Address_HouseNumber_Value" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel_Address_Street" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_Address_Street_Value" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="jScrollPane1" alignment="1" min="-2" pref="195" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel_Address_PostCode" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Address_PostCode_Value" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel_Address_City" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Address_City_Value" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel_Client_CompanyID" alignment="3" min="-2" pref="12" max="-2" attributes="0"/>
+                  <Component id="jLabel_Client_CompanyID_Value" alignment="3" min="-2" pref="12" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="232" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JComboBox" name="jComboBox_Client">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="Item 1"/>
+            <StringItem index="1" value="Item 2"/>
+            <StringItem index="2" value="Item 3"/>
+            <StringItem index="3" value="Item 4"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBox_ClientItemStateChanged"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTextField_Search_Part">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_Search_PartKeyReleased"/>
+      </Events>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JList" name="jList1">
+          <Properties>
+            <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+              <StringArray count="0"/>
+            </Property>
+            <Property name="selectionMode" type="int" value="0"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Curseur en forme de main"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_Id">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_Status">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_Name">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_Surname">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_CompanyName">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_Email">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_PhoneNumber">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Address_HouseNumber">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Address_Street">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Address_PostCode">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Address_City">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_CompanyID">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_Id_Value">
+      <BindingProperties>
+        <BindingProperty name="text" source="Form" sourcePath="${client.id}" target="jLabel_Client_Id_Value" targetPath="text" updateStrategy="0" immediately="false">
+          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+            <ComponentRef name="idConvertor1"/>
+          </Property>
+        </BindingProperty>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_Status_Value">
+      <BindingProperties>
+        <BindingProperty name="text" source="Form" sourcePath="${client.status}" target="jLabel_Client_Status_Value" targetPath="text" updateStrategy="0" immediately="false">
+          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+            <ComponentRef name="clientStatusConverter1"/>
+          </Property>
+        </BindingProperty>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_Name_Value">
+      <BindingProperties>
+        <BindingProperty name="text" source="Form" sourcePath="${client.name}" target="jLabel_Client_Name_Value" targetPath="text" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_Surname_Value">
+      <BindingProperties>
+        <BindingProperty name="text" source="Form" sourcePath="${client.surname}" target="jLabel_Client_Surname_Value" targetPath="text" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_CompanyName_Value">
+      <BindingProperties>
+        <BindingProperty name="text" source="Form" sourcePath="${client.company.name}" target="jLabel_Client_CompanyName_Value" targetPath="text" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_Email_Value">
+      <BindingProperties>
+        <BindingProperty name="text" source="Form" sourcePath="${client.email}" target="jLabel_Client_Email_Value" targetPath="text" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_PhoneNumber_Value">
+      <BindingProperties>
+        <BindingProperty name="text" source="Form" sourcePath="${client.phoneNumber}" target="jLabel_Client_PhoneNumber_Value" targetPath="text" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Address_HouseNumber_Value">
+      <BindingProperties>
+        <BindingProperty name="text" source="Form" sourcePath="${client.address.houseNumber}" target="jLabel_Address_HouseNumber_Value" targetPath="text" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Address_Street_Value">
+      <BindingProperties>
+        <BindingProperty name="text" source="Form" sourcePath="${client.address.street}" target="jLabel_Address_Street_Value" targetPath="text" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Address_PostCode_Value">
+      <BindingProperties>
+        <BindingProperty name="text" source="Form" sourcePath="${client.address.postCode}" target="jLabel_Address_PostCode_Value" targetPath="text" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Address_City_Value">
+      <BindingProperties>
+        <BindingProperty name="text" source="Form" sourcePath="${client.address.city}" target="jLabel_Address_City_Value" targetPath="text" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Client_CompanyID_Value">
+      <BindingProperties>
+        <BindingProperty name="text" source="Form" sourcePath="${client.company.cin}" target="jLabel_Client_CompanyID_Value" targetPath="text" updateStrategy="0" immediately="false"/>
+      </BindingProperties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton_Refresh">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jButton1"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_RefreshActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Search_Part">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>

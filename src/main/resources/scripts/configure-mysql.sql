@@ -29,3 +29,4 @@ GRANT SELECT ON scpa_prod.* to 'scpa_prod_user'@'%';
 GRANT INSERT ON scpa_prod.* to 'scpa_prod_user'@'%';
 GRANT DELETE ON scpa_prod.* to 'scpa_prod_user'@'%';
 GRANT UPDATE ON scpa_prod.* to 'scpa_prod_user'@'%';
+

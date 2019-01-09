@@ -11,7 +11,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.UIManager;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -31,18 +30,25 @@ public class SoftcpaApplication {
      */
     public static void main(String[] args) {
         
-        String  jdbcUrl = "jdbc:mysql://localhost:3306/scpa_prod?useSSL=false";
-        String username = "scpa_prod_user";
+        String  jdbcUrl = "jdbc:mysql://localhost:3306/scpa_dev?useSSL=false";
+        String username = "scpa_dev_user";
         String password = "Pq4s67Xa";
         
         try{
             System.out.println("Connecting to DataBase");
             Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
+//            Statement smt = conn.createStatement() ;
+//            ResultSet resultSet = smt.executeQuery("SELECT AUTO_INCREMENT as id FROM information_schema.tables WHERE table_name = 'client' AND table_schema = DATABASE()") ;
+//            int id = -1;
+//            if(resultSet.next()){
+//             id = resultSet.getInt("id") ;
+//            }
+//            System.out.println(""+ id);
             System.out.println("Connected!!!");
         
         ConfigurableApplicationContext ctx = new SpringApplicationBuilder(SoftcpaApplication.class)
                 .headless(false).run(args);
-        
+      
         
         } catch (SQLException ex) {
             Logger.getLogger(SoftcpaApplication.class.getName()).log(Level.SEVERE, null, ex);

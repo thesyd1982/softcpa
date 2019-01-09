@@ -8,5 +8,4 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = "fr.sysdev.softcpa")
 @EnableJpaRepositories(basePackages = "fr.sysdev.softcpa.Repository")
 public class ApplicationConfiguration {
-    
 }

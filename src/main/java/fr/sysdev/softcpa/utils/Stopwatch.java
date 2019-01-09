@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.sysdev.softcpa.Service;
+package fr.sysdev.softcpa.utils;
 
 /**
  *
- * @author sysdev
+ * @author f
  */
-public interface PieceService {
+public class Stopwatch {
     
 }

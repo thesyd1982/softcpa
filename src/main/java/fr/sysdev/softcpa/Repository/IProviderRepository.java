@@ -5,18 +5,14 @@
  */
 package fr.sysdev.softcpa.Repository;
 
-import fr.sysdev.softcpa.entity.Client;
-import java.util.List;
-
+import fr.sysdev.softcpa.entity.Provider;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author f
  */
-
-@Repository
-public interface ClientRepository  extends CrudRepository <Client,Long> {
-    List<Client>findByNameAndSurname(String name, String surname);
+public interface IProviderRepository  extends CrudRepository <Provider,Long>  {
+   /// List<Part>findByNameAndSurname(String name, String surname);
+//    	@Query ("Select max(c.id) from Client c")Long key();      
 }

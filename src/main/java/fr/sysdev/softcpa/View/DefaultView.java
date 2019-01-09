@@ -5,9 +5,10 @@
  */
 package fr.sysdev.softcpa.View;
 
-import fr.sysdev.softcpa.View.Piece.PieceView;
+import fr.sysdev.softcpa.View.Part.PartView;
 import fr.sysdev.softcpa.View.Client.ClientView;
 import fr.sysdev.softcpa.Controller.DefaultController;
+import fr.sysdev.softcpa.View.Invoicing.InvoicingView;
 import java.beans.PropertyVetoException;
 import java.util.HashMap;
 import javax.swing.JFrame;
@@ -27,7 +28,11 @@ public class DefaultView extends javax.swing.JFrame {
     @Autowired
     private ClientView clientView;
     @Autowired
-    private PieceView pieceView;
+    private PartView pieceView;
+    @Autowired
+    private InvoicingView invoicingView;
+    
+    
     
     private HashMap<String, JInternalFrame> viewsMap;
 
@@ -83,6 +88,11 @@ public class DefaultView extends javax.swing.JFrame {
         });
 
         jButton_Facturation.setText("Facturation");
+        jButton_Facturation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_FacturationActionPerformed(evt);
+            }
+        });
 
         jButton_Devis.setText("Devis");
 
@@ -171,6 +181,14 @@ public class DefaultView extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_jButton_StockActionPerformed
+
+    private void jButton_FacturationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_FacturationActionPerformed
+        invoicingView = defaultController.invoicing();
+        try {
+            addFrame(invoicingView);
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jButton_FacturationActionPerformed
 
     public void addFrame(JInternalFrame view) throws PropertyVetoException {
            boolean open = false;

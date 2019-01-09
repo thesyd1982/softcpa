@@ -5,6 +5,7 @@
  */
 package fr.sysdev.softcpa.constants;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
 /**
@@ -12,7 +13,18 @@ import org.springframework.context.annotation.Profile;
  * @author f
  */
 @Profile("en")
+@Primary
 public abstract class Constants {
+
+
+
+    
+
+    
+
+    
+
+    
     
      interface DialogTitles {
         String CLIENT_MODAL = "Adding client";
@@ -27,20 +39,35 @@ public abstract class Constants {
         String ROOM_X_RESERVATION_MODAL = "Adding room reservations";
     }
 
-    interface Messages {
+ public interface Messages {
+
+        public static String CHOOSE_CLIENT = "Choose the client to invoice.";
+
+        String CLICK_A_BUTTON = "Click a button";
+
+        String ENTER_VALID_POSTAL_CODE ="Enter a valid Postal code (only numbers).";
+
+        String ENTER_VALID_SURNAME="Enter a valid surname (only letters).";
+
+        String ENTER_VALID_EMAIL = "Enter a valid name Email.";
         String WINDOWS_STYLE_LOADING_ERROR_MESSAGE = "There was an error while loading windows look an feel: ";
         String ALERT_TILE = "Alert";
         String NON_ROW_SELECTED = "Non row has been selected";
         String INFORMATION_TITLE = "Information";
         String DELETE_ROW_ERROR = "Could not delete a row. Check if there are any connections between tables.";
+        String ENTER_VALID_NAME ="Enter a valid name (only letters).";
+        String DELETE_CLIENT_ALERT = "Are you sure you want to delete this client?";
     }
 
     
     //<editor-fold defaultstate="collapsed" desc="Labels">
+  public interface Labels {
+    
+    public static final String CLIENT_ID="Client ID";
     public static final String MAIN_MENU = "Hotel reservations";
     public static final String CLIENTS = "Clients";
     public static final String ADDRESSES = "Addresses";
-    public static final String ADD_BTN = "New";
+    public static final String ADD_BTN = "ADD";
     public static final String CANCEL_BTN = "Cancel";
     public static final String REMOVE_BTN = "Delete";
     public static final String UPDATE_BTN = "Modify";
@@ -89,6 +116,30 @@ public abstract class Constants {
     public static final String CLIENT_RESERVATIONS = "Client's reservations";
     public static final String STREET = "Street";
     public static final String SEARCH = "Search";
+    public static final String CREATE = "Create";
+    public static final String CLIENT_STATUS_PRO ="Professional";
+    public static final String CLIENT_STATUS_INDIVIDUAL = "Individual";
+    public static final String CLIENT_STATUS = "Client Status";
+    public static final String COMPANY_NAME = "Company Name";
+    public static final String COMPANY_ID = "Company Id";
+    public static String COMPANY = "COMPANY";
+    public static String OK = "OK";
+    public static String INVOICING= "Invoicing";
+    public static String PART_ID = "Part ID";
+    public static String EAN_CODE = "Ean Code";
+    public static String DESIGNATION = "Designation";
+    public static String BRAND = "Brand";
+    public static String PROVIDER = "Provider";
+    public static String PUR_PRICE = "Purchasing Price";
+    public static String QUANTITY = "Quantity";
+    public static String SELLING_PRICE = "Selling Price";
+    public static String REF = "Reference";
+    public static String SELECT_A_FILE = "Select a file";
+    public static String CSV_FILE = "CSV File";
+    public static String REFRESH_BTN = "Refresh";
+    public static String ONE_PART = "Only One part found";
+    public static String PARTS="Parts";
+    }
 //</editor-fold>
     
 

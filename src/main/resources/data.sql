@@ -2,11 +2,11 @@ INSERT INTO address VALUES (1, 'Long', 5, 34, 'New York', '44-300');
 INSERT INTO address VALUES (2, 'Long streen', 54, 66, 'Paris', '49-321');
 INSERT INTO address VALUES (3, '18 Street', 31, 43, 'Sydney', '34-323');
 
-INSERT INTO client VALUES (1, 1, 'John', 'New', '9010100293', '500493003', 'janek21313@oc.eu');
-INSERT INTO client VALUES (2, 2, 'Mark', 'Spencer', '8810120293', '504939203', 'kulek123121@oc.eu');
-INSERT INTO client VALUES (3, 3, 'Jules', 'Black', '9105030293', '511493003', 'marta3421@oc.eu');
-INSERT INTO client VALUES (4, 1, 'Maria', 'White', '9205030293', '521493003', 'jannowosielski2344@oc.eu');
-INSERT INTO client VALUES (5, 2, 'Paris', 'Mary', '9205030293', '503493003', 'martakorycka2349@oc.eu');
+INSERT INTO client VALUES (1, 1, 'John', 'New', '9010100293', '500493003', 'janek21313@oc.eu',1);
+INSERT INTO client VALUES (2, 2, 'Mark', 'Spencer', '8810120293', '504939203', 'kulek123121@oc.eu',0);
+INSERT INTO client VALUES (3, 3, 'Jules', 'Black', '9105030293', '511493003', 'marta3421@oc.eu',1);
+INSERT INTO client VALUES (4, 1, 'Maria', 'White', '9205030293', '521493003', 'jannowosielski2344@oc.eu',0);
+INSERT INTO client VALUES (5, 2, 'Paris', 'Mary', '9205030293', '503493003', 'martakorycka2349@oc.eu',1);
 
 INSERT INTO invoice_status VALUES (1, 'New');
 INSERT INTO invoice_status VALUES (2, 'Finished');

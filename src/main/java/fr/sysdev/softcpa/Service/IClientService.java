@@ -23,5 +23,10 @@ public interface IClientService {
      
      void updateClient(Client client);
      
-     void deleteClient(Long clientId);
+     void deleteClient(Client client);
+     
+     Client getLastClient();
+     
+     Long key();
+  
 }

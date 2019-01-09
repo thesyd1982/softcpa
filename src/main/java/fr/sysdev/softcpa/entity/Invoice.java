@@ -31,12 +31,13 @@ public class Invoice {
     @JoinColumn(name = "id_payment")
     private Payment payment;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_client")
     private Client client;
 
 
     @Column(name = "invoice_date")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date invoiceDate;
 
     @Column(name = "amount")

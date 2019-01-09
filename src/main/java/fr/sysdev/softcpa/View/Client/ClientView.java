@@ -37,8 +37,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope
 public class ClientView extends javax.swing.JInternalFrame {
-    @Autowired
-    ClientController clientController ;
+//    @Autowired
+//    ClientController clientController ;
     /**
      * Creates new form ClientView
      */
@@ -49,7 +49,7 @@ public class ClientView extends javax.swing.JInternalFrame {
     private Client clientToUpdate;
  
     private TableRowSorter<TableModel> sorterClient;
-    private Client clientToInvoicing;
+    private Client clientToInvoice;
     
     
     
@@ -93,10 +93,10 @@ public class ClientView extends javax.swing.JInternalFrame {
         jTextField_Address_HouseNumber = new javax.swing.JTextField();
         jTextField_Address_Street = new javax.swing.JTextField();
         jTextField_Address_PostCode = new javax.swing.JTextField();
-        jButton_add = new javax.swing.JButton();
-        jButton_remove = new javax.swing.JButton();
-        jButton_cancel = new javax.swing.JButton();
-        jButton_update = new javax.swing.JButton();
+        jButton_Add = new javax.swing.JButton();
+        jButton_Remove = new javax.swing.JButton();
+        jButton_Cancel = new javax.swing.JButton();
+        jButton_Update = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_client = new javax.swing.JTable();
         jTextField_Address_City = new javax.swing.JTextField();
@@ -119,6 +119,7 @@ public class ClientView extends javax.swing.JInternalFrame {
         jLabel_Client_CompanyID = new javax.swing.JLabel();
         jLabel_Client_CompanyName = new javax.swing.JLabel();
         jTextField_Client_CompanyName = new javax.swing.JTextField();
+        jButton_Invoicing = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -153,31 +154,31 @@ public class ClientView extends javax.swing.JInternalFrame {
         binding.setValidator(postalCodelValidator1);
         bindingGroup.addBinding(binding);
 
-        jButton_add.setText("Add");
-        jButton_add.addActionListener(new java.awt.event.ActionListener() {
+        jButton_Add.setText("Add");
+        jButton_Add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_addActionPerformed(evt);
+                jButton_AddActionPerformed(evt);
             }
         });
 
-        jButton_remove.setText("Delete");
-        jButton_remove.addActionListener(new java.awt.event.ActionListener() {
+        jButton_Remove.setText("Delete");
+        jButton_Remove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_removeActionPerformed(evt);
+                jButton_RemoveActionPerformed(evt);
             }
         });
 
-        jButton_cancel.setText("Cancel");
-        jButton_cancel.addActionListener(new java.awt.event.ActionListener() {
+        jButton_Cancel.setText("Cancel");
+        jButton_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_cancelActionPerformed(evt);
+                jButton_CancelActionPerformed(evt);
             }
         });
 
-        jButton_update.setText("Modify");
-        jButton_update.addActionListener(new java.awt.event.ActionListener() {
+        jButton_Update.setText("Modify");
+        jButton_Update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_updateActionPerformed(evt);
+                jButton_UpdateActionPerformed(evt);
             }
         });
 
@@ -290,6 +291,13 @@ public class ClientView extends javax.swing.JInternalFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_client, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.company.name}"), jTextField_Client_CompanyName, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        jButton_Invoicing.setText("Invoicing");
+        jButton_Invoicing.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_InvoicingActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -328,22 +336,26 @@ public class ClientView extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(114, 114, 114)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton_cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_update, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton_Cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_Update, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton_remove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_add, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jButton_Remove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_Add, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(230, 230, 230)
                         .addComponent(jLabel_Client_Search)
                         .addGap(18, 18, 18)
                         .addComponent(jTextField_Client_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(119, Short.MAX_VALUE))
+                        .addContainerGap(117, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton_Invoicing, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -353,7 +365,7 @@ public class ClientView extends javax.swing.JInternalFrame {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jTextField_Address_City, jTextField_Address_HouseNumber, jTextField_Address_PostCode, jTextField_Address_Street, jTextField_Client_CompanyIDNumber, jTextField_Client_CompanyName, jTextField_Client_Email, jTextField_Client_Name, jTextField_Client_PhoneNumber, jTextField_Client_Surname});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton_add, jButton_cancel, jButton_remove, jButton_update});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton_Add, jButton_Cancel, jButton_Remove, jButton_Update});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -412,16 +424,17 @@ public class ClientView extends javax.swing.JInternalFrame {
                             .addComponent(jLabel_Client_CompanyID, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton_remove)
-                            .addComponent(jButton_update)))
+                            .addComponent(jButton_Remove)
+                            .addComponent(jButton_Update)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_add)
-                    .addComponent(jButton_cancel))
+                    .addComponent(jButton_Add)
+                    .addComponent(jButton_Cancel)
+                    .addComponent(jButton_Invoicing))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel_Error, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -429,11 +442,11 @@ public class ClientView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_updateActionPerformed
+    private void jButton_UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_UpdateActionPerformed
       //  JOptionPane.showMessageDialog(null, " upd View");
       //  updateClient();
         
-    }//GEN-LAST:event_jButton_updateActionPerformed
+    }//GEN-LAST:event_jButton_UpdateActionPerformed
 
     public void updateClient() throws NumberFormatException {
         int row = jTable_client.getSelectedRow();
@@ -454,10 +467,10 @@ public class ClientView extends javax.swing.JInternalFrame {
         sizeComparator = Comparator.comparingLong((c) -> c.getId());
         Collections.sort(clients, sizeComparator);
     }
-    private void jButton_removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_removeActionPerformed
+    private void jButton_RemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RemoveActionPerformed
         
 
-    }//GEN-LAST:event_jButton_removeActionPerformed
+    }//GEN-LAST:event_jButton_RemoveActionPerformed
 
  
     private void jTable_clientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_clientMouseClicked
@@ -489,7 +502,7 @@ public class ClientView extends javax.swing.JInternalFrame {
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
         
             if(x==1) {
-                    clientToInvoicing = client;
+                    clientToInvoice = client;
             }
         
         }
@@ -541,17 +554,17 @@ public class ClientView extends javax.swing.JInternalFrame {
     
     
     
-    private void jButton_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addActionPerformed
+    private void jButton_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AddActionPerformed
      
         
        
        
-    }//GEN-LAST:event_jButton_addActionPerformed
+    }//GEN-LAST:event_jButton_AddActionPerformed
 
-    private void jButton_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelActionPerformed
+    private void jButton_CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CancelActionPerformed
         jTable_client.clearSelection();
         resetInterface();
-    }//GEN-LAST:event_jButton_cancelActionPerformed
+    }//GEN-LAST:event_jButton_CancelActionPerformed
 
     private void jTextField_Client_SearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_Client_SearchKeyReleased
         search();    
@@ -563,16 +576,21 @@ public class ClientView extends javax.swing.JInternalFrame {
           
     }//GEN-LAST:event_jComboBox_Client_StatusItemStateChanged
 
+    private void jButton_InvoicingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_InvoicingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_InvoicingActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private fr.sysdev.softcpa.utils.Converter.ClientStatusConverter clientStatusConverter1;
     private fr.sysdev.softcpa.utils.Validator.EmailValidator emailValidator1;
     private fr.sysdev.softcpa.utils.Validator.HouseNumberValidator houseNumberValidator1;
     private fr.sysdev.softcpa.utils.Converter.IdConvertor idConvertor1;
-    private javax.swing.JButton jButton_add;
-    private javax.swing.JButton jButton_cancel;
-    private javax.swing.JButton jButton_remove;
-    private javax.swing.JButton jButton_update;
+    private javax.swing.JButton jButton_Add;
+    private javax.swing.JButton jButton_Cancel;
+    private javax.swing.JButton jButton_Invoicing;
+    private javax.swing.JButton jButton_Remove;
+    private javax.swing.JButton jButton_Update;
     private javax.swing.JComboBox<String> jComboBox_Client_Status;
     private javax.swing.JLabel jLabel_Address_City;
     private javax.swing.JLabel jLabel_Address_HouseNumber;
@@ -673,17 +691,20 @@ public class ClientView extends javax.swing.JInternalFrame {
     
     
     public JButton getRemoveBtn() {
-        return jButton_remove;
+        return jButton_Remove;
     }
     
      public JButton getAddBtn() {
-        return jButton_add;
+        return jButton_Add;
     }
 
      public JButton getUpdateBtn() {
-        return jButton_update;
+        return jButton_Update;
     } 
-     
+    
+     public JButton getInvoicingBtn() {
+        return jButton_Invoicing;
+    } 
      
     private void prepareForm() {
        
@@ -706,9 +727,9 @@ public class ClientView extends javax.swing.JInternalFrame {
         jLabel_Client_Status.setText(Constants.Labels.CLIENT_STATUS);
         jLabel_Client_CompanyName.setText(Constants.Labels.COMPANY_NAME);
         jLabel_Client_CompanyID.setText(Constants.Labels.COMPANY_ID);
-        jButton_add.setText(Constants.Labels.ADD_BTN);
-        jButton_remove.setText(Constants.Labels.REMOVE_BTN);
-        jButton_update.setText(Constants.Labels.UPDATE_BTN);
+        jButton_Add.setText(Constants.Labels.ADD_BTN);
+        jButton_Remove.setText(Constants.Labels.REMOVE_BTN);
+        jButton_Update.setText(Constants.Labels.UPDATE_BTN);
     }
     
     private void resetInterface() {
@@ -752,22 +773,22 @@ public class ClientView extends javax.swing.JInternalFrame {
        jTextField_Client_CompanyIDNumber.setText("");
        jTextField_Client_CompanyName.setText("");
        
-       jButton_add.setVisible(true);
-       jButton_remove.setVisible(false);
-       jButton_update.setVisible(false);
-       jButton_cancel.setVisible(true);
-       jButton_cancel.setText(Constants.Labels.CANCEL_BTN);
+       jButton_Add.setVisible(true);
+       jButton_Remove.setVisible(false);
+       jButton_Update.setVisible(false);
+       jButton_Cancel.setVisible(true);
+       jButton_Cancel.setText(Constants.Labels.CANCEL_BTN);
        
     }
     
     
       private void updateInterface() { 
        
-       jButton_add.setVisible(false);
-       jButton_remove.setVisible(true);
-       jButton_update.setVisible(true);
-       jButton_cancel.setVisible(true);
-       jButton_cancel.setText(Constants.Labels.CREATE);
+       jButton_Add.setVisible(false);
+       jButton_Remove.setVisible(true);
+       jButton_Update.setVisible(true);
+       jButton_Cancel.setVisible(true);
+       jButton_Cancel.setText(Constants.Labels.CREATE);
     }
     
     
@@ -930,12 +951,12 @@ public class ClientView extends javax.swing.JInternalFrame {
         return prenom;
     }
 
-    public Client getClientToInvoicing() {
-        return clientToInvoicing;
+    public Client getClientToInvoice() {
+        return clientToInvoice;
     }
 
-    public void setClientToInvoicing(Client clientToInvoicing) {
-        this.clientToInvoicing = clientToInvoicing;
+    public void setClientToInvoicing(Client clientToInvoice) {
+        this.clientToInvoice = clientToInvoice;
     }
     
 }

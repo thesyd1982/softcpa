@@ -6,10 +6,16 @@
     platform: mysql
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
+      statistics: true
+      logging:
+       level:
+         org.hibernate.stat: DEBUG
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     database: mysql
     show-sql: true
+    
+ 
  #   properties:
   #     javax:
    #      persistence:
