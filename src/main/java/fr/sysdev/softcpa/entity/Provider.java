@@ -6,14 +6,16 @@
 package fr.sysdev.softcpa.entity;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,14 +26,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "provider")
 public class Provider implements Serializable {
-    @Id    
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_provider")
     private Long id;
     private String name;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_provider", insertable = false,updatable = false)
-    private Set<Part>parts; 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "provider", fetch = FetchType.EAGER, orphanRemoval = true)
+    //@JoinColumn(name = "id_provider", insertable = false,updatable = false)
+    private List<Part> parts;
+
     @Override
     public String toString() {
         return "Provider{" + "id=" + id + ", name=" + name + '}';
@@ -53,17 +57,42 @@ public class Provider implements Serializable {
         this.name = name;
     }
 
-    public Set<Part> getParts() {
+    public List<Part> getParts() {
         return parts;
     }
 
-    public void setParts(Set<Part> parts) {
+    public void setParts(List<Part> parts) {
         this.parts = parts;
     }
-    
-    
-    public void  addPart(Part part){
-    this.parts.add(part);
+
+    public void addPart(Part part) {
+        this.parts.add(part);
     }
+
+    public void removePart(Part part) {
+
+        Iterator<Part> iterator = parts.iterator();
+
+        while (iterator.hasNext()) {
+            if (Objects.equals((iterator.next()).getId(), part.getId())) {
+                iterator.remove();
+            }
+        }
+
+    }
+    
+    public void removeAllParts(){
+    Iterator<Part> iterator = parts.iterator();
+
+        while (iterator.hasNext()) {
+            
+                iterator.remove();
+            
+        }
+    
+    }
+    
+    
+    
     
 }

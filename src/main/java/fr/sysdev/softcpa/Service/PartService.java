@@ -69,9 +69,7 @@ public class PartService implements IPartService{
 
     @Override
     public Long key() {
-//        String  jdbcUrl = "jdbc:mysql://localhost:3306/scpa_dev?useSSL=false";
-//        String username = "scpa_dev_user";
-//        String password = "Pq4s67Xa";
+
         int id = -1;
         try{
             

@@ -53,7 +53,6 @@ public class ProviderService implements IProviderService{
 
     @Override
     public Provider updateProvider(Provider provider) {
-        
         return providerRepository.save(provider);
     }
 

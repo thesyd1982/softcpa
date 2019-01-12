@@ -27,8 +27,10 @@ public class Part implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_part")
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @OneToOne
     @JoinColumn(name = "id_provider")
+    
     private Provider provider;
     private String eanCode;
     private String reference;

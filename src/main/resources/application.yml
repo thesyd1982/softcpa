@@ -6,7 +6,7 @@
     platform: mysql
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
       statistics: true
       logging:
        level:

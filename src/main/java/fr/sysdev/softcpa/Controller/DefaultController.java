@@ -11,6 +11,7 @@ import fr.sysdev.softcpa.Controller.Devis.DevisController;
 import fr.sysdev.softcpa.Controller.Invoicing.InvoicingController;
 import fr.sysdev.softcpa.Controller.Client.ClientController;
 import fr.sysdev.softcpa.Controller.Avoir.AvoirController;
+import fr.sysdev.softcpa.Controller.Provider.ProviderController;
 import fr.sysdev.softcpa.Service.IAdrressService;
 import fr.sysdev.softcpa.Service.IClientService;
 import fr.sysdev.softcpa.Service.IPartService;
@@ -18,6 +19,7 @@ import fr.sysdev.softcpa.Service.IProviderService;
 import fr.sysdev.softcpa.View.Client.ClientView;
 import fr.sysdev.softcpa.View.Invoicing.InvoicingView;
 import fr.sysdev.softcpa.View.Part.PartView;
+import fr.sysdev.softcpa.View.Provider.ProviderView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -31,6 +33,7 @@ public class DefaultController {
 
     private final ClientController clientController;
     private final PartController partController;
+    private final ProviderController providerController;
     private final DevisController devisController;
     private final AvoirController avoirController;
     private final InvoicingController invoicingController;
@@ -56,6 +59,7 @@ public class DefaultController {
         
         this.clientController = new ClientController(iClientService, iAdrressService);
         this.partController = new PartController(iPartService, iProviderService);
+        this.providerController = new ProviderController(this.iProviderService);
         this.devisController = new DevisController();
         this.avoirController = new AvoirController();
         this.invoicingController = new InvoicingController(iClientService, iPartService);
@@ -73,10 +77,15 @@ public class DefaultController {
         return partController.getView();
     }
     
-     public InvoicingView invoicing(){
+    public InvoicingView invoicing(){
         return invoicingController.getView();
     }
     
+    public ProviderView managingProviders(){
+        System.out.println("managingProviders");
+    return providerController.getView();
+    
+    }
     
     
     public void gestionFactures(){

@@ -9,6 +9,7 @@ import fr.sysdev.softcpa.View.Part.PartView;
 import fr.sysdev.softcpa.View.Client.ClientView;
 import fr.sysdev.softcpa.Controller.DefaultController;
 import fr.sysdev.softcpa.View.Invoicing.InvoicingView;
+import fr.sysdev.softcpa.View.Provider.ProviderView;
 import java.beans.PropertyVetoException;
 import java.util.HashMap;
 import javax.swing.JFrame;
@@ -31,7 +32,8 @@ public class DefaultView extends javax.swing.JFrame {
     private PartView pieceView;
     @Autowired
     private InvoicingView invoicingView;
-    
+    @Autowired
+    private ProviderView providerView;
     
     
     private HashMap<String, JInternalFrame> viewsMap;
@@ -97,6 +99,11 @@ public class DefaultView extends javax.swing.JFrame {
         jButton_Devis.setText("Devis");
 
         jButton_Fournisseur.setText("Fournisseurs");
+        jButton_Fournisseur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_FournisseurActionPerformed(evt);
+            }
+        });
 
         jButton_Stock.setText("Stock");
         jButton_Stock.addActionListener(new java.awt.event.ActionListener() {
@@ -189,6 +196,14 @@ public class DefaultView extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_jButton_FacturationActionPerformed
+
+    private void jButton_FournisseurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_FournisseurActionPerformed
+        providerView = defaultController.managingProviders();
+        try {
+            addFrame(providerView);
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jButton_FournisseurActionPerformed
 
     public void addFrame(JInternalFrame view) throws PropertyVetoException {
            boolean open = false;

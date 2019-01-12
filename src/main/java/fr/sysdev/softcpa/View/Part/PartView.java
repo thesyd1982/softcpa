@@ -141,6 +141,8 @@ public class PartView extends javax.swing.JInternalFrame {
         jTextField_Part_CsvFilePath = new javax.swing.JTextField();
         jButton_Part_Import = new javax.swing.JButton();
         jLabel_Part_Count = new javax.swing.JLabel();
+        jButton_Refresh = new javax.swing.JButton();
+        jComboBox_Part_ProviderToImport = new javax.swing.JComboBox<>();
 
         jTextField5.setText("jTextField5");
 
@@ -359,6 +361,13 @@ public class PartView extends javax.swing.JInternalFrame {
 
         jLabel_Part_Count.setText("jLabel1");
 
+        jButton_Refresh.setText("jButton1");
+        jButton_Refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_RefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -401,33 +410,42 @@ public class PartView extends javax.swing.JInternalFrame {
                             .addComponent(jTextField_Part_PurchasingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel_Part_Search)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField_Part_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel_Part_Count)
-                        .addContainerGap(193, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton_Invoicing, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton_Part_Open_Csv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton_Part_Import, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(66, 66, 66))))
+                                .addGap(47, 47, 47)
+                                .addComponent(jLabel_Part_Search)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextField_Part_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel_Part_Count))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addComponent(jButton_Invoicing, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(448, 448, 448)
+                        .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(485, 485, 485)
+                        .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton_Part_Import, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_Part_Open_Csv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox_Part_ProviderToImport, 0, 100, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addComponent(jButton_Refresh)
+                .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField_Part_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -442,7 +460,7 @@ public class PartView extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton_Invoicing))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -483,9 +501,11 @@ public class PartView extends javax.swing.JInternalFrame {
                             .addComponent(jButton_Part_Open_Csv))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_Part_Import))
-                .addContainerGap())
+                    .addComponent(jComboBox_Part_ProviderToImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton_Part_Import)
+                .addGap(20, 20, 20))
         );
 
         bindingGroup.bind();
@@ -513,7 +533,8 @@ public class PartView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextField_Part_IdActionPerformed
 
     private void jButton_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AddActionPerformed
-        updateInterface();
+        //updateInterface();  
+        resetInterface();
     }//GEN-LAST:event_jButton_AddActionPerformed
 
     private void jButton_CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CancelActionPerformed
@@ -546,36 +567,11 @@ public class PartView extends javax.swing.JInternalFrame {
 
     private void jTable_PartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_PartMouseClicked
         getPartFromSelectedTableRow();
-
         jComboBox_Part_Provider.setSelectedItem(part.getProvider().getName());
         jTable_Part.setSelectionBackground(Color.blue);
         jTable_Part.setSelectionForeground(Color.white);
         if (evt.getClickCount() == 2) {
 
-//            String detailMessage = Constants.Labels.CLIENT_ID+" : "+client.getId()+"\n"+
-//                    Constants.Labels.NAME+" : "+client.getName()+"\n"+
-//                    Constants.Labels.SURNAME+" : "+client.getSurname()+"\n"+
-//                    Constants.Labels.EMAIL+" : "+client.getEmail()+"\n"+
-//                    Constants.Labels.PHONE_NUMBER+" : "+client.getPhoneNumber()+"\n"+
-//                    Constants.Labels.HOUSE_NUMBER+" : "+client.getAddress().getHouseNumber()+"\n"+
-//                    Constants.Labels.STREET+" : "+client.getAddress().getStreet()+"\n"+
-//                    Constants.Labels.POSTAL_CODE+" : "+client.getAddress().getPostCode()+"\n"+
-//                    Constants.Labels.CITY+" : "+client.getAddress().getCity()+"\n";
-//          String infoPro =
-//                    Constants.Labels.CLIENT_STATUS+" : "+clientStatusConverter1.convertForward(client.getStatus())+"\n"+
-//                    Constants.Labels.COMPANY_NAME+" : "+client.getCompany().getName()+"\n"+
-//                    Constants.Labels.COMPANY_ID+" : "+client.getCompany().getCin()+"\n";
-//                    
-//          if(client.getStatus() == 1) detailMessage = detailMessage+ infoPro;
-//        String[] options = {Constants.Labels.OK, Constants.Labels.INVOICING};
-//
-//        int x = JOptionPane.showOptionDialog(null, detailMessage,
-//                Constants.Messages.CLICK_A_BUTTON,
-//                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-//        
-//            if(x==1) {
-//                    clientToInvoice = client;
-//            }
         } else {
             updateInterface();
         }
@@ -597,6 +593,10 @@ public class PartView extends javax.swing.JInternalFrame {
     private void jButton_RemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RemoveActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton_RemoveActionPerformed
+
+    private void jButton_RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RefreshActionPerformed
+   bindingPartTable();
+    }//GEN-LAST:event_jButton_RefreshActionPerformed
 
     public void getCsvFilePath() throws HeadlessException {
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -622,9 +622,11 @@ public class PartView extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton_Invoicing;
     private javax.swing.JButton jButton_Part_Import;
     private javax.swing.JButton jButton_Part_Open_Csv;
+    private javax.swing.JButton jButton_Refresh;
     private javax.swing.JButton jButton_Remove;
     private javax.swing.JButton jButton_Update;
     private javax.swing.JComboBox<String> jComboBox_Part_Provider;
+    private javax.swing.JComboBox<String> jComboBox_Part_ProviderToImport;
     private javax.swing.JLabel jLabel_Part_Brand;
     private javax.swing.JLabel jLabel_Part_Count;
     private javax.swing.JLabel jLabel_Part_Designation;
@@ -655,8 +657,11 @@ public class PartView extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void prepareForm() {
-
+        jComboBox_Part_Provider.removeAllItems();
+        jComboBox_Part_ProviderToImport.removeAllItems();
         providers.forEach(p -> jComboBox_Part_Provider.addItem(p.getName()));
+        providers.forEach(p -> jComboBox_Part_ProviderToImport.addItem(p.getName()));
+        
         jLabel_Part_Count.setText(parts.size()+ " Parts");
         
         jLabel_Part_Id.setText(Constants.Labels.PART_ID);
@@ -724,22 +729,12 @@ public class PartView extends javax.swing.JInternalFrame {
 
     public void removePart() {
 
-//        int row = jTable_Part.getSelectedRow();
-//        int rowt = jTable_Part.getRowSorter().convertRowIndexToModel(row);
+
         getPartFromSelectedTableRow();
         int indexInAllParts = allParts.indexOf(findPartById(parts,part.getId()));
-        
-//        
-//      System.out.println("index :"+index+ " Part: "+part);
-//      
-//        jTable_Part.setRowSelectionInterval(rowt,rowt);
-//        getPartFromSelectedTableRow();
-//        System.out.println("index :"+index+ " Part: "+part);
         int indexInParts = parts.indexOf(findPartById(parts,part.getId()));
         allParts.remove(indexInAllParts);
         parts.remove(indexInParts);
-        
-        
           bindingPartTable();
           resetInterface();
         
@@ -760,13 +755,9 @@ public class PartView extends javax.swing.JInternalFrame {
         int rowt = jTable_Part.getRowSorter().convertRowIndexToModel(row);
         getPartFromSelectedTableRow();
         int indexInAllParts = allParts.indexOf(findPartById(parts,part.getId()));
-        
-//        
-//      System.out.println("index :"+index+ " Part: "+part);
         bindingPartTable();
         jTable_Part.setRowSelectionInterval(rowt,rowt);
         getPartFromSelectedTableRow();
-//        System.out.println("index :"+index+ " Part: "+part);
         int indexInParts = parts.indexOf(findPartById(parts,part.getId()));
         allParts.set(indexInAllParts, part);
         parts.set(indexInParts, part);
@@ -897,7 +888,10 @@ public class PartView extends javax.swing.JInternalFrame {
         part.setPurchasingPrice(new Double(jTextField_Part_PurchasingPrice.getText()));
         part.setSellingPrice(new Double(jTextField_Part_SellingPrice.getText()));
         Provider provider = findProviderByName(providers, (String) jComboBox_Part_Provider.getSelectedItem());
+        provider.addPart(part);
         part.setProvider(provider);
+       
+        
 
     }
 
@@ -969,42 +963,6 @@ public class PartView extends javax.swing.JInternalFrame {
         displayPartsCount() ;
     }
 
-//    private void rechercherParTouTLesCriters() {
-//        String search = jTextField_Part_Search.getText().replaceAll("\\s+", " ").trim();
-//        updateFilter(search);
-//        if (jTable_Part.getRowCount() != 0 && !search.equals("")) {
-//            jTable_Part.setRowSelectionInterval(0, 0);
-//            jTable_Part.setSelectionBackground(Color.blue);
-//            jTable_Part.setSelectionForeground(Color.white);
-//            getPartFromSelectedTableRow();
-//            updateInterface();
-//        } else {
-//            searchInterface();
-//            jTable_Part.clearSelection();
-//        }
-//
-//    }
-//
-//    private void updateFilter(String filterText) {
-//        filterText = "(?i)" + filterText;
-//        TableRowSorter sorter = (TableRowSorter) jTable_Part.getRowSorter();
-//
-//        if (filterText.length() == 0) {
-//            sorter.setRowFilter(null);
-//        } else {
-//
-//            try {
-//                RowFilter<Object, Object> rf = RowFilter.regexFilter(filterText, 0, 1, 2, 3, 4, 5);
-//                sorter.setRowFilter(rf);
-//            } catch (java.util.regex.PatternSyntaxException e) {
-//                sorter.setRowFilter(null);
-//            }
-//        }
-//
-//    }
-
-   
-
     public static List<Part> removingDuplicatesAndSortPartList(List<Part> ListeAvecDoublons) {
         Set set = new HashSet();
         set.addAll(ListeAvecDoublons);
@@ -1036,5 +994,22 @@ public class PartView extends javax.swing.JInternalFrame {
     return result;
    }
    
+   public JButton getRefreshBtn(){
+    
+    return jButton_Refresh;
+    }
    
+   public void loadParts(){
+   allParts = parts;
+   prepareForm();
+   }
+
+    public void setProviders(List<Provider> providers) {
+        this.providers = providers;
+    }
+
+    public Provider getProviderToImport() {
+        Provider provider = findProviderByName(providers, (String) jComboBox_Part_ProviderToImport.getSelectedItem());
+        return provider;
+    }
 }
