@@ -6,6 +6,8 @@
 package fr.sysdev.softcpa.utils.predicates;
 
 import fr.sysdev.softcpa.entity.Provider;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -25,6 +27,18 @@ public class ProvidersPredicates {
         return p -> p.getName().contains(s);
     }
    
+    public static void sortProvidersById (List<Provider> providers)
+    {
+        Comparator<Provider> idComparator;
+        idComparator = Comparator.comparingInt((p) -> (int)(long)p.getId());
+        Collections.sort(providers, idComparator);
+    }
+   public static void sortProvidersByName (List<Provider> providers)
+    {
+       Collections.sort(providers, (p1, p2) -> p1.getName().compareTo(p2.getName()));
+    }
+    
+    
     
 //    public static Predicate<Provider> refOrEanOrDesignationOrBrandContains(String s) {
 //        return p -> p.getReference().contains(s)||

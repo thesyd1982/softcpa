@@ -6,7 +6,9 @@
     platform: mysql
   jpa:
     hibernate:
+      
       ddl-auto: validate
+      #generate_statistics: true
       statistics: true
       logging:
        level:
@@ -25,4 +27,5 @@
        #       action: create
         #      create-target: database_create.sql
     
+
     

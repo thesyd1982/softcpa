@@ -6,6 +6,7 @@
 package fr.sysdev.softcpa.Service;
 
 import fr.sysdev.softcpa.entity.Provider;
+import fr.sysdev.softcpa.utils.ObservableList;
 import java.util.List;
 
 /**
@@ -25,4 +26,7 @@ public interface IProviderService {
      void deleteProvider(Provider provider);
     
      public Long key();
+
+
+   
 }

@@ -20,7 +20,6 @@ import fr.sysdev.softcpa.View.Client.ClientView;
 import fr.sysdev.softcpa.View.Invoicing.InvoicingView;
 import fr.sysdev.softcpa.View.Part.PartView;
 import fr.sysdev.softcpa.View.Provider.ProviderView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -57,12 +56,12 @@ public class DefaultController {
         
         
         
-        this.clientController = new ClientController(iClientService, iAdrressService);
-        this.partController = new PartController(iPartService, iProviderService);
+        this.clientController = new ClientController(this.iClientService, this.iAdrressService);
+        this.partController = new PartController(this.iPartService, this.iProviderService);
         this.providerController = new ProviderController(this.iProviderService);
         this.devisController = new DevisController();
         this.avoirController = new AvoirController();
-        this.invoicingController = new InvoicingController(iClientService, iPartService);
+        this.invoicingController = new InvoicingController(this.iClientService, this.iPartService);
         
         System.out.println("DefaultController");
     }

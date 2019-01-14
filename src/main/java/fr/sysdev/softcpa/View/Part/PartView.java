@@ -6,13 +6,13 @@
 package fr.sysdev.softcpa.View.Part;
 
 
+
 import fr.sysdev.softcpa.constants.Constants;
 import fr.sysdev.softcpa.entity.Part;
 import fr.sysdev.softcpa.entity.Provider;
 import fr.sysdev.softcpa.utils.predicates.PartsPredicates;
 import java.awt.Color;
 import java.awt.HeadlessException;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -26,8 +26,10 @@ import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 
 import javax.swing.event.RowSorterEvent;
@@ -41,7 +43,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javafx.collections.ObservableList;
 /**
  *
  * @author COPCGRE
@@ -49,11 +53,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @Scope
-public class PartView extends javax.swing.JInternalFrame {
+public class PartView extends javax.swing.JInternalFrame implements ActionListener {
 
 //    @Autowired
-//    private PartController pieceController;
+ 
     private List<Part> parts;
+    
     private List<Part> allParts;
     List<Provider> providers;
     private Part part;
@@ -61,37 +66,38 @@ public class PartView extends javax.swing.JInternalFrame {
     private String csvFile;
     private TableRowSorter<TableModel> sorter;
 
- 
+    public Timer t  ;
+    private int partsNumberAdded;
+    public int CountPartsToAdd;
+    
+    
 
     public PartView(List<Part> parts, List<Provider> providers) {
+        
+        this.partsNumberAdded = 0;
         part = new Part();
         this.parts = new ArrayList<>(parts);
         this.allParts = parts;
         this.providers = new ArrayList<>(providers);
        
+        
         initComponents();
         
         prepareForm();
-        
+        t= new Timer(1000, this);
         
         resetInterface();
         
         
     }
 
-    public List<Part> getParts() {
-        return parts;
-    }
-
-    public void setParts(List<Part> parts) {
-        this.parts = parts;
-    }
-
+   
     /**
      * Creates new form PieceViews
      */
 
     public PartView() {
+        this.partsNumberAdded = 0;
 
         initComponents();
 
@@ -143,6 +149,7 @@ public class PartView extends javax.swing.JInternalFrame {
         jLabel_Part_Count = new javax.swing.JLabel();
         jButton_Refresh = new javax.swing.JButton();
         jComboBox_Part_ProviderToImport = new javax.swing.JComboBox<>();
+        jProgressBar_Part_Importing = new javax.swing.JProgressBar();
 
         jTextField5.setText("jTextField5");
 
@@ -349,10 +356,13 @@ public class PartView extends javax.swing.JInternalFrame {
             }
         });
 
+        jTextField_Part_CsvFilePath.setEnabled(false);
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${csvFile}"), jTextField_Part_CsvFilePath, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jButton_Part_Import.setText("Import");
+        jButton_Part_Import.setEnabled(false);
         jButton_Part_Import.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_Part_ImportActionPerformed(evt);
@@ -368,77 +378,85 @@ public class PartView extends javax.swing.JInternalFrame {
             }
         });
 
+        jComboBox_Part_ProviderToImport.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton_Update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_Cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton_Add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_Remove, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel_Part_Id)
-                            .addComponent(jLabel_Part_EanCode)
-                            .addComponent(jLabel_Part_Reference)
-                            .addComponent(jLabel_Part_Quantity)
-                            .addComponent(jLabel_Part_Designation)
-                            .addComponent(jLabel_Part_Brand)
-                            .addComponent(jLabel_Part_SellingPrice)
-                            .addComponent(jLabel_Part_PurchasingPrice))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField_Part_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel_Part_Provider)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox_Part_Provider, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextField_Part_EanCode, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Part_Reference, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Part_Quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Part_Brand, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Part_SellingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Part_PurchasingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(47, 47, 47)
-                                .addComponent(jLabel_Part_Search)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField_Part_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton_Update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton_Cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel_Part_Count))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton_Add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton_Remove, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addComponent(jButton_Invoicing, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel_Part_Id)
+                                    .addComponent(jLabel_Part_EanCode)
+                                    .addComponent(jLabel_Part_Reference)
+                                    .addComponent(jLabel_Part_Quantity)
+                                    .addComponent(jLabel_Part_Designation)
+                                    .addComponent(jLabel_Part_Brand)
+                                    .addComponent(jLabel_Part_SellingPrice)
+                                    .addComponent(jLabel_Part_PurchasingPrice))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jTextField_Part_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel_Part_Provider)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jComboBox_Part_Provider, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jTextField_Part_EanCode, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_Part_Reference, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_Part_Quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_Part_Brand, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_Part_SellingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_Part_PurchasingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(47, 47, 47)
+                                        .addComponent(jLabel_Part_Search)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextField_Part_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel_Part_Count))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(33, 33, 33)
+                                        .addComponent(jButton_Invoicing, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(138, 138, 138)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jProgressBar_Part_Importing, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jButton_Part_Import, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jComboBox_Part_ProviderToImport, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(0, 121, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(448, 448, 448)
+                                .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(913, 913, 913)
+                                .addComponent(jButton_Part_Open_Csv, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(448, 448, 448)
-                        .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(485, 485, 485)
-                        .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton_Part_Import, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_Part_Open_Csv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox_Part_ProviderToImport, 0, 100, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -458,10 +476,6 @@ public class PartView extends javax.swing.JInternalFrame {
                         .addComponent(jLabel_Part_Count)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton_Invoicing))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField_Part_EanCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -497,15 +511,22 @@ public class PartView extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton_Cancel)
-                            .addComponent(jButton_Add)
-                            .addComponent(jButton_Part_Open_Csv))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox_Part_ProviderToImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton_Part_Import)
-                .addGap(20, 20, 20))
+                            .addComponent(jButton_Add)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton_Invoicing)
+                            .addComponent(jButton_Part_Open_Csv))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox_Part_ProviderToImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton_Part_Import)
+                    .addComponent(jProgressBar_Part_Importing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32))
         );
 
         bindingGroup.bind();
@@ -559,10 +580,15 @@ public class PartView extends javax.swing.JInternalFrame {
 
     private void jButton_Part_Open_CsvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Part_Open_CsvActionPerformed
         getCsvFilePath();
+        jButton_Part_Import.setEnabled(true);
+        jComboBox_Part_ProviderToImport.setEnabled(true);
     }//GEN-LAST:event_jButton_Part_Open_CsvActionPerformed
 
     private void jButton_Part_ImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Part_ImportActionPerformed
-        // TODO add your handling code here:
+        t.start();
+        jButton_Part_Import.setEnabled(false);
+        
+        
     }//GEN-LAST:event_jButton_Part_ImportActionPerformed
 
     private void jTable_PartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_PartMouseClicked
@@ -638,6 +664,7 @@ public class PartView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel_Part_Reference;
     private javax.swing.JLabel jLabel_Part_Search;
     private javax.swing.JLabel jLabel_Part_SellingPrice;
+    private javax.swing.JProgressBar jProgressBar_Part_Importing;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable_Part;
@@ -882,9 +909,9 @@ public class PartView extends javax.swing.JInternalFrame {
         part = new Part();
         part.setId(new Long(jTextField_Part_Id.getText()));
         part.setEanCode(jTextField_Part_EanCode.getText());
-        part.setReference(jTextField_Part_Reference.getText());
-        part.setDesignation(jTextArea_Part_Designation.getText());
-        part.setBrand(jTextField_Part_Brand.getText());
+        part.setReference(jTextField_Part_Reference.getText().toUpperCase());
+        part.setDesignation(jTextArea_Part_Designation.getText().toUpperCase());
+        part.setBrand(jTextField_Part_Brand.getText().toUpperCase());
         part.setPurchasingPrice(new Double(jTextField_Part_PurchasingPrice.getText()));
         part.setSellingPrice(new Double(jTextField_Part_SellingPrice.getText()));
         Provider provider = findProviderByName(providers, (String) jComboBox_Part_Provider.getSelectedItem());
@@ -1012,4 +1039,66 @@ public class PartView extends javax.swing.JInternalFrame {
         Provider provider = findProviderByName(providers, (String) jComboBox_Part_ProviderToImport.getSelectedItem());
         return provider;
     }
+
+    public void importRaport(LocalDateTime start, LocalDateTime finish, int count, long days, long hours, long minutes, long seconds) {
+         JOptionPane.showMessageDialog(null, start + "\n" + finish + "\n count: " + count + "\n" + days + " days"
+                                + "\n" + hours + " hours" + "\n" + minutes + " minutes" + "\n" + seconds + " seconds"
+                        );
+         java.awt.Toolkit.getDefaultToolkit().beep();
+         jProgressBar_Part_Importing.setValue(0);
+    }
+
+    public void displayProgress(int i,int count) {
+       
+      
+        if(count > 0){
+            
+             partsNumberAdded=partsNumberAdded+1305;
+             i=partsNumberAdded;
+        jProgressBar_Part_Importing.setValue(i*100/count);
+        jProgressBar_Part_Importing.setToolTipText(i*100/count+"% Done");
+        System.out.println("index "+i+" count "+count);
+        if(i>=count)
+        {
+        //JOptionPane.showMessageDialog(null,"fini"); 
+        
+        t.stop();
+        jButton_Part_Import.setEnabled(true);
+        jProgressBar_Part_Importing.setValue(0);
+        }
+        }
+    }
+    
+    
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        
+        displayProgress(partsNumberAdded,CountPartsToAdd);
+    }
+
+    public int getPartsNumberAdded() {
+        return partsNumberAdded;
+    }
+
+    public void setPartsNumberAdded(int partsNumberAdded) {
+        this.partsNumberAdded = partsNumberAdded;
+    }
+    
+     public List<Part> getParts() {
+        return parts;
+    }
+
+    public void setParts(List<Part> parts) {
+        this.parts = parts;
+    }
+    
+    public int getCountPartsToAdd() {
+        return CountPartsToAdd;
+    }
+
+    public void setCountPartsToAdd(int CountPartsToAdd) {
+        this.CountPartsToAdd = CountPartsToAdd;
+    }
+
+
 }

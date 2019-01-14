@@ -10,6 +10,7 @@ import fr.sysdev.softcpa.Service.IProviderService;
 import fr.sysdev.softcpa.View.Provider.ProviderView;
 import fr.sysdev.softcpa.entity.Part;
 import fr.sysdev.softcpa.entity.Provider;
+import fr.sysdev.softcpa.utils.ObservableList;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -18,6 +19,8 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -29,13 +32,10 @@ import org.springframework.stereotype.Controller;
  * @author sysdev
  */
 @Controller
-public class ProviderController {
+public class ProviderController  {
     @Autowired
     private final IProviderService iProviderService;
-   
-
-    
-    
+ 
     @Autowired
     private ProviderView view;
 
@@ -47,14 +47,12 @@ public class ProviderController {
         registerAction(view.getUpdateBtn(), (e) -> updateProvider());
         registerAction(view.getInvoicingBtn(), (e) -> invoicingParts());
         registerAction(view.getImportBtn(), (e) -> importingParts());
-        registerAction(view.getRefreshBtn(), (e) -> loadingParts());
+        registerAction(view.getRefreshBtn(), (e) -> loadingProviders());
+  
     }
 
     public ProviderController( IProviderService iProviderService) {
-        this.iProviderService=iProviderService;
-       
-        
-        
+        this.iProviderService=iProviderService; 
         view = new ProviderView(iProviderService.getProviders());
         prepareListeners();
     }
@@ -82,6 +80,7 @@ public class ProviderController {
         this.getView().addProvider(this.iProviderService.key());
         Provider provider = this.getView().getProvider();
         iProviderService.addProvider(provider);
+
     }
     
      public void updateProvider() {
@@ -176,9 +175,12 @@ public class ProviderController {
     }
 
     
-    public void loadingParts(){
-    this.view.setProviders(iProviderService.getProviders());
-    this.view.loadParts();
+    public void loadingProviders(){
+        
+        this.view.setProviders(iProviderService.getProviders());
+        this.view.loadParts();
     }
+
+
     
 }

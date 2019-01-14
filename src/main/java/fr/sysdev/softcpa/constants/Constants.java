@@ -139,6 +139,8 @@ public abstract class Constants {
     public static String REFRESH_BTN = "Refresh";
     public static String ONE_PART = "Only One part found";
     public static String PARTS="Parts";
+    public static String PROVIDER_ID = "Provider ID";
+    public static String RROVIDERS = "Providers";
     }
 //</editor-fold>
     

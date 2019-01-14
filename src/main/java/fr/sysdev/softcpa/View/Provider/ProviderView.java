@@ -10,6 +10,8 @@ package fr.sysdev.softcpa.View.Provider;
 import fr.sysdev.softcpa.constants.Constants;
 import fr.sysdev.softcpa.entity.Provider;
 import fr.sysdev.softcpa.utils.predicates.ProvidersPredicates;
+import fr.sysdev.softcpa.utils.ui.IconHeaderRenderer;
+import fr.sysdev.softcpa.utils.ui.TextAndIcon;
 import java.awt.Color;
 import java.awt.HeadlessException;
 
@@ -28,12 +30,14 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 
 import javax.swing.event.RowSorterEvent;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -108,7 +112,6 @@ public class ProviderView extends javax.swing.JInternalFrame {
         jLabel_Provider_Name = new javax.swing.JLabel();
         jLabel_Provider_Name_Id = new javax.swing.JLabel();
         jLabel_Provider_Search = new javax.swing.JLabel();
-        jLabel_Part_Provider = new javax.swing.JLabel();
         jButton_Part_Open_Csv = new javax.swing.JButton();
         jTextField_Part_CsvFilePath = new javax.swing.JTextField();
         jButton_Part_Import = new javax.swing.JButton();
@@ -238,8 +241,6 @@ public class ProviderView extends javax.swing.JInternalFrame {
 
         jLabel_Provider_Search.setText("jLabel1");
 
-        jLabel_Part_Provider.setText("jLabel1");
-
         jButton_Part_Open_Csv.setText("open csv");
         jButton_Part_Open_Csv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -274,26 +275,30 @@ public class ProviderView extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton_Update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_Cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton_Add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_Remove, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel_Provider_Name_Id)
                             .addComponent(jLabel_Provider_Name))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jTextField_Provider_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel_Part_Provider)
                                 .addGap(110, 110, 110))
-                            .addComponent(jTextField_Provider_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTextField_Provider_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton_Update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_Cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButton_Add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton_Remove, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addComponent(jLabel_Provider_Search)
@@ -301,11 +306,7 @@ public class ProviderView extends javax.swing.JInternalFrame {
                         .addComponent(jTextField_Provider_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel_Provider_Count)
-                        .addContainerGap(193, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2)
-                        .addContainerGap())))
+                        .addContainerGap(193, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,21 +318,15 @@ public class ProviderView extends javax.swing.JInternalFrame {
                             .addComponent(jButton_Part_Open_Csv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton_Part_Import, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(66, 66, 66))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(448, 448, 448)
-                .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jButton_Refresh)
-                .addGap(13, 13, 13)
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField_Provider_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel_Provider_Name_Id)
-                        .addComponent(jLabel_Part_Provider))
+                        .addComponent(jLabel_Provider_Name_Id))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField_Provider_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel_Provider_Search)
@@ -355,11 +350,16 @@ public class ProviderView extends javax.swing.JInternalFrame {
                             .addComponent(jButton_Cancel)
                             .addComponent(jButton_Add)
                             .addComponent(jButton_Part_Open_Csv))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_Part_Import))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_Part_Import)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jButton_Refresh)))
+                .addGap(29, 29, 29))
         );
 
         bindingGroup.bind();
@@ -463,7 +463,6 @@ public class ProviderView extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton_Refresh;
     private javax.swing.JButton jButton_Remove;
     private javax.swing.JButton jButton_Update;
-    private javax.swing.JLabel jLabel_Part_Provider;
     private javax.swing.JLabel jLabel_Provider_Count;
     private javax.swing.JLabel jLabel_Provider_Name;
     private javax.swing.JLabel jLabel_Provider_Name_Id;
@@ -482,19 +481,18 @@ public class ProviderView extends javax.swing.JInternalFrame {
     private void prepareForm() {
 
 
-        jLabel_Provider_Count.setText(providers.size()+ " Providers");
-        
+        jLabel_Provider_Count.setText(providers.size()+" "+Constants.Labels.RROVIDERS);
         jLabel_Provider_Name_Id.setText(Constants.Labels.PART_ID);
         jLabel_Provider_Name.setText(Constants.Labels.NAME);
-   
+        
 
         jLabel_Provider_Search.setText(Constants.Labels.SEARCH);
-        jLabel_Part_Provider.setText(Constants.Labels.PROVIDER);
         jButton_Add.setText(Constants.Labels.ADD_BTN);
         jButton_Remove.setText(Constants.Labels.REMOVE_BTN);
         jButton_Update.setText(Constants.Labels.UPDATE_BTN);
-        
+        jButton_Refresh.setText(Constants.Labels.REFRESH_BTN);
         bindingPartTable();
+        
         jTable_Provider.getTableHeader().addMouseListener(new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -502,9 +500,20 @@ public class ProviderView extends javax.swing.JInternalFrame {
             String name = jTable_Provider.getColumnName(col);
             
             System.out.println("Column index selected " + col + " " + name);
-    }
+            //UIManager.getIcon("Table.ascendingSortIcon")
+            if(col == 0){
+            ProvidersPredicates.sortProvidersById(providers);
+            jTable_Provider.getTableHeader().getColumnModel().getColumn(0).setHeaderRenderer( new IconHeaderRenderer());
+            jTable_Provider.getColumnModel().getColumn(0).setHeaderValue(new TextAndIcon(name, UIManager.getIcon("Table.ascendingSortIcon")));
+            }
+            else {ProvidersPredicates.sortProvidersByName(providers);
+            jTable_Provider.getTableHeader().getColumnModel().getColumn(1).setHeaderRenderer( new IconHeaderRenderer());
+            jTable_Provider.getColumnModel().getColumn(1).setHeaderValue(new TextAndIcon(name, UIManager.getIcon("Table.ascendingSortIcon")));
+            }
+        }
+       
         });
-        
+         bindingPartTable();
         
     }
 
@@ -585,7 +594,7 @@ public class ProviderView extends javax.swing.JInternalFrame {
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${providers}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable_Provider);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
-        columnBinding.setColumnName(Constants.Labels.PART_ID);
+        columnBinding.setColumnName(Constants.Labels.PROVIDER_ID);
         columnBinding.setColumnClass(Long.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
         columnBinding.setColumnName(Constants.Labels.NAME);
@@ -605,13 +614,17 @@ public class ProviderView extends javax.swing.JInternalFrame {
         TableModel model = jTable_Provider.getModel();
         sorter = new TableRowSorter<>(model);
         
-        sorter.addRowSorterListener((RowSorterEvent evt) -> {
-            providers = removingDuplicatesAndSortProviderstList(providers);
-            
-           // bindingPartTable();
-            System.out.println(LocalDateTime.now());
+//        sorter.addRowSorterListener((RowSorterEvent evt) -> {
+//            providers = removingDuplicatesAndSortProviderstList(providers);
+//            
+//           // bindingPartTable();
+//            System.out.println(LocalDateTime.now());
+//
+//        });
 
-        });
+
+        sorter.setSortable(0, false);
+        sorter.setSortable(1, false);
         jTable_Provider.setRowSorter(sorter);
 
     }

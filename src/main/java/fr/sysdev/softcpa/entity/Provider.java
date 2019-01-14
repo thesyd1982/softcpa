@@ -25,7 +25,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "provider")
-public class Provider implements Serializable {
+public class Provider implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,6 @@ public class Provider implements Serializable {
     private Long id;
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "provider", fetch = FetchType.EAGER, orphanRemoval = true)
-    //@JoinColumn(name = "id_provider", insertable = false,updatable = false)
     private List<Part> parts;
 
     @Override
@@ -90,9 +89,5 @@ public class Provider implements Serializable {
             
         }
     
-    }
-    
-    
-    
-    
+    }  
 }
