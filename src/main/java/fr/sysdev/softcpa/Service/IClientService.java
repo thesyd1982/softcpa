@@ -6,8 +6,10 @@
 package fr.sysdev.softcpa.Service;
 
 
+
 import fr.sysdev.softcpa.entity.Client;
 import java.util.List;
+import java.util.Observer;
 
 /**
  *
@@ -19,14 +21,19 @@ public interface IClientService {
    
      Client getClientById(long clientId);
      
-     boolean addClient(Client client);
+     Client addClient(Client client);
      
-     void updateClient(Client client);
+     Client updateClient(Client client);
      
      void deleteClient(Client client);
      
      Client getLastClient();
      
      Long key();
+
+    public void addClientsObserver(Observer obsrvr);
+     
+    public void removeClientsObserver(Observer obsrvr);
+     
   
 }

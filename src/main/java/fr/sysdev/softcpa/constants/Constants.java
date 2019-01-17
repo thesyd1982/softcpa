@@ -17,14 +17,6 @@ import org.springframework.context.annotation.Profile;
 public abstract class Constants {
 
 
-
-    
-
-    
-
-    
-
-    
     
      interface DialogTitles {
         String CLIENT_MODAL = "Adding client";
@@ -141,6 +133,11 @@ public abstract class Constants {
     public static String PARTS="Parts";
     public static String PROVIDER_ID = "Provider ID";
     public static String RROVIDERS = "Providers";
+    public static String ONE_PROVIDER= "One Provider found!";
+    public static String STOCK = "Stock";
+    public static String SELLING_PRICE_HEADER ="S-P";
+        public static String PUR_PRICE_HEADER="P-P";
+    
     }
 //</editor-fold>
     

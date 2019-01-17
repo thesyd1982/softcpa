@@ -8,6 +8,7 @@ package fr.sysdev.softcpa.Service;
 import fr.sysdev.softcpa.entity.Provider;
 import fr.sysdev.softcpa.utils.ObservableList;
 import java.util.List;
+import java.util.Observer;
 
 /**
  *
@@ -27,6 +28,8 @@ public interface IProviderService {
     
      public Long key();
 
-
+     public void addProvidersObserver( Observer obsrvr);
+    
+     public void removeProvidersObserver(Observer obsrvr);
    
 }

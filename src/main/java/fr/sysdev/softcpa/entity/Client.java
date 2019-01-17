@@ -10,6 +10,7 @@ package fr.sysdev.softcpa.entity;
  * @author f
  */
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 
@@ -28,9 +29,8 @@ public class Client implements Serializable {
     private Address address;
 
     
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_provider", insertable = false,updatable = false)
-    private Set<Invoice>invoicies; 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client", fetch = FetchType.EAGER, orphanRemoval = true)
+    private List <Invoice>invoicies; 
 
     @Column(name = "name")
     private String name;
@@ -41,6 +41,8 @@ public class Client implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_company")
     private Company company;
+    
+    
     
     
     @Column(name = "phone_number")
@@ -123,11 +125,11 @@ public class Client implements Serializable {
         this.company = company;
     }
 
-    public Set <Invoice> getInvoices() {
+    public List <Invoice> getInvoices() {
         return invoicies;
     }
 
-    public void setInvoices(Set <Invoice> invoicies) {
+    public void setInvoices(List <Invoice> invoicies) {
         this.invoicies = invoicies;
     }
     

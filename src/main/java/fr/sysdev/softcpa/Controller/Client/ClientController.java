@@ -9,6 +9,7 @@ package fr.sysdev.softcpa.Controller.Client;
 import fr.sysdev.softcpa.Service.IAdrressService;
 import fr.sysdev.softcpa.Service.IClientService;
 import fr.sysdev.softcpa.View.Client.ClientView;
+import fr.sysdev.softcpa.entity.Client;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import lombok.extern.slf4j.Slf4j;
@@ -51,17 +52,17 @@ public class ClientController {
     public void removeClient(){
        
         this.getView().removeClient();
-        this.iClientService.deleteClient(this.getView().getClientToRemove());
+        Client client = this.getView().getClient();
+        this.iClientService.deleteClient(client);
         
     }
     
     public void addClient(){    
 
         this.getView().addClient(this.iClientService.key());
-        boolean saved = this.iClientService.addClient(this.getView().getClientToAdd()); 
+        Client client = this.getView().getClient();
+        this.iClientService.addClient(client); 
 
-       if(saved)log.debug("Client sauvgardé");
-       else log.debug("Client n'a pas été sauvgardé");   
 
         
     }
@@ -79,12 +80,17 @@ public class ClientController {
     private void updateClient() {
         
         this.getView().updateClient();
-        this.iClientService.updateClient(this.getView().getClientToUpdate());
+        Client client = this.getView().getClient();
+        this.iClientService.updateClient(client);
     }
 
     private void invoicingClient() {
         this.getView().getClientToInvoice();
-  
+    }
+
+    public void loadingClients() {
+        this.getView().setClients(iClientService.getClients());
+        this.getView().loadClients();
     }
    
     

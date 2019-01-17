@@ -47,7 +47,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel_Provider_Name_Id" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -55,10 +55,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jTextField_Provider_Id" min="-2" pref="100" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jTextField_Provider_Id" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
                           <Component id="jTextField_Provider_Name" alignment="0" min="-2" pref="281" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -68,18 +65,15 @@
                           <Component id="jButton_Cancel" min="-2" pref="108" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton_Refresh" min="-2" pref="108" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jButton_Add" max="32767" attributes="0"/>
-                              <Component id="jButton_Remove" min="-2" pref="108" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jButton_Add" max="32767" attributes="0"/>
+                          <Component id="jButton_Remove" min="-2" pref="108" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -93,21 +87,6 @@
                       <EmptySpace pref="193" max="32767" attributes="0"/>
                   </Group>
               </Group>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButton_Invoicing" min="-2" pref="85" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="jTextField_Part_CsvFilePath" min="-2" pref="422" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jButton_Part_Open_Csv" max="32767" attributes="0"/>
-                          <Component id="jButton_Part_Import" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-              </Group>
-              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -127,18 +106,14 @@
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jScrollPane2" min="-2" pref="223" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
-                      <Component id="jButton_Invoicing" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="jScrollPane2" min="-2" pref="223" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jTextField_Provider_Name" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_Provider_Name" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="279" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="151" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButton_Update" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButton_Remove" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -147,24 +122,10 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButton_Cancel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButton_Add" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton_Part_Open_Csv" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextField_Part_CsvFilePath" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton_Part_Import" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="jButton_Refresh" min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -200,14 +161,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_AddActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="jButton_Invoicing">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Invoicing"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_InvoicingActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -286,41 +239,10 @@
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton_Part_Open_Csv">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="open csv"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_Part_Open_CsvActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jTextField_Part_CsvFilePath">
-      <BindingProperties>
-        <BindingProperty name="text" source="Form" sourcePath="${csvFile}" target="jTextField_Part_CsvFilePath" targetPath="text" updateStrategy="0" immediately="false">
-          <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
-        </BindingProperty>
-      </BindingProperties>
-    </Component>
-    <Component class="javax.swing.JButton" name="jButton_Part_Import">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Import"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_Part_ImportActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel_Provider_Count">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="jButton_Refresh">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jButton1"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_RefreshActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

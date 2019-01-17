@@ -24,7 +24,7 @@ public class ProvidersPredicates {
                     .collect(Collectors.<Provider>toList());
     }
     public static Predicate<Provider> nameContains(String s) {
-        return p -> p.getName().contains(s);
+        return p -> p.getName().toUpperCase().contains(s.toUpperCase());
     }
    
     public static void sortProvidersById (List<Provider> providers)

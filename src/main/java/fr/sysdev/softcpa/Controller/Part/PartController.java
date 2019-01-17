@@ -159,7 +159,7 @@ public class PartController {
                                 part.setDesignation(strPart[4]);
                                 part.setPurchasingPrice(new Double(strPart[11]));
                                 part.setSellingPrice(new Double(strPart[11]));
-                                part.setQuantity(0);
+                                part.setStock(0);
                                 part.setBrand(strPart[38]);
                                 part.setProvider(provider);
                                 parts.add(part);
@@ -210,7 +210,7 @@ public class PartController {
     }
 
     public void loadingParts() {
-        this.view.setProviders(iProviderService.getProviders());
+        System.out.println("Controller  loadingParts");
         this.view.setParts(iPartService.getParts());
         this.view.loadParts();
     }
@@ -229,6 +229,12 @@ public class PartController {
 
     public void setLineCount(int lineCount) {
         this.lineCount = lineCount;
+    }
+
+   public void loadingProviders(){
+        
+        this.view.setProviders(iProviderService.getProviders());
+        this.view.loadProviders();
     }
 
 }

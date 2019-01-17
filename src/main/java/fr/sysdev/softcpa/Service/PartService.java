@@ -16,6 +16,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,7 @@ import org.springframework.stereotype.Service;
  * @author sysdev
  */
 @Service
-public class PartService implements IPartService{
+public class PartService extends Observable implements IPartService{
      @Autowired
     private final IPartRepository partRepository;
     private String message ="";
@@ -53,18 +55,25 @@ public class PartService implements IPartService{
 
     @Override
     public Part addPart(Part part) {
-        
-        return partRepository.save(part);
+        Part p = partRepository.save(part);
+        this.setChanged();
+        this.notifyObservers();
+        return p;
     }
 
     @Override
     public Part updatePart(Part part) {
-       return partRepository.save(part);
+        Part p = partRepository.save(part);
+        this.setChanged();
+        this.notifyObservers();
+        return p;
     }
 
     @Override
     public void deletePart(Part part) {
         partRepository.delete(part);
+        this.setChanged();
+        this.notifyObservers();
     }
 
     @Override
@@ -103,7 +112,7 @@ public class PartService implements IPartService{
         p.setDesignation(rs.getString("designation"));
         p.setEanCode(rs.getString("ean_code"));
         p.setPurchasingPrice(rs.getDouble("purchasing_price"));
-        p.setQuantity(rs.getInt("quantity"));
+        p.setStock(rs.getInt("quantity"));
         p.setReference(rs.getString("reference"));
         p.setSellingPrice(rs.getDouble("selling_price"));
         Provider provider = new Provider();
@@ -276,6 +285,16 @@ public class PartService implements IPartService{
         
             return result;
         
+    }
+
+    @Override
+    public void addPartsObserver(Observer obsrvr) {
+        this.addObserver(obsrvr);
+    }
+
+    @Override
+    public void removePartsObserver(Observer obsrvr) {
+        this.deleteObserver(obsrvr);
     }
     
     

@@ -49,11 +49,18 @@ public class InvoicingController {
 
     public void loadingClients(){
     this.view.setClients(iClientService.getClients());
+    this.view.loadClients() ;
     }
  
     
     
     protected void registerAction(JButton button, ActionListener listener) {
         button.addActionListener(listener);
+    }
+
+    public void loadingParts() {
+        System.out.println("Invoicing loadingParts()");
+        this.view.setParts(iPartService.getParts());
+        this.view.loadParts() ;
     }
 }

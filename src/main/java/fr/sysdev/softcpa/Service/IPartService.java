@@ -7,6 +7,7 @@ package fr.sysdev.softcpa.Service;
 
 import fr.sysdev.softcpa.entity.Part;
 import java.util.List;
+import java.util.Observer;
 
 /**
  *
@@ -33,5 +34,12 @@ public interface IPartService {
        
     List<Part> findByDesignation(String designation);
      Long key();
+     
+    public void addPartsObserver(Observer obsrvr);
+    
+    public void removePartsObserver(Observer obsrvr);
+     
+     
+     
     
 }

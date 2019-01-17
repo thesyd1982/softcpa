@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ import org.springframework.stereotype.Service;
  * @author f
  */
 @Service
-public class ProviderService implements IProviderService{
+public class ProviderService extends Observable implements IProviderService{
     @Autowired
     private final IProviderRepository providerRepository;
 
@@ -48,17 +50,25 @@ public class ProviderService implements IProviderService{
 
     @Override
     public Provider addProvider(Provider provider) {
-        return providerRepository.save(provider);
+        provider = providerRepository.save(provider);
+        this.setChanged();
+        this.notifyObservers();
+        return provider;
     }
 
     @Override
     public Provider updateProvider(Provider provider) {
-        return providerRepository.save(provider);
+          provider = providerRepository.save(provider);
+          this.setChanged();
+          this.notifyObservers();
+          return  provider;
     }
 
     @Override
     public void deleteProvider(Provider provider) {
       providerRepository.delete(provider);
+      this.setChanged();
+      this.notifyObservers();
     }
     
     @Override
@@ -85,5 +95,16 @@ public class ProviderService implements IProviderService{
         return (long)id ;
     }
     
+    @Override
+    public void addProvidersObserver( Observer obsrvr){
+    
+    this.addObserver(obsrvr);
+    }
+    
+    
+    @Override
+    public void removeProvidersObserver(Observer obsrvr){
+    this.deleteObserver(obsrvr);
+    }
     
 }

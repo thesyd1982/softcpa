@@ -10,7 +10,6 @@ import fr.sysdev.softcpa.Service.IProviderService;
 import fr.sysdev.softcpa.View.Provider.ProviderView;
 import fr.sysdev.softcpa.entity.Part;
 import fr.sysdev.softcpa.entity.Provider;
-import fr.sysdev.softcpa.utils.ObservableList;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -19,8 +18,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -45,10 +42,7 @@ public class ProviderController  {
         registerAction(view.getRemoveBtn(), (e) -> removeProvider());
         registerAction(view.getAddBtn(), (e) -> addProvider());
         registerAction(view.getUpdateBtn(), (e) -> updateProvider());
-        registerAction(view.getInvoicingBtn(), (e) -> invoicingParts());
-        registerAction(view.getImportBtn(), (e) -> importingParts());
-        registerAction(view.getRefreshBtn(), (e) -> loadingProviders());
-  
+         
     }
 
     public ProviderController( IProviderService iProviderService) {
@@ -68,9 +62,11 @@ public class ProviderController  {
     public void removeProvider() {
         this.getView().removeProvider();
         Provider provider = new Provider();
-               provider =  this.getView().getProvider();
-               provider.setParts(new ArrayList<Part>());
+        provider =  this.getView().getProvider();
+        provider.setParts(new ArrayList<>());
         //provider.removeAllParts();
+        
+        System.out.println("removeProvider() ProviderController");
         this.iProviderService.updateProvider(provider);
         this.iProviderService.deleteProvider(provider);
     }
@@ -132,7 +128,7 @@ public class ProviderController  {
                             part.setDesignation(strPart[4]);
                             part.setPurchasingPrice(new Double(strPart[11]));
                             part.setSellingPrice(new Double(strPart[11]));
-                            part.setQuantity(0);
+                            part.setStock(0);
                             part.setBrand(strPart[38]);
                             part.setProvider(provider);
                             parts.add(part);
@@ -178,7 +174,7 @@ public class ProviderController  {
     public void loadingProviders(){
         
         this.view.setProviders(iProviderService.getProviders());
-        this.view.loadParts();
+        this.view.loadProviders();
     }
 
 

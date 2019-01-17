@@ -9,14 +9,14 @@ package fr.sysdev.softcpa.entity;
  *
  * @author f
  */
+import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "invoice")
-public class Invoice {
-
-    
+public class Invoice implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,11 +31,19 @@ public class Invoice {
     @JoinColumn(name = "id_payment")
     private Payment payment;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "id_client")
     private Client client;
-
-
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoice", fetch = FetchType.EAGER, orphanRemoval = true)
+    private List <InvoceLine> invocesLines;
+    
+    @Column(name = "platenumber") 
+    private String platenumber;
+    
+     @Column(name = "vehicleType") 
+    private String vehicleType;
+    
     @Column(name = "invoice_date")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date invoiceDate;
@@ -95,5 +103,29 @@ public class Invoice {
     @Override
     public String toString() {
         return client.toString();
+    }
+
+    public List <InvoceLine> getInvocesLines() {
+        return invocesLines;
+    }
+
+    public void setInvocesLines(List <InvoceLine> invocesLines) {
+        this.invocesLines = invocesLines;
+    }
+
+    public String getPlatenumber() {
+        return platenumber;
+    }
+
+    public void setPlatenumber(String platenumber) {
+        this.platenumber = platenumber;
+    }
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 }

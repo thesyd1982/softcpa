@@ -22,22 +22,28 @@ public class PartsPredicates {
                     .collect(Collectors.<Part>toList());
     }
     public static Predicate<Part> refContains(String s) {
-        return p -> p.getReference().contains(s);
+        return p -> p.getReference().toUpperCase().contains(s.toUpperCase());
     }
     public static Predicate<Part> eanCodeContains(String s) {
-        return p -> p.getEanCode().contains(s);
+        return p -> p.getEanCode().toUpperCase().contains(s.toUpperCase());
     }
     public static Predicate<Part> designantionContains(String s) {
-        return p -> p.getDesignation().contains(s);
+        return p -> p.getDesignation().toUpperCase().contains(s.toUpperCase());
     }
     public static Predicate<Part> brandContains(String s) {
-        return p -> p.getBrand().contains(s);
+        return p -> p.getBrand().toUpperCase().contains(s.toUpperCase());
     }
     
     public static Predicate<Part> refOrEanOrDesignationOrBrandContains(String s) {
-        return p -> p.getReference().contains(s)||
-                    p.getEanCode().contains(s)||
-                    p.getDesignation().contains(s)||
-                    p.getBrand().contains(s);
+        return p -> p.getReference().toUpperCase().contains(s.toUpperCase())||
+                    p.getEanCode().toUpperCase().contains(s.toUpperCase())||
+                    p.getDesignation().toUpperCase().contains(s.toUpperCase())||
+                    p.getBrand().toUpperCase().contains(s.toUpperCase());
     } 
+    
+    public static Predicate<Part> refEquals(String s) {
+        return p -> p.getReference().toUpperCase().equals(s.toUpperCase());
+    }
+    
+    
 }

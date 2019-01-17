@@ -38,13 +38,13 @@ public class Part implements Serializable {
     private String Brand;
     private Double purchasingPrice;
     private Double sellingPrice;
-    private int quantity;
+    private int stock;
     @Override
     public String toString() {
         return "Part{" + "id=" + id + ", reference=" + reference +
                 ", eanCode="   + eanCode + ", designation=" + designation + 
                 ", Brand=" + Brand + ", purchasingPrice=" + purchasingPrice + 
-                ", sellingPrice=" + sellingPrice + ", quantity=" + quantity +
+                ", sellingPrice=" + sellingPrice + ", quantity=" + stock +
                 '}';
     }
     
@@ -107,12 +107,12 @@ public class Part implements Serializable {
         this.sellingPrice = sellingPrice;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getStock() {
+        return stock;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public String getReference() {

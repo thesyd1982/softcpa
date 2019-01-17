@@ -5,7 +5,6 @@
  */
 package fr.sysdev.softcpa.View.Client;
 
-import fr.sysdev.softcpa.Controller.Client.ClientController;
 import fr.sysdev.softcpa.constants.Constants;
 import fr.sysdev.softcpa.entity.Address;
 import fr.sysdev.softcpa.entity.Client;
@@ -25,7 +24,6 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -44,9 +42,8 @@ public class ClientView extends javax.swing.JInternalFrame {
      */
     public List<Client> clients ;
     public Client client ;
-    private Client clientToAdd;
-    private Client clientToRemove;
-    private Client clientToUpdate;
+    
+
  
     private TableRowSorter<TableModel> sorterClient;
     private Client clientToInvoice;
@@ -457,7 +454,7 @@ public class ClientView extends javax.swing.JInternalFrame {
         jTable_client.setRowSelectionInterval(rowt, rowt);
         jTable_client.setSelectionBackground(Color.blue);
         jTable_client.setSelectionForeground(Color.white);
-        clientToUpdate = getClientFromSelectedTableRow();
+        client = getClientFromSelectedTableRow();
         //clientToUpdate.setStatus(rowt);
         //setClient(clientToUpdate) ;
     }
@@ -875,10 +872,10 @@ public class ClientView extends javax.swing.JInternalFrame {
         c.setSurname(surname);
         c.setPhoneNumber(phone);
         c.setEmail(email);
+        
         if("0".equals(status))
         { c.setStatus(0);
-        c.getCompany().setName("");
-        
+          c.getCompany().setName("");
         }
         else c.setStatus(1);
         return c;
@@ -889,7 +886,6 @@ public class ClientView extends javax.swing.JInternalFrame {
     public void addClient(Long id) {
         
         setClientFromForm(id);
-        clientToAdd = client;
         clients.add(client); 
         bindingClientTable();
 
@@ -901,9 +897,9 @@ public class ClientView extends javax.swing.JInternalFrame {
         result = JOptionPane.showConfirmDialog(null, Constants.Messages.DELETE_CLIENT_ALERT,
                 "alert", JOptionPane.OK_CANCEL_OPTION);
     if(result==0){
-        clientToRemove = getClientFromSelectedTableRow();
+        client = getClientFromSelectedTableRow();
         clients.removeIf(c -> {
-            return Objects.equals(c.getId(), clientToRemove.getId());
+            return Objects.equals(c.getId(), client.getId());
         });
        
        bindingClientTable();
@@ -912,29 +908,7 @@ public class ClientView extends javax.swing.JInternalFrame {
     }
     }
 
-    public Client getClientToAdd() {
-        return clientToAdd;
-    }
 
-    public void setClientToAdd(Client clientToAdd) {
-        this.clientToAdd = clientToAdd;
-    }
-
-    public Client getClientToRemove() {
-        return clientToRemove;
-    }
-
-    public void setClientToRemove(Client clientToRemove) {
-        this.clientToRemove = clientToRemove;
-    }
-
-    public Client getClientToUpdate() {
-        return clientToUpdate;
-    }
-
-    public void setClientToUpdate(Client clientToUpdate) {
-        this.clientToUpdate = clientToUpdate;
-    }
 
 
   private String formatName(String nom) {
@@ -957,6 +931,12 @@ public class ClientView extends javax.swing.JInternalFrame {
 
     public void setClientToInvoicing(Client clientToInvoice) {
         this.clientToInvoice = clientToInvoice;
+    }
+    
+    
+    public void loadClients(){
+        bindingClientTable();
+    
     }
     
 }

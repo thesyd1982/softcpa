@@ -5,8 +5,6 @@
  */
 package fr.sysdev.softcpa.View.Part;
 
-
-
 import fr.sysdev.softcpa.constants.Constants;
 import fr.sysdev.softcpa.entity.Part;
 import fr.sysdev.softcpa.entity.Provider;
@@ -31,7 +29,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-
 import javax.swing.event.RowSorterEvent;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -46,6 +43,7 @@ import org.springframework.stereotype.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javafx.collections.ObservableList;
+
 /**
  *
  * @author COPCGRE
@@ -56,9 +54,8 @@ import javafx.collections.ObservableList;
 public class PartView extends javax.swing.JInternalFrame implements ActionListener {
 
 //    @Autowired
- 
     private List<Part> parts;
-    
+
     private List<Part> allParts;
     List<Provider> providers;
     private Part part;
@@ -66,36 +63,30 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     private String csvFile;
     private TableRowSorter<TableModel> sorter;
 
-    public Timer t  ;
+    public Timer t;
     private int partsNumberAdded;
     public int CountPartsToAdd;
-    
-    
 
     public PartView(List<Part> parts, List<Provider> providers) {
-        
+
         this.partsNumberAdded = 0;
         part = new Part();
         this.parts = new ArrayList<>(parts);
         this.allParts = parts;
         this.providers = new ArrayList<>(providers);
-       
-        
+
         initComponents();
-        
+
         prepareForm();
-        t= new Timer(1000, this);
-        
+        t = new Timer(1000, this);
+
         resetInterface();
-        
-        
+
     }
 
-   
     /**
      * Creates new form PieceViews
      */
-
     public PartView() {
         this.partsNumberAdded = 0;
 
@@ -126,7 +117,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         jTable_Part = new javax.swing.JTable();
         jTextField_Part_SellingPrice = new javax.swing.JTextField();
         jTextField_Part_Brand = new javax.swing.JTextField();
-        jTextField_Part_Quantity = new javax.swing.JTextField();
+        jTextField_Part_Stock = new javax.swing.JTextField();
         jTextField_Part_Search = new javax.swing.JTextField();
         jTextField_Part_PurchasingPrice = new javax.swing.JTextField();
         jTextField_Part_EanCode = new javax.swing.JTextField();
@@ -135,7 +126,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         jLabel_Part_Brand = new javax.swing.JLabel();
         jLabel_Part_SellingPrice = new javax.swing.JLabel();
         jLabel_Part_Designation = new javax.swing.JLabel();
-        jLabel_Part_Quantity = new javax.swing.JLabel();
+        jLabel_Part_Stock = new javax.swing.JLabel();
         jLabel_Part_EanCode = new javax.swing.JLabel();
         jLabel_Part_Id = new javax.swing.JLabel();
         jLabel_Part_Search = new javax.swing.JLabel();
@@ -161,7 +152,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         setResizable(true);
         setTitle("Gestion Stock");
         setFocusTraversalPolicyProvider(true);
-        setPreferredSize(new java.awt.Dimension(1160, 527));
+        setPreferredSize(new java.awt.Dimension(1280, 527));
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -261,8 +252,8 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${purchasingPrice}"));
         columnBinding.setColumnName("Purchasing Price");
         columnBinding.setColumnClass(Double.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantity}"));
-        columnBinding.setColumnName("Quantity");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${stock}"));
+        columnBinding.setColumnName("Stock");
         columnBinding.setColumnClass(Integer.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sellingPrice}"));
         columnBinding.setColumnName("Selling Price");
@@ -282,9 +273,9 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.brand}"), jTextField_Part_Brand, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jTextField_Part_Quantity.setNextFocusableComponent(jTextArea_Part_Designation);
+        jTextField_Part_Stock.setNextFocusableComponent(jTextArea_Part_Designation);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.quantity}"), jTextField_Part_Quantity, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.stock}"), jTextField_Part_Stock, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jTextField_Part_Search.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -296,7 +287,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.purchasingPrice}"), jTextField_Part_PurchasingPrice, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jTextField_Part_EanCode.setNextFocusableComponent(jLabel_Part_Quantity);
+        jTextField_Part_EanCode.setNextFocusableComponent(jLabel_Part_Stock);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.eanCode}"), jTextField_Part_EanCode, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -318,7 +309,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
             }
         });
 
-        jTextField_Part_Reference.setNextFocusableComponent(jLabel_Part_Quantity);
+        jTextField_Part_Reference.setNextFocusableComponent(jLabel_Part_Stock);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.reference}"), jTextField_Part_Reference, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -335,7 +326,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
 
         jLabel_Part_Designation.setText("jLabel1");
 
-        jLabel_Part_Quantity.setText("jLabel1");
+        jLabel_Part_Stock.setText("jLabel1");
 
         jLabel_Part_EanCode.setText("jLabel1");
 
@@ -387,6 +378,9 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(448, 448, 448)
+                        .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -402,12 +396,12 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
                                     .addComponent(jLabel_Part_Id)
                                     .addComponent(jLabel_Part_EanCode)
                                     .addComponent(jLabel_Part_Reference)
-                                    .addComponent(jLabel_Part_Quantity)
+                                    .addComponent(jLabel_Part_Stock)
                                     .addComponent(jLabel_Part_Designation)
                                     .addComponent(jLabel_Part_Brand)
                                     .addComponent(jLabel_Part_SellingPrice)
                                     .addComponent(jLabel_Part_PurchasingPrice))
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jTextField_Part_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -417,116 +411,107 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
                                         .addComponent(jComboBox_Part_Provider, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jTextField_Part_EanCode, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField_Part_Reference, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField_Part_Quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_Part_Stock, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField_Part_Brand, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField_Part_SellingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField_Part_PurchasingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(123, 123, 123)
+                                .addComponent(jLabel_Part_Search)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane2))
+                                .addComponent(jTextField_Part_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel_Part_Count))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(47, 47, 47)
-                                        .addComponent(jLabel_Part_Search)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextField_Part_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel_Part_Count))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(33, 33, 33)
-                                        .addComponent(jButton_Invoicing, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(138, 138, 138)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jProgressBar_Part_Importing, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jButton_Part_Import, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jComboBox_Part_ProviderToImport, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(0, 121, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGap(156, 156, 156)
+                                        .addComponent(jProgressBar_Part_Importing, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox_Part_ProviderToImport, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton_Part_Import, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton_Part_Open_Csv, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton_Invoicing, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(448, 448, 448)
-                                .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(913, 913, 913)
-                                .addComponent(jButton_Part_Open_Csv, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 847, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(76, 76, 76))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jButton_Refresh)
                 .addGap(13, 13, 13)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField_Part_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel_Part_Id)
-                        .addComponent(jLabel_Part_Provider)
-                        .addComponent(jComboBox_Part_Provider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField_Part_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel_Part_Search)
-                        .addComponent(jLabel_Part_Count)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField_Part_EanCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel_Part_EanCode))
+                            .addComponent(jTextField_Part_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel_Part_Id)
+                            .addComponent(jLabel_Part_Provider)
+                            .addComponent(jComboBox_Part_Provider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_Part_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel_Part_Search)
+                            .addComponent(jLabel_Part_Count))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField_Part_Reference, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel_Part_Reference))
-                        .addGap(15, 15, 15)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField_Part_Quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel_Part_Quantity))
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel_Part_Designation))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField_Part_Brand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel_Part_Brand))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField_Part_SellingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel_Part_SellingPrice))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField_Part_PurchasingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel_Part_PurchasingPrice))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton_Update)
-                            .addComponent(jButton_Remove))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton_Cancel)
-                            .addComponent(jButton_Add)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton_Invoicing)
-                            .addComponent(jButton_Part_Open_Csv))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox_Part_ProviderToImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton_Part_Import)
-                    .addComponent(jProgressBar_Part_Importing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextField_Part_EanCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel_Part_EanCode))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextField_Part_Reference, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel_Part_Reference))
+                                .addGap(15, 15, 15)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextField_Part_Stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel_Part_Stock))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel_Part_Designation))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextField_Part_Brand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel_Part_Brand))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextField_Part_SellingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel_Part_SellingPrice))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextField_Part_PurchasingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel_Part_PurchasingPrice)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jButton_Update)
+                                    .addComponent(jButton_Remove))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jButton_Cancel)
+                                    .addComponent(jButton_Add)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jButton_Part_Open_Csv)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jComboBox_Part_ProviderToImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(14, 14, 14)
+                        .addComponent(jProgressBar_Part_Importing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton_Part_Import))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton_Invoicing)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -544,9 +529,8 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     }//GEN-LAST:event_formInternalFrameClosed
 
     private void jButton_UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_UpdateActionPerformed
-     
-        
-        
+
+
     }//GEN-LAST:event_jButton_UpdateActionPerformed
 
     private void jTextField_Part_IdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_Part_IdActionPerformed
@@ -566,7 +550,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         if (evt.getKeyCode() == KeyEvent.VK_TAB) {
             System.out.println(evt.getModifiers());
             if (evt.getModifiers() > 0) {
-                jTextField_Part_Quantity.requestFocus();
+                jTextField_Part_Stock.requestFocus();
             } else {
                 jTextField_Part_Brand.requestFocus();
             }
@@ -587,8 +571,8 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     private void jButton_Part_ImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Part_ImportActionPerformed
         t.start();
         jButton_Part_Import.setEnabled(false);
-        
-        
+
+
     }//GEN-LAST:event_jButton_Part_ImportActionPerformed
 
     private void jTable_PartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_PartMouseClicked
@@ -604,8 +588,8 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     }//GEN-LAST:event_jTable_PartMouseClicked
 
     private void jTextField_Part_SearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_Part_SearchKeyReleased
-        if(evt.getKeyCode() == KeyEvent.VK_BACK_SPACE)
-        {   parts.clear();
+        if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+            parts.clear();
             parts.addAll(allParts);
         }
         search();
@@ -621,7 +605,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     }//GEN-LAST:event_jButton_RemoveActionPerformed
 
     private void jButton_RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RefreshActionPerformed
-   bindingPartTable();
+
     }//GEN-LAST:event_jButton_RefreshActionPerformed
 
     public void getCsvFilePath() throws HeadlessException {
@@ -660,10 +644,10 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     private javax.swing.JLabel jLabel_Part_Id;
     private javax.swing.JLabel jLabel_Part_Provider;
     private javax.swing.JLabel jLabel_Part_PurchasingPrice;
-    private javax.swing.JLabel jLabel_Part_Quantity;
     private javax.swing.JLabel jLabel_Part_Reference;
     private javax.swing.JLabel jLabel_Part_Search;
     private javax.swing.JLabel jLabel_Part_SellingPrice;
+    private javax.swing.JLabel jLabel_Part_Stock;
     private javax.swing.JProgressBar jProgressBar_Part_Importing;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -676,21 +660,25 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     private javax.swing.JTextField jTextField_Part_EanCode;
     private javax.swing.JTextField jTextField_Part_Id;
     private javax.swing.JTextField jTextField_Part_PurchasingPrice;
-    private javax.swing.JTextField jTextField_Part_Quantity;
     private javax.swing.JTextField jTextField_Part_Reference;
     private javax.swing.JTextField jTextField_Part_Search;
     private javax.swing.JTextField jTextField_Part_SellingPrice;
+    private javax.swing.JTextField jTextField_Part_Stock;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     private void prepareForm() {
-        jComboBox_Part_Provider.removeAllItems();
-        jComboBox_Part_ProviderToImport.removeAllItems();
-        providers.forEach(p -> jComboBox_Part_Provider.addItem(p.getName()));
-        providers.forEach(p -> jComboBox_Part_ProviderToImport.addItem(p.getName()));
-        
-        jLabel_Part_Count.setText(parts.size()+ " Parts");
-        
+        loadProviders();
+        if(providers.size()==0){
+        jButton_Part_Import.setVisible(false);
+        jProgressBar_Part_Importing.setVisible(false);
+        }
+        else{
+        jButton_Part_Import.setVisible(true);
+        jProgressBar_Part_Importing.setVisible(true);
+        }
+        jLabel_Part_Count.setText(parts.size() + " " + Constants.Labels.PARTS);
+
         jLabel_Part_Id.setText(Constants.Labels.PART_ID);
         jLabel_Part_EanCode.setText(Constants.Labels.EAN_CODE);
         jLabel_Part_Reference.setText(Constants.Labels.REF);
@@ -699,26 +687,25 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
 
         jLabel_Part_PurchasingPrice.setText(Constants.Labels.PUR_PRICE);
         jLabel_Part_SellingPrice.setText(Constants.Labels.SELLING_PRICE);
-        jLabel_Part_Quantity.setText(Constants.Labels.QUANTITY);
+        jLabel_Part_Stock.setText(Constants.Labels.STOCK);
 
         jLabel_Part_Search.setText(Constants.Labels.SEARCH);
         jLabel_Part_Provider.setText(Constants.Labels.PROVIDER);
         jButton_Add.setText(Constants.Labels.ADD_BTN);
         jButton_Remove.setText(Constants.Labels.REMOVE_BTN);
         jButton_Update.setText(Constants.Labels.UPDATE_BTN);
-        
+
         bindingPartTable();
         jTable_Part.getTableHeader().addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            int col = jTable_Part.columnAtPoint(e.getPoint());
-            String name = jTable_Part.getColumnName(col);
-            
-            System.out.println("Column index selected " + col + " " + name);
-    }
-});
-        
-        
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int col = jTable_Part.columnAtPoint(e.getPoint());
+                String name = jTable_Part.getColumnName(col);
+
+                System.out.println("Column index selected " + col + " " + name);
+            }
+        });
+
     }
 
     public Part getPart() {
@@ -756,15 +743,14 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
 
     public void removePart() {
 
-
         getPartFromSelectedTableRow();
-        int indexInAllParts = allParts.indexOf(findPartById(parts,part.getId()));
-        int indexInParts = parts.indexOf(findPartById(parts,part.getId()));
+        int indexInAllParts = allParts.indexOf(findPartById(parts, part.getId()));
+        int indexInParts = parts.indexOf(findPartById(parts, part.getId()));
         allParts.remove(indexInAllParts);
-        parts.remove(indexInParts);
-          bindingPartTable();
-          resetInterface();
-        
+        //parts.remove(indexInParts);
+        bindingPartTable();
+        resetInterface();
+
     }
 
     public void addPart(Long key) {
@@ -781,11 +767,11 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         int row = jTable_Part.getSelectedRow();
         int rowt = jTable_Part.getRowSorter().convertRowIndexToModel(row);
         getPartFromSelectedTableRow();
-        int indexInAllParts = allParts.indexOf(findPartById(parts,part.getId()));
+        int indexInAllParts = allParts.indexOf(findPartById(parts, part.getId()));
         bindingPartTable();
-        jTable_Part.setRowSelectionInterval(rowt,rowt);
+        jTable_Part.setRowSelectionInterval(rowt, rowt);
         getPartFromSelectedTableRow();
-        int indexInParts = parts.indexOf(findPartById(parts,part.getId()));
+        int indexInParts = parts.indexOf(findPartById(parts, part.getId()));
         allParts.set(indexInAllParts, part);
         parts.set(indexInParts, part);
     }
@@ -816,13 +802,13 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         columnBinding.setColumnName(Constants.Labels.PROVIDER);
         columnBinding.setColumnClass(fr.sysdev.softcpa.entity.Provider.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${purchasingPrice}"));
-        columnBinding.setColumnName(Constants.Labels.PUR_PRICE);
+        columnBinding.setColumnName(Constants.Labels.PUR_PRICE_HEADER);
         columnBinding.setColumnClass(Double.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantity}"));
-        columnBinding.setColumnName(Constants.Labels.QUANTITY);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${stock}"));
+        columnBinding.setColumnName(Constants.Labels.STOCK);
         columnBinding.setColumnClass(Integer.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sellingPrice}"));
-        columnBinding.setColumnName(Constants.Labels.SELLING_PRICE);
+        columnBinding.setColumnName(Constants.Labels.SELLING_PRICE_HEADER);
         columnBinding.setColumnClass(Double.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
@@ -832,24 +818,26 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         cm.getColumn(1).setPreferredWidth(50);
         cm.getColumn(2).setPreferredWidth(50);
         cm.getColumn(3).setPreferredWidth(250);
-        cm.getColumn(4).setPreferredWidth(80);
+        cm.getColumn(4).setPreferredWidth(40);
         cm.getColumn(5).setPreferredWidth(80);
-        cm.getColumn(6).setPreferredWidth(50);
-        cm.getColumn(7).setPreferredWidth(50);
-        cm.getColumn(8).setPreferredWidth(50);
+        cm.getColumn(6).setPreferredWidth(40);
+        cm.getColumn(7).setPreferredWidth(40);
+        cm.getColumn(8).setPreferredWidth(40);
+
+        cm.getColumn(6).setCellRenderer(new PriceCellRender());
+        cm.getColumn(8).setCellRenderer(new PriceCellRender());
+
         cm.getColumn(7).setCellRenderer(new StockCellRender());
         cm.getColumn(5).setCellRenderer(new ProviderCellRender());
 
-         //jTable_Part.setAutoCreateRowSorter(true);
-         
-         
+        //jTable_Part.setAutoCreateRowSorter(true);
         TableModel model = jTable_Part.getModel();
         sorter = new TableRowSorter<>(model);
-        
+
         sorter.addRowSorterListener((RowSorterEvent evt) -> {
             parts = removingDuplicatesAndSortPartList(parts);
-            
-           // bindingPartTable();
+
+            // bindingPartTable();
             System.out.println(LocalDateTime.now());
 
         });
@@ -863,6 +851,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
 
         jTextField_Part_Search.setText("");
         displayPartsCount();
+
         jButton_Add.setVisible(true);
         jButton_Cancel.setVisible(true);
         jButton_Remove.setVisible(false);
@@ -870,11 +859,15 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     }
 
     public void displayPartsCount() {
-        if(parts.size()>0)
-            if(parts.size() == 1)
-            jLabel_Part_Count.setText(Constants.Labels.ONE_PART);
-            else{jLabel_Part_Count.setText(parts.size()+" "+Constants.Labels.PARTS);}
-        else{jLabel_Part_Count.setText("");}
+        if (parts.size() > 0) {
+            if (parts.size() == 1) {
+                jLabel_Part_Count.setText(Constants.Labels.ONE_PART);
+            } else {
+                jLabel_Part_Count.setText(parts.size() + " " + Constants.Labels.PARTS);
+            }
+        } else {
+            jLabel_Part_Count.setText("");
+        }
     }
 
     private void searchInterface() {
@@ -885,9 +878,9 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         jTextArea_Part_Designation.setText("");
         jTextField_Part_Brand.setText("");
         jTextField_Part_PurchasingPrice.setText("");
-        jTextField_Part_Quantity.setText("");
+        jTextField_Part_Stock.setText("");
         jTextField_Part_SellingPrice.setText("");
-        
+
         jButton_Add.setVisible(true);
         jButton_Remove.setVisible(false);
         jButton_Update.setVisible(false);
@@ -917,8 +910,6 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         Provider provider = findProviderByName(providers, (String) jComboBox_Part_Provider.getSelectedItem());
         provider.addPart(part);
         part.setProvider(provider);
-       
-        
 
     }
 
@@ -947,8 +938,8 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         part.setBrand(brand);
         Provider provider = (Provider) (jTable_Part.getModel().getValueAt(rowt, 5));
         part.setProvider(provider);
-        int quantity = (int) (jTable_Part.getModel().getValueAt(rowt, 7));
-        part.setQuantity(quantity);
+        int stock = (int) (jTable_Part.getModel().getValueAt(rowt, 7));
+        part.setStock(stock);
         Double sp = (Double) (jTable_Part.getModel().getValueAt(rowt, 8));
         part.setSellingPrice(sp);
         Double pp = (Double) (jTable_Part.getModel().getValueAt(rowt, 6));
@@ -960,34 +951,36 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     private void search() {
 
         String s = jTextField_Part_Search.getText().toUpperCase();
-        if (jTable_Part.getRowCount() != 0 && !"".equals(s)) {
-            List<Part> filter = PartsPredicates.filterParts(parts, PartsPredicates.refOrEanOrDesignationOrBrandContains(s));
-            parts.clear();
-            parts.addAll (removingDuplicatesAndSortPartList(filter));
-            
-            
-            updateInterface();
-            bindingPartTable();
-            if(parts.size()>0){
-            jTable_Part.setRowSelectionInterval(0, 0);
-            jTable_Part.setSelectionBackground(Color.blue);
-            jTable_Part.setSelectionForeground(Color.red);
-            getPartFromSelectedTableRow();
-            }
-            else{
-            searchInterface();
-            bindingPartTable();
-            }
 
-        } else {
-            
-            searchInterface();
+        if (s.equals("")) {
             parts.clear();
             parts.addAll(allParts);
             bindingPartTable();
-  
+            searchInterface();
+        } else {
+            List<Part> filter = PartsPredicates.filterParts(parts, PartsPredicates.refOrEanOrDesignationOrBrandContains(s));
+            parts.clear();
+            parts.addAll(removingDuplicatesAndSortPartList(filter));
+
+            if (parts.size() > 0) {
+
+                updateInterface();
+                bindingPartTable();
+                jTable_Part.setRowSelectionInterval(0, 0);
+                jTable_Part.setSelectionBackground(Color.blue);
+                jTable_Part.setSelectionForeground(Color.red);
+
+            } else {
+
+                parts.clear();
+                bindingPartTable();
+                searchInterface();
+
+            }
+
         }
-        displayPartsCount() ;
+
+        displayPartsCount();
     }
 
     public static List<Part> removingDuplicatesAndSortPartList(List<Part> ListeAvecDoublons) {
@@ -997,39 +990,41 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         Collections.sort(res, (Part p2, Part p1) -> p2.getId().compareTo(p1.getId()));
         return res;
     }
-    
-   public Part findPartById(List <Part> partsList , Long id){
-       Part  result = null;
-    Optional<Part> partOptional = partsList.stream().filter((t) -> {
-           return t.getId().equals(id)     ;
-            }).findAny();
-    if(partOptional.isPresent())
-          result = partOptional.get();
 
-    return result;
-   }
+    public Part findPartById(List<Part> partsList, Long id) {
+        Part result = null;
+        Optional<Part> partOptional = partsList.stream().filter((t) -> {
+            return t.getId().equals(id);
+        }).findAny();
+        if (partOptional.isPresent()) {
+            result = partOptional.get();
+        }
 
-    
-    public Provider findProviderByName (List <Provider> providersList , String name){
-       Provider  result = null;
-    Optional<Provider> providerOptional = providersList.stream().filter((p) -> {
-           return p.getName().equals(name)     ;
-            }).findAny();
-    if(providerOptional.isPresent())
-          result = providerOptional.get();
-
-    return result;
-   }
-   
-   public JButton getRefreshBtn(){
-    
-    return jButton_Refresh;
+        return result;
     }
-   
-   public void loadParts(){
-   allParts = parts;
-   prepareForm();
-   }
+
+    public Provider findProviderByName(List<Provider> providersList, String name) {
+        Provider result = null;
+        Optional<Provider> providerOptional = providersList.stream().filter((p) -> {
+            return p.getName().equals(name);
+        }).findAny();
+        if (providerOptional.isPresent()) {
+            result = providerOptional.get();
+        }
+
+        return result;
+    }
+
+    public JButton getRefreshBtn() {
+
+        return jButton_Refresh;
+    }
+
+    public void loadParts() {
+        System.out.println("Maj des parts");
+        allParts = parts;
+        prepareForm();
+    }
 
     public void setProviders(List<Provider> providers) {
         this.providers = providers;
@@ -1041,39 +1036,36 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     }
 
     public void importRaport(LocalDateTime start, LocalDateTime finish, int count, long days, long hours, long minutes, long seconds) {
-         JOptionPane.showMessageDialog(null, start + "\n" + finish + "\n count: " + count + "\n" + days + " days"
-                                + "\n" + hours + " hours" + "\n" + minutes + " minutes" + "\n" + seconds + " seconds"
-                        );
-         java.awt.Toolkit.getDefaultToolkit().beep();
-         jProgressBar_Part_Importing.setValue(0);
+        JOptionPane.showMessageDialog(null, start + "\n" + finish + "\n count: " + count + "\n" + days + " days"
+                + "\n" + hours + " hours" + "\n" + minutes + " minutes" + "\n" + seconds + " seconds"
+        );
+        java.awt.Toolkit.getDefaultToolkit().beep();
+        jProgressBar_Part_Importing.setValue(0);
     }
 
-    public void displayProgress(int i,int count) {
-       
-      
-        if(count > 0){
-            
-             partsNumberAdded=partsNumberAdded+1305;
-             i=partsNumberAdded;
-        jProgressBar_Part_Importing.setValue(i*100/count);
-        jProgressBar_Part_Importing.setToolTipText(i*100/count+"% Done");
-        System.out.println("index "+i+" count "+count);
-        if(i>=count)
-        {
-        //JOptionPane.showMessageDialog(null,"fini"); 
-        
-        t.stop();
-        jButton_Part_Import.setEnabled(true);
-        jProgressBar_Part_Importing.setValue(0);
-        }
+    public void displayProgress(int i, int count) {
+
+        if (count > 0) {
+
+            partsNumberAdded = partsNumberAdded + 1305;
+            i = partsNumberAdded;
+            jProgressBar_Part_Importing.setValue(i * 100 / count);
+            jProgressBar_Part_Importing.setToolTipText(i * 100 / count + "% Done");
+            System.out.println("index " + i + " count " + count);
+            if (i >= count) {
+                //JOptionPane.showMessageDialog(null,"fini"); 
+
+                t.stop();
+                jButton_Part_Import.setEnabled(true);
+                jProgressBar_Part_Importing.setValue(0);
+            }
         }
     }
-    
-    
+
     @Override
     public void actionPerformed(ActionEvent ae) {
-        
-        displayProgress(partsNumberAdded,CountPartsToAdd);
+
+        displayProgress(partsNumberAdded, CountPartsToAdd);
     }
 
     public int getPartsNumberAdded() {
@@ -1083,15 +1075,15 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     public void setPartsNumberAdded(int partsNumberAdded) {
         this.partsNumberAdded = partsNumberAdded;
     }
-    
-     public List<Part> getParts() {
+
+    public List<Part> getParts() {
         return parts;
     }
 
     public void setParts(List<Part> parts) {
         this.parts = parts;
     }
-    
+
     public int getCountPartsToAdd() {
         return CountPartsToAdd;
     }
@@ -1100,5 +1092,11 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         this.CountPartsToAdd = CountPartsToAdd;
     }
 
+    public void loadProviders() {
+        jComboBox_Part_Provider.removeAllItems();
+        jComboBox_Part_ProviderToImport.removeAllItems();
+        providers.forEach(p -> jComboBox_Part_Provider.addItem(p.getName()));
+        providers.forEach(p -> jComboBox_Part_ProviderToImport.addItem(p.getName()));
+    }
 
 }
