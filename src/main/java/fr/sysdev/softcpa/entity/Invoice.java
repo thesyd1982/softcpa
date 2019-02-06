@@ -26,7 +26,10 @@ public class Invoice implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_invoice_status")
     private InvoiceStatus invoiceStatus;
-
+    
+    @JoinColumn(name = "invoceNumber")
+    private String invoiceNumber;
+    
     @ManyToOne
     @JoinColumn(name = "id_payment")
     private Payment payment;
@@ -36,12 +39,12 @@ public class Invoice implements Serializable {
     private Client client;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoice", fetch = FetchType.EAGER, orphanRemoval = true)
-    private List <InvoceLine> invocesLines;
+    private List <InvoiceLine> invocesLines;
     
     @Column(name = "platenumber") 
     private String platenumber;
     
-     @Column(name = "vehicleType") 
+    @Column(name = "vehicleType") 
     private String vehicleType;
     
     @Column(name = "invoice_date")
@@ -105,11 +108,11 @@ public class Invoice implements Serializable {
         return client.toString();
     }
 
-    public List <InvoceLine> getInvocesLines() {
+    public List <InvoiceLine> getInvocesLines() {
         return invocesLines;
     }
 
-    public void setInvocesLines(List <InvoceLine> invocesLines) {
+    public void setInvocesLines(List <InvoiceLine> invocesLines) {
         this.invocesLines = invocesLines;
     }
 
@@ -127,5 +130,13 @@ public class Invoice implements Serializable {
 
     public void setVehicleType(String vehicleType) {
         this.vehicleType = vehicleType;
+    }
+
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
     }
 }

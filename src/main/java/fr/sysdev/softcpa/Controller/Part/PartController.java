@@ -159,6 +159,7 @@ public class PartController {
                                 part.setDesignation(strPart[4]);
                                 part.setPurchasingPrice(new Double(strPart[11]));
                                 part.setSellingPrice(new Double(strPart[11]));
+                                part.setProfessionalSellingPrice(new Double(strPart[11]));
                                 part.setStock(0);
                                 part.setBrand(strPart[38]);
                                 part.setProvider(provider);
@@ -211,8 +212,11 @@ public class PartController {
 
     public void loadingParts() {
         System.out.println("Controller  loadingParts");
-        this.view.setParts(iPartService.getParts());
-        this.view.loadParts();
+        List<Part> partsFromService = iPartService.getParts();
+        if(!this.view.getParts().equals(partsFromService))
+            {   this.view.setParts(partsFromService);
+                this.view.loadParts();
+             }
     }
     
     public int getLineNumber() {
@@ -232,9 +236,10 @@ public class PartController {
     }
 
    public void loadingProviders(){
-        
-        this.view.setProviders(iProviderService.getProviders());
+        List<Provider> providersFromService = iProviderService.getProviders();
+        this.view.setProviders(providersFromService);
         this.view.loadProviders();
+        
     }
 
 }

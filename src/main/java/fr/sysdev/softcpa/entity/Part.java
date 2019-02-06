@@ -6,7 +6,6 @@
 package fr.sysdev.softcpa.entity;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,18 +37,22 @@ public class Part implements Serializable {
     private String Brand;
     private Double purchasingPrice;
     private Double sellingPrice;
+    private Double professionalSellingPrice;
     private int stock;
+
     @Override
     public String toString() {
-        return "Part{" + "id=" + id + ", reference=" + reference +
-                ", eanCode="   + eanCode + ", designation=" + designation + 
-                ", Brand=" + Brand + ", purchasingPrice=" + purchasingPrice + 
-                ", sellingPrice=" + sellingPrice + ", quantity=" + stock +
-                '}';
+        return "Part{" + "id=" + id + ", provider=" + provider 
+                + ", eanCode=" + eanCode 
+                + ", reference=" + reference
+                + ", designation=" + designation 
+                + ", Brand=" + Brand 
+                + ", purchasingPrice="+ purchasingPrice 
+                + ", sellingPrice=" + sellingPrice 
+                + ", professionalSellingPrice=" + professionalSellingPrice 
+                + ", stock=" + stock + '}';
     }
-    
 
-   
 
     public Long getId() {
         return id;
@@ -121,6 +124,14 @@ public class Part implements Serializable {
 
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+    public Double getProfessionalSellingPrice() {
+        return professionalSellingPrice;
+    }
+
+    public void setProfessionalSellingPrice(Double professionalSellingPrice) {
+        this.professionalSellingPrice = professionalSellingPrice;
     }
 
 }

@@ -8,6 +8,7 @@ package fr.sysdev.softcpa.View.Invoicing;
 
 import fr.sysdev.softcpa.constants.Constants;
 import fr.sysdev.softcpa.entity.Client;
+import fr.sysdev.softcpa.entity.InvoiceLine;
 import fr.sysdev.softcpa.entity.Part;
 import fr.sysdev.softcpa.utils.predicates.PartsPredicates;
 import java.awt.BorderLayout;
@@ -22,11 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -49,10 +48,11 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     private Client client ;
     private List<Part> parts ; 
     private List<Part> selectedParts = new ArrayList<>(); 
+    private List<InvoiceLine> invoiceLines = new ArrayList<>(); 
     private Client seller;
     private ArrayList<String>clientsNamesList ;
     private DefaultListModel dlm;
-    
+    String details="";
     
     public InvoicingView() {
         initComponents();
@@ -115,9 +115,9 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         jLabel_Invoicing_Numberplate = new javax.swing.JLabel();
         jTextFieldl_Invoicing_Vehicle_Type = new javax.swing.JTextField();
         jLabel_Invoicing_Vehicle_Type = new javax.swing.JLabel();
-        jScrollPane_Invoicing_Selected_Parts = new javax.swing.JScrollPane();
-        jPanel_Invoicing_Selected_Parts = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel_Invoice_Lines = new javax.swing.JPanel();
 
         setClosable(true);
         setIconifiable(true);
@@ -163,7 +163,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
 
         jLabel_Search_Part.setText("jLabel1");
 
-        jPanel_Invoicing_Search_Result.setLayout(new javax.swing.BoxLayout(jPanel_Invoicing_Search_Result, javax.swing.BoxLayout.Y_AXIS));
+        jPanel_Invoicing_Search_Result.setLayout(new java.awt.GridLayout(50, 0, 0, 50));
         jScrollPane2.setViewportView(jPanel_Invoicing_Search_Result);
 
         jPanel_Invoicing_Client.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -376,13 +376,15 @@ public class InvoicingView extends javax.swing.JInternalFrame {
 
         jLabel_Invoicing_Vehicle_Type.setText("jLabel1");
 
-        jScrollPane_Invoicing_Selected_Parts.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        jScrollPane_Invoicing_Selected_Parts.setPreferredSize(new java.awt.Dimension(2, 2));
-
-        jPanel_Invoicing_Selected_Parts.setLayout(new javax.swing.BoxLayout(jPanel_Invoicing_Selected_Parts, javax.swing.BoxLayout.Y_AXIS));
-        jScrollPane_Invoicing_Selected_Parts.setViewportView(jPanel_Invoicing_Selected_Parts);
-
         jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jPanel_Invoice_Lines.setLayout(new java.awt.GridLayout(1000, 0, 0, 50));
+        jScrollPane1.setViewportView(jPanel_Invoice_Lines);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -405,24 +407,21 @@ public class InvoicingView extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel_Search_Part)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField_Search_Part, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTextField_Search_Part, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel_Invoicing_Numberplate)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextField_Invoicing_Numberplate, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 54, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2)
-                            .addComponent(jScrollPane_Invoicing_Selected_Parts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56))
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -431,14 +430,15 @@ public class InvoicingView extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox_Client, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField_Invoicing_Numberplate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel_Invoicing_Numberplate))
+                    .addComponent(jLabel_Invoicing_Numberplate)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel_Invoicing_Client, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel_Invoicing_Company, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel_Invoicing_Vehicle_Type)
                             .addComponent(jTextFieldl_Invoicing_Vehicle_Type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -448,10 +448,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane_Invoicing_Selected_Parts, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(36, 36, 36)
-                .addComponent(jButton1)
-                .addContainerGap(140, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -480,9 +478,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
                else{
                     hideClientPanel();
                    }
-               
-               
-                
+
              System.out.println(item);
              System.out.println("client :"+ client);
              
@@ -511,6 +507,16 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         }
         
     }//GEN-LAST:event_jTextField_Search_PartKeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+            invoiceLines.forEach(
+                    l->details = details+"\n" + l.getPart().getReference()+" | "
+                    +l.getPart().getDesignation()+" : "+l.getPart().getBrand()+" | "
+                    +l.getPart().getSellingPrice()+" € | "+l.getQuantity()+" | "
+                    +(l.getQuantity()*l.getPart().getSellingPrice())+" € "
+                     );
+            JOptionPane.showMessageDialog(null, details);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -546,12 +552,12 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel_Invoicing_Numberplate;
     private javax.swing.JLabel jLabel_Invoicing_Vehicle_Type;
     private javax.swing.JLabel jLabel_Search_Part;
+    private javax.swing.JPanel jPanel_Invoice_Lines;
     private javax.swing.JPanel jPanel_Invoicing_Client;
     private javax.swing.JPanel jPanel_Invoicing_Company;
     private javax.swing.JPanel jPanel_Invoicing_Search_Result;
-    private javax.swing.JPanel jPanel_Invoicing_Selected_Parts;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane_Invoicing_Selected_Parts;
     private javax.swing.JTextField jTextField_Invoicing_Numberplate;
     private javax.swing.JTextField jTextField_Search_Part;
     private javax.swing.JTextField jTextFieldl_Invoicing_Vehicle_Type;
@@ -699,7 +705,6 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     
     public void showClientPanel(){
         jPanel_Invoicing_Client.setVisible(true);
-        
     }
     
     public JButton getRefreshBtn(){
@@ -712,35 +717,36 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     private void search() {
         
         ArrayList<JPanel> panels = new ArrayList<>();
-        ArrayList<JPanel> selectedPanels = new ArrayList<>();
-        JPanel panel =null;
-        JLabel label = null;
-        JButton addBtn = null;
+        ArrayList<JPanel>  selectedPanels = new ArrayList<>();
+        ArrayList<InvoiceLine> searchResultsInvoicelines = new ArrayList<>();
         
         Border border = BorderFactory.createLineBorder(Color.BLUE, 1);
 
         
         String s = jTextField_Search_Part.getText().toUpperCase();
         List<Part> filter = PartsPredicates.filterParts(parts,PartsPredicates.refEquals(s));
-       
+        final InvoiceLine il = new InvoiceLine();
+        filter.forEach(
+                p-> {il.setPart(p);
+                il.setQuantity(1);
+                searchResultsInvoicelines.add(il);
+                });
+        
+        
+        
         jPanel_Invoicing_Search_Result.removeAll() ;
-       if( filter.size()>0){
+       if( searchResultsInvoicelines.size()>0){
             
-        for (Part part : filter) {
-           
-            panel = createResultPanel(part, border, panels,selectedPanels);
-            //System.out.println(""+panel);
-        }
+           searchResultsInvoicelines.forEach((l) -> createResultPanel(l, border, panels, selectedPanels));
         
        
-        panels.forEach((p)-> {
-            
-            jPanel_Invoicing_Search_Result.add(p);});
+            panels.forEach((p)->jPanel_Invoicing_Search_Result.add(p));
+        
+        
             jPanel_Invoicing_Search_Result.setVisible(true);
             jPanel_Invoicing_Search_Result.revalidate();
             jPanel_Invoicing_Search_Result.repaint();
-         
-       }
+         }
        else{
            panels.clear();
            jPanel_Invoicing_Search_Result.removeAll() ;
@@ -749,11 +755,12 @@ public class InvoicingView extends javax.swing.JInternalFrame {
             
        }
        
-        System.out.println("size " + filter.size());
+
         
     }
 
-    public JPanel createResultPanel(Part part, Border border, ArrayList<JPanel> panels, ArrayList<JPanel> selectedPanels) {
+    public JPanel createResultPanel(InvoiceLine il, Border border, ArrayList<JPanel> panels,ArrayList<JPanel>  selectedPanels) {
+        
         JPanel panel;
         JLabel label;
         JButton addBtn;
@@ -764,9 +771,9 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         int x = 0;
         int y= 0;
         int w = 1;
-        label = new JLabel(part.getReference());
+        label = new JLabel(il.getPart().getReference());
         label.setBorder(border);
-        label.setName("labelReference"+part.getId());
+        label.setName("labelReference"+il.getPart().getId());
         gdbc.gridx = x;
         gdbc.gridy = y;
         gdbc.gridwidth = w;
@@ -774,8 +781,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         gdbc.insets = new Insets(0,0,0,12);
         label.setBorder(border);
         panel.add(label,gdbc);
-        label = new JLabel(part.getDesignation());
-        label.setName("labelDesignation"+part.getId());
+        label = new JLabel(il.getPart().getDesignation());
+        label.setName("labelDesignation"+il.getPart().getId());
         x =x+w;
         gdbc.gridx = x;
         gdbc.gridy = y;
@@ -788,8 +795,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         label.setMaximumSize(new Dimension(50,20));
         label.setBorder(border);
         panel.add(label,gdbc);
-        label = new JLabel(part.getBrand());
-        label.setName("labelBrand"+part.getId());
+        label = new JLabel(il.getPart().getBrand());
+        label.setName("labelBrand"+il.getPart().getId());
         x =x+w;
         gdbc.gridx = x;
         gdbc.gridy = y;
@@ -801,8 +808,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         label.setMinimumSize(new Dimension(50,20));
         label.setMaximumSize(new Dimension(50,20));
         panel.add(label,gdbc);
-        label = new JLabel(part.getProvider().getName()+"");
-        label.setName("labelProviderName"+part.getId());
+        label = new JLabel(il.getPart().getProvider().getName()+"");
+        label.setName("labelProviderName"+il.getPart().getId());
         x =x+w;
         gdbc.gridx = x;
         gdbc.gridy = y;
@@ -812,8 +819,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         label.setMinimumSize(new Dimension(50,20));
         label.setMaximumSize(new Dimension(50,20));
         panel.add(label,gdbc);
-        label = new JLabel(part.getPurchasingPrice()+"");
-        label.setName("labelPurchasingPrice"+part.getId());
+        label = new JLabel(il.getPart().getPurchasingPrice()+"");
+        label.setName("labelPurchasingPrice"+il.getPart().getId());
         x =x+w;
         gdbc.gridx = x;
         gdbc.gridy = y;
@@ -824,8 +831,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         label.setMaximumSize(new Dimension(30,20));
         label.setBorder(border);
         panel.add(label,gdbc);
-        label = new JLabel(part.getSellingPrice()+"");
-        label.setName("labelSellingPrice"+part.getId());
+        label = new JLabel(il.getPart().getSellingPrice()+"");
+        label.setName("labelSellingPrice"+il.getPart().getId());
         x =x+w;
         gdbc.gridx = x;
         gdbc.gridy = y;
@@ -836,31 +843,40 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         label.setMaximumSize(new Dimension(30,20));
         label.setBorder(border);
         panel.add(label,gdbc);
-        addBtn = new JButton("+");
-        addBtn.setName("add"+part.getId());
+        addBtn = new JButton("[ + ]");
+        addBtn.setName("add"+il.getPart().getId());
         final JPanel p = panel;
+        
+        final JTextField qt = new JTextField("1",5);
         addBtn.addActionListener((ActionEvent ae) -> {
             
             jPanel_Invoicing_Search_Result.removeAll() ;
             jPanel_Invoicing_Search_Result.revalidate();
             jPanel_Invoicing_Search_Result.repaint();
-            //JOptionPane.showMessageDialog(this, part);
-            selectedParts.add(part);
-            
+          
+            selectedParts.add(il.getPart());
+            il.setPart(il.getPart());
+            il.setQuantity(Integer.parseInt(qt.getText()));
+            invoiceLines.add(il);
             jTextField_Search_Part.setText("");
-            //jTextField_Search_Part.setf
-            jPanel_Invoicing_Selected_Parts.add(createSelectedPanel(part,border,selectedPanels));
-            jPanel_Invoicing_Selected_Parts.setPreferredSize(new Dimension(460,20));
-            jPanel_Invoicing_Selected_Parts.revalidate();
-            jPanel_Invoicing_Selected_Parts.repaint();
-            jScrollPane_Invoicing_Selected_Parts.setPreferredSize(new Dimension(250, 80));
-            jScrollPane_Invoicing_Selected_Parts.revalidate();
-            jScrollPane_Invoicing_Selected_Parts.repaint();
+            JPanel selectedPanel = createSelectedPanel(il,border);
+            selectedPanels.add(selectedPanel);
+            selectedPanels.forEach(sp ->jPanel_Invoice_Lines.add(sp) );
             
-        });
+            jPanel_Invoice_Lines.setPreferredSize(new Dimension(460,20));
+            jPanel_Invoice_Lines.revalidate();
+            jPanel_Invoice_Lines.repaint();
+            
+            
+            
+            System.out.println(""+il);});
+            
+          
+            
         JPanel pan = new JPanel();
+       
         pan.add(addBtn,BorderLayout.LINE_START);
-        pan.add(new JTextField(5));
+        pan.add(qt);
         x =x+w;
         gdbc.gridx = x;
         gdbc.gridy = y;
@@ -868,15 +884,17 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         gdbc.gridwidth = w;
         panel.add(pan,gdbc);
         panel.setPreferredSize(new Dimension(460,20));
-        panel.setName("panel"+part.getId());
+        panel.setName("panel"+il.getPart().getId());
         panels.add(panel);
+        jScrollPane1.add(panel);
         return panel;
     }
 
-    public JPanel createSelectedPanel(Part part, Border border, ArrayList<JPanel> panels) {
+    public JPanel createSelectedPanel(InvoiceLine il, Border border) {
         JPanel panel;
         JLabel label;
         JButton removeBtn;
+       
         panel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
         panel.setLayout(gbl);
@@ -884,9 +902,9 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         int x = 0;
         int y= 0;
         int w = 1;
-        label = new JLabel(part.getReference());
+        label = new JLabel(il.getPart().getReference());
         label.setBorder(border);
-        label.setName("labelReference"+part.getId());
+        label.setName("labelReference"+il.getPart().getId());
         gdbc.gridx = x;
         gdbc.gridy = y;
         gdbc.gridwidth = w;
@@ -894,8 +912,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         gdbc.insets = new Insets(0,0,0,12);
         label.setBorder(border);
         panel.add(label,gdbc);
-        label = new JLabel(part.getDesignation());
-        label.setName("labelDesignation"+part.getId());
+        label = new JLabel(il.getPart().getDesignation());
+        label.setName("labelDesignation"+il.getPart().getId());
         x =x+w;
         gdbc.gridx = x;
         gdbc.gridy = y;
@@ -908,8 +926,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         label.setMaximumSize(new Dimension(50,20));
         label.setBorder(border);
         panel.add(label,gdbc);
-        label = new JLabel(part.getBrand());
-        label.setName("labelBrand"+part.getId());
+        label = new JLabel(il.getPart().getBrand());
+        label.setName("labelBrand"+il.getPart().getId());
         x =x+w;
         gdbc.gridx = x;
         gdbc.gridy = y;
@@ -921,8 +939,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         label.setMinimumSize(new Dimension(50,20));
         label.setMaximumSize(new Dimension(50,20));
         panel.add(label,gdbc);
-        label = new JLabel(part.getProvider().getName()+"");
-        label.setName("labelProviderName"+part.getId());
+        label = new JLabel(il.getPart().getProvider().getName()+"");
+        label.setName("labelProviderName"+il.getPart().getId());
         x =x+w;
         gdbc.gridx = x;
         gdbc.gridy = y;
@@ -932,8 +950,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         label.setMinimumSize(new Dimension(50,20));
         label.setMaximumSize(new Dimension(50,20));
         panel.add(label,gdbc);
-        label = new JLabel(part.getPurchasingPrice()+"");
-        label.setName("labelPurchasingPrice"+part.getId());
+        label = new JLabel(il.getPart().getPurchasingPrice()+"");
+        label.setName("labelPurchasingPrice"+il.getPart().getId());
         x =x+w;
         gdbc.gridx = x;
         gdbc.gridy = y;
@@ -944,8 +962,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         label.setMaximumSize(new Dimension(30,20));
         label.setBorder(border);
         panel.add(label,gdbc);
-        label = new JLabel(part.getSellingPrice()+"");
-        label.setName("labelSellingPrice"+part.getId());
+        label = new JLabel(il.getPart().getSellingPrice()+"");
+        label.setName("labelSellingPrice"+il.getPart().getId());
         x =x+w;
         gdbc.gridx = x;
         gdbc.gridy = y;
@@ -957,22 +975,21 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         label.setBorder(border);
         panel.add(label,gdbc);
         removeBtn = new JButton("-");
-        removeBtn.setName("remove"+part.getId());
+        removeBtn.setName("remove"+il.getPart().getId());
         final JPanel p = panel;
+        final JTextField qt= new JTextField(""+il.getQuantity(),5);
         removeBtn.addActionListener((ActionEvent ae) -> {
+
+            selectedParts.remove(il.getPart());
             
-            
-            selectedParts.remove(part);
-            
-     
-            jPanel_Invoicing_Selected_Parts.remove(p);
-            jPanel_Invoicing_Selected_Parts.revalidate();
-            jPanel_Invoicing_Selected_Parts.repaint();
+            jPanel_Invoice_Lines.remove(p);
+            jPanel_Invoice_Lines.revalidate();
+            jPanel_Invoice_Lines.repaint();
             
         });
         JPanel pan = new JPanel();
         pan.add(removeBtn,BorderLayout.LINE_START);
-        pan.add(new JTextField(5));
+        pan.add(qt);
         x =x+w;
         gdbc.gridx = x;
         gdbc.gridy = y;
@@ -980,38 +997,12 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         gdbc.gridwidth = w;
         panel.add(pan,gdbc);
         panel.setPreferredSize(new Dimension(460,20));
-        panel.setName("panel"+part.getId());
-        panels.add(panel);
+        panel.setName("panel"+il.getPart().getId());
+ 
         return panel;
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     public void loadParts() {
         
@@ -1028,17 +1019,6 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     
     
     
-    public void copyPanel(JPanel p1, JPanel p2){
-        p2.setLayout(p1.getLayout());
-        for (java.awt.Component c : p1.getComponents())
-        {
-        p2.add(c);
-        }
-        
-        p2.setPreferredSize(p1.getPreferredSize());
-        p2.setMinimumSize(p1.getMinimumSize());
-        p2.setMaximumSize(p2.getMaximumSize());
-    }
-    
+  
     
 }

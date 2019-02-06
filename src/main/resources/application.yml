@@ -7,7 +7,7 @@
   jpa:
     hibernate:
       
-      ddl-auto: create
+      ddl-auto: validate
       #generate_statistics: true
       statistics: true
       logging:

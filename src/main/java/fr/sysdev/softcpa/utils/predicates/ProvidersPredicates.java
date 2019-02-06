@@ -33,17 +33,23 @@ public class ProvidersPredicates {
         idComparator = Comparator.comparingInt((p) -> (int)(long)p.getId());
         Collections.sort(providers, idComparator);
     }
+    
+    
+    public static void sortReverseProvidersById (List<Provider> providers)
+    {
+        Comparator<Provider> idComparator;
+        idComparator = Comparator.comparingInt((p) -> (int)(long)p.getId());
+        Collections.sort(providers, Collections.reverseOrder(idComparator));
+    }
+    
+    
    public static void sortProvidersByName (List<Provider> providers)
     {
        Collections.sort(providers, (p1, p2) -> p1.getName().compareTo(p2.getName()));
     }
     
-    
-    
-//    public static Predicate<Provider> refOrEanOrDesignationOrBrandContains(String s) {
-//        return p -> p.getReference().contains(s)||
-//                    p.getEanCode().contains(s)||
-//                    p.getDesignation().contains(s)||
-//                    p.getBrand().contains(s);
-//    } 
+public static void sortReverseProvidersByName (List<Provider> providers)
+    {
+       Collections.sort(providers, Collections.reverseOrder((p1, p2) -> p1.getName().compareTo(p2.getName())));
+    }
 }

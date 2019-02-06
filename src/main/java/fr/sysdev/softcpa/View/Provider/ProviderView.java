@@ -11,8 +11,6 @@ import fr.sysdev.softcpa.utils.predicates.ProvidersPredicates;
 import fr.sysdev.softcpa.utils.ui.IconHeaderRenderer;
 import fr.sysdev.softcpa.utils.ui.TextAndIcon;
 import java.awt.Color;
-
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -23,6 +21,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 
 import javax.swing.table.TableColumnModel;
@@ -49,7 +49,10 @@ public class ProviderView extends javax.swing.JInternalFrame {
     private String csvFile;
     private TableRowSorter<TableModel> sorter;
 
+    private List<Integer> sortOrderList;
+
     public ProviderView(List<Provider> providers) {
+        this.sortOrderList = new ArrayList();
 
         this.providers = new ArrayList<>(providers);
         this.allProviders = new ArrayList<>(this.providers);
@@ -64,6 +67,7 @@ public class ProviderView extends javax.swing.JInternalFrame {
      * Creates new form PieceViews
      */
     public ProviderView() {
+        this.sortOrderList = new ArrayList();
 
         initComponents();
 
@@ -325,9 +329,9 @@ public class ProviderView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTable_ProviderMouseClicked
 
     private void jTextField_Provider_SearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_Provider_SearchKeyReleased
-        
-         search();
-       
+
+        search();
+
     }//GEN-LAST:event_jTextField_Provider_SearchKeyReleased
 
     private void jButton_RemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RemoveActionPerformed
@@ -394,11 +398,11 @@ public class ProviderView extends javax.swing.JInternalFrame {
         getProviderFromSelectedTableRow();
         int indexInAllProviders = allProviders.indexOf(findProviderById(providers, provider.getId()));
         int indexInProviders = providers.indexOf(findProviderById(providers, provider.getId()));
-        
-        System.out.println(""+indexInAllProviders);
-        System.out.println(""+indexInProviders);
+
+        System.out.println("" + indexInAllProviders);
+        System.out.println("" + indexInProviders);
         allProviders.remove(indexInAllProviders);
-       // providers.remove(indexInProviders);
+        // providers.remove(indexInProviders);
 
         resetInterface();
 
@@ -446,12 +450,9 @@ public class ProviderView extends javax.swing.JInternalFrame {
         TableColumnModel cm = jTable_Provider.getColumnModel();
         cm.getColumn(0).setPreferredWidth(25);
         cm.getColumn(1).setPreferredWidth(50);
+        intSortOrderList(cm);
 
-        TableModel model = jTable_Provider.getModel();
-        sorter = new TableRowSorter<>(model);
-        sorter.setSortable(0, false);
-        sorter.setSortable(1, false);
-        jTable_Provider.setRowSorter(sorter);
+        disableDefaultJtableSorting(jTable_Provider);
 
         jTable_Provider.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
@@ -460,37 +461,34 @@ public class ProviderView extends javax.swing.JInternalFrame {
                 String name = jTable_Provider.getColumnName(col);
 
                 System.out.println("Column index selected " + col + " " + name);
-                //UIManager.getIcon("Table.ascendingSortIcon")
-                if (col == 0) {
-                    ProvidersPredicates.sortProvidersById(providers);
-                    jTable_Provider.getTableHeader().getColumnModel().getColumn(0).setHeaderRenderer(new IconHeaderRenderer());
-                    jTable_Provider.getColumnModel().getColumn(0).setHeaderValue(new TextAndIcon(jTable_Provider.getColumnName(0), UIManager.getIcon("Table.descendingSortIcon")));
-                    jTable_Provider.getColumnModel().getColumn(1).setHeaderValue(new TextAndIcon(jTable_Provider.getColumnName(1), null));
-                } else {
-                    ProvidersPredicates.sortProvidersByName(providers);
-                    jTable_Provider.getTableHeader().getColumnModel().getColumn(1).setHeaderRenderer(new IconHeaderRenderer());
-                    jTable_Provider.getColumnModel().getColumn(1).setHeaderValue(new TextAndIcon(jTable_Provider.getColumnName(1), UIManager.getIcon("Table.descendingSortIcon")));
-                    jTable_Provider.getColumnModel().getColumn(0).setHeaderValue(new TextAndIcon(jTable_Provider.getColumnName(0), null));
-                }
-            }
+               
 
+                changeSortOrder(col);
+                displaySortOrderIcon(jTable_Provider, sortOrderList);
+                chooseColoumnsSort(col);
+                }
+
+            
+            
         });
 
     }
+
+
 
     private void resetInterface() {
 
         searchInterface();
 
         jTextField_Provider_Search.setText("");
-        displayPartsCount();
+        displayProvidersCount();
         jButton_Add.setVisible(true);
         jButton_Cancel.setVisible(true);
         jButton_Remove.setVisible(false);
         jButton_Update.setVisible(false);
     }
 
-    public void displayPartsCount() {
+    public void displayProvidersCount() {
         if (providers.size() > 0) {
             if (providers.size() == 1) {
                 jLabel_Provider_Count.setText(Constants.Labels.ONE_PROVIDER);
@@ -551,40 +549,37 @@ public class ProviderView extends javax.swing.JInternalFrame {
     private void search() {
 
         String s = jTextField_Provider_Search.getText();
-        
-        if(s.equals("")){
-        providers.clear();
-        providers.addAll(allProviders);
-        bindingProvidersTable();
-        searchInterface();
-        }
-        else{ 
-                List<Provider> filter = ProvidersPredicates.filterProviders(allProviders, ProvidersPredicates.nameContains(s));
-                providers.clear();
-                providers.addAll(filter);
-                
-                if(providers.size()>0){
-                    
-                    updateInterface();
-                    bindingProvidersTable();
-                    jTable_Provider.setRowSelectionInterval(0, 0);
-                    jTable_Provider.setSelectionBackground(Color.blue);
-                    jTable_Provider.setSelectionForeground(Color.red);
-                
-                }
-                else{
-                
+
+        if (s.equals("")) {
+            providers.clear();
+            providers.addAll(allProviders);
+            bindingProvidersTable();
+            searchInterface();
+        } else {
+            List<Provider> filter = ProvidersPredicates.filterProviders(allProviders, ProvidersPredicates.nameContains(s));
+            providers.clear();
+            providers.addAll(filter);
+
+            if (providers.size() > 0) {
+
+                updateInterface();
+                bindingProvidersTable();
+                jTable_Provider.setRowSelectionInterval(0, 0);
+                jTable_Provider.setSelectionBackground(Color.blue);
+                jTable_Provider.setSelectionForeground(Color.red);
+
+            } else {
+
                 providers.clear();
                 bindingProvidersTable();
                 searchInterface();
-                
-                
-                }
+
+            }
 
         }
-           
-        displayPartsCount();
-        
+
+        displayProvidersCount();
+
     }
 
     public static List<Provider> removingDuplicatesAndSortProviderstList(List<Provider> ListeAvecDoublons) {
@@ -635,4 +630,86 @@ public class ProviderView extends javax.swing.JInternalFrame {
     public void setAllProviders(List<Provider> allProviders) {
         this.allProviders = allProviders;
     }
+
+    
+    public void intSortOrderList(TableColumnModel cm) {
+        int i = 0;
+        while (sortOrderList.size() != cm.getColumnCount() && i < cm.getColumnCount()) {
+            sortOrderList.add(0);
+            i++;
+        }
+    }
+    public void disableDefaultJtableSorting(JTable table) {
+        TableModel model = table.getModel();
+        TableColumnModel colModel = table.getColumnModel();
+        sorter = new TableRowSorter<>(model);
+        
+        for(int i=0 ; i <colModel.getColumnCount();i++ )
+        {sorter.setSortable(i, false);}
+        table.setRowSorter(sorter);
+    }
+    public synchronized void changeSortOrder(int col) {
+        int so = sortOrderList.get(col);
+        
+        for(int i = 0; i<sortOrderList.size(); i++){
+            sortOrderList.set(i, 0);
+        }
+        
+        switch (so) {
+            case 0:
+                sortOrderList.set(col, 1);
+                break;
+            case 1:
+                sortOrderList.set(col, 2);
+                break;
+            case 2:
+                sortOrderList.set(col, 1);
+                break;
+            default:
+                sortOrderList.set(col, 0);
+                break;
+        }
+        
+    }
+    public void chooseColoumnsSort(int col) {
+                switch (col) {
+                    case 0:
+                        if (sortOrderList.get(col) == 1) {
+                            ProvidersPredicates.sortProvidersById(providers);
+                        } else if (sortOrderList.get(col) == 2) {
+                            ProvidersPredicates.sortReverseProvidersById(providers);
+                        }
+                        break;
+                    case 1:
+                        if (sortOrderList.get(col) == 1) {
+                            ProvidersPredicates.sortProvidersByName(providers);
+                        } else if (sortOrderList.get(col) == 2) {
+                            ProvidersPredicates.sortReverseProvidersByName(providers);
+                        }
+                        break;
+                    default:ProvidersPredicates.sortProvidersById(providers);
+                    break;
+                }
+            }
+    public void displaySortOrderIcon(JTable table , List<Integer> list ){
+           
+        list.forEach(so -> {
+              table.getTableHeader().getColumnModel().getColumn(list.indexOf(so)).setHeaderRenderer(new IconHeaderRenderer());
+        switch (so) {
+            case 0:
+                table.getColumnModel().getColumn(list.indexOf(so)).setHeaderValue(new TextAndIcon(table.getColumnName(list.indexOf(so)), null));
+                
+                break;
+            case 1:
+                table.getColumnModel().getColumn(list.indexOf(so)).setHeaderValue(new TextAndIcon(table.getColumnName(list.indexOf(so)), UIManager.getIcon("Table.descendingSortIcon")));
+                break;
+            default:
+                table.getColumnModel().getColumn(list.indexOf(so)).setHeaderValue(new TextAndIcon(table.getColumnName(list.indexOf(so)), UIManager.getIcon("Table.ascendingSortIcon")));
+                break;
+        }});
+         
+
+       
+    }
+
 }

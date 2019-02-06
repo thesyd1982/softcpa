@@ -172,9 +172,11 @@ public class ProviderController  {
 
     
     public void loadingProviders(){
-        
+        List<Provider> providersFromService = iProviderService.getProviders();
+        if(!this.view.getProviders().equals(providersFromService))
+        {
         this.view.setProviders(iProviderService.getProviders());
-        this.view.loadProviders();
+        this.view.loadProviders();}
     }
 
 

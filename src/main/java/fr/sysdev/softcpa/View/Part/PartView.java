@@ -9,6 +9,8 @@ import fr.sysdev.softcpa.constants.Constants;
 import fr.sysdev.softcpa.entity.Part;
 import fr.sysdev.softcpa.entity.Provider;
 import fr.sysdev.softcpa.utils.predicates.PartsPredicates;
+import fr.sysdev.softcpa.utils.ui.IconHeaderRenderer;
+import fr.sysdev.softcpa.utils.ui.TextAndIcon;
 import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
@@ -42,7 +44,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javafx.collections.ObservableList;
+import javax.swing.JTable;
+import javax.swing.UIManager;
 
 /**
  *
@@ -66,6 +69,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     public Timer t;
     private int partsNumberAdded;
     public int CountPartsToAdd;
+    private List<Integer> sortOrderList;
 
     public PartView(List<Part> parts, List<Provider> providers) {
 
@@ -74,7 +78,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         this.parts = new ArrayList<>(parts);
         this.allParts = parts;
         this.providers = new ArrayList<>(providers);
-
+        this.sortOrderList = new ArrayList<>();
         initComponents();
 
         prepareForm();
@@ -106,40 +110,45 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
 
         jTextField5 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
-        jButton_Cancel = new javax.swing.JButton();
+        jSplitPane1 = new javax.swing.JSplitPane();
+        jPanel1 = new javax.swing.JPanel();
         jButton_Update = new javax.swing.JButton();
         jButton_Remove = new javax.swing.JButton();
         jButton_Add = new javax.swing.JButton();
-        jButton_Invoicing = new javax.swing.JButton();
+        jButton_Cancel = new javax.swing.JButton();
+        jTextField_Part_PurchasingPrice = new javax.swing.JTextField();
+        jLabel_Part_PurchasingPrice = new javax.swing.JLabel();
+        jTextField_Part_SellingPrice = new javax.swing.JTextField();
+        jLabel_Part_SellingPrice = new javax.swing.JLabel();
+        jTextField_Part_Brand = new javax.swing.JTextField();
+        jLabel_Part_Brand = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea_Part_Designation = new javax.swing.JTextArea();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable_Part = new javax.swing.JTable();
-        jTextField_Part_SellingPrice = new javax.swing.JTextField();
-        jTextField_Part_Brand = new javax.swing.JTextField();
-        jTextField_Part_Stock = new javax.swing.JTextField();
-        jTextField_Part_Search = new javax.swing.JTextField();
-        jTextField_Part_PurchasingPrice = new javax.swing.JTextField();
-        jTextField_Part_EanCode = new javax.swing.JTextField();
-        jTextField_Part_Id = new javax.swing.JTextField();
-        jTextField_Part_Reference = new javax.swing.JTextField();
-        jLabel_Part_Brand = new javax.swing.JLabel();
-        jLabel_Part_SellingPrice = new javax.swing.JLabel();
         jLabel_Part_Designation = new javax.swing.JLabel();
         jLabel_Part_Stock = new javax.swing.JLabel();
-        jLabel_Part_EanCode = new javax.swing.JLabel();
-        jLabel_Part_Id = new javax.swing.JLabel();
-        jLabel_Part_Search = new javax.swing.JLabel();
-        jLabel_Part_PurchasingPrice = new javax.swing.JLabel();
+        jTextField_Part_Stock = new javax.swing.JTextField();
         jLabel_Part_Reference = new javax.swing.JLabel();
+        jTextField_Part_Reference = new javax.swing.JTextField();
+        jLabel_Part_EanCode = new javax.swing.JLabel();
+        jTextField_Part_EanCode = new javax.swing.JTextField();
+        jTextField_Part_Id = new javax.swing.JTextField();
+        jLabel_Part_Id = new javax.swing.JLabel();
         jLabel_Part_Provider = new javax.swing.JLabel();
         jComboBox_Part_Provider = new javax.swing.JComboBox<>();
-        jButton_Part_Open_Csv = new javax.swing.JButton();
-        jTextField_Part_CsvFilePath = new javax.swing.JTextField();
-        jButton_Part_Import = new javax.swing.JButton();
-        jLabel_Part_Count = new javax.swing.JLabel();
+        jTextField_Part_ProfessionalSellingPrice = new javax.swing.JTextField();
+        jLabel_Part_ProfessionalSellingPrice = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jTextField_Part_Search = new javax.swing.JTextField();
         jButton_Refresh = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable_Part = new javax.swing.JTable();
+        jLabel_Part_Search = new javax.swing.JLabel();
+        jLabel_Part_Count = new javax.swing.JLabel();
+        jButton_Part_Open_Csv = new javax.swing.JButton();
         jComboBox_Part_ProviderToImport = new javax.swing.JComboBox<>();
+        jButton_Part_Import = new javax.swing.JButton();
+        jTextField_Part_CsvFilePath = new javax.swing.JTextField();
+        jButton_Invoicing = new javax.swing.JButton();
         jProgressBar_Part_Importing = new javax.swing.JProgressBar();
 
         jTextField5.setText("jTextField5");
@@ -171,12 +180,9 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
             }
         });
 
-        jButton_Cancel.setText("Cancel");
-        jButton_Cancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_CancelActionPerformed(evt);
-            }
-        });
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel1.setMaximumSize(new java.awt.Dimension(500, 419));
+        jPanel1.setPreferredSize(new java.awt.Dimension(350, 419));
 
         jButton_Update.setText("Modify");
         jButton_Update.addActionListener(new java.awt.event.ActionListener() {
@@ -199,17 +205,35 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
             }
         });
 
-        jButton_Invoicing.setText("Invoicing");
-        jButton_Invoicing.addActionListener(new java.awt.event.ActionListener() {
+        jButton_Cancel.setText("Cancel");
+        jButton_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_InvoicingActionPerformed(evt);
+                jButton_CancelActionPerformed(evt);
             }
         });
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.purchasingPrice}"), jTextField_Part_PurchasingPrice, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jLabel_Part_PurchasingPrice.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jLabel_Part_PurchasingPrice.setText("jLabel1");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.sellingPrice}"), jTextField_Part_SellingPrice, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jLabel_Part_SellingPrice.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jLabel_Part_SellingPrice.setText("jLabel1");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.brand}"), jTextField_Part_Brand, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jLabel_Part_Brand.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jLabel_Part_Brand.setText("jLabel1");
 
         jTextArea_Part_Designation.setColumns(20);
         jTextArea_Part_Designation.setRows(5);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.designation}"), jTextArea_Part_Designation, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.designation}"), jTextArea_Part_Designation, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jTextArea_Part_Designation.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -219,15 +243,199 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         });
         jScrollPane1.setViewportView(jTextArea_Part_Designation);
 
+        jLabel_Part_Designation.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jLabel_Part_Designation.setText("jLabel1");
+
+        jLabel_Part_Stock.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jLabel_Part_Stock.setText("jLabel1");
+
+        jTextField_Part_Stock.setNextFocusableComponent(jTextArea_Part_Designation);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.stock}"), jTextField_Part_Stock, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jLabel_Part_Reference.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jLabel_Part_Reference.setText("jLabel1");
+
+        jTextField_Part_Reference.setNextFocusableComponent(jLabel_Part_Stock);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.reference}"), jTextField_Part_Reference, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jTextField_Part_Reference.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_Part_ReferenceActionPerformed(evt);
+            }
+        });
+
+        jLabel_Part_EanCode.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jLabel_Part_EanCode.setText("jLabel1");
+
+        jTextField_Part_EanCode.setNextFocusableComponent(jLabel_Part_Stock);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.eanCode}"), jTextField_Part_EanCode, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jTextField_Part_EanCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_Part_EanCodeActionPerformed(evt);
+            }
+        });
+
+        jTextField_Part_Id.setEditable(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.id}"), jTextField_Part_Id, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jTextField_Part_Id.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_Part_IdActionPerformed(evt);
+            }
+        });
+
+        jLabel_Part_Id.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jLabel_Part_Id.setText("jLabel1");
+
+        jLabel_Part_Provider.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jLabel_Part_Provider.setText("jLabel1");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.professionalSellingPrice}"), jTextField_Part_ProfessionalSellingPrice, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jLabel_Part_ProfessionalSellingPrice.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jLabel_Part_ProfessionalSellingPrice.setText("jLabel1");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel_Part_Reference)
+                    .addComponent(jLabel_Part_ProfessionalSellingPrice)
+                    .addComponent(jLabel_Part_Brand)
+                    .addComponent(jLabel_Part_SellingPrice)
+                    .addComponent(jLabel_Part_PurchasingPrice)
+                    .addComponent(jLabel_Part_Designation)
+                    .addComponent(jLabel_Part_EanCode)
+                    .addComponent(jLabel_Part_Id)
+                    .addComponent(jLabel_Part_Stock))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField_Part_Reference)
+                    .addComponent(jTextField_Part_Stock)
+                    .addComponent(jTextField_Part_SellingPrice)
+                    .addComponent(jTextField_Part_PurchasingPrice)
+                    .addComponent(jTextField_Part_ProfessionalSellingPrice)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jTextField_Part_Brand)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTextField_Part_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel_Part_Provider)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox_Part_Provider, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTextField_Part_EanCode)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton_Update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_Cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton_Add, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_Remove, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(17, 17, 17)))
+                .addGap(0, 0, 0))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField_Part_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_Part_Id)
+                    .addComponent(jLabel_Part_Provider)
+                    .addComponent(jComboBox_Part_Provider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField_Part_EanCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_Part_EanCode))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField_Part_Reference, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_Part_Reference))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_Part_Stock)
+                    .addComponent(jTextField_Part_Stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel_Part_Designation)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField_Part_Brand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_Part_Brand))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField_Part_SellingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_Part_SellingPrice))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField_Part_ProfessionalSellingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_Part_ProfessionalSellingPrice))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField_Part_PurchasingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_Part_PurchasingPrice))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_Update)
+                    .addComponent(jButton_Remove))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_Cancel)
+                    .addComponent(jButton_Add))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jSplitPane1.setLeftComponent(jPanel1);
+
+        jPanel2.setMaximumSize(new java.awt.Dimension(946, 502));
+        jPanel2.setMinimumSize(new java.awt.Dimension(600, 502));
+
+        jTextField_Part_Search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_Part_SearchKeyReleased(evt);
+            }
+        });
+
+        jButton_Refresh.setText("jButton1");
+        jButton_Refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_RefreshActionPerformed(evt);
+            }
+        });
+
         jTable_Part.setAutoCreateRowSorter(true);
         jTable_Part.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8"
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${parts}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable_Part);
@@ -258,6 +466,9 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sellingPrice}"));
         columnBinding.setColumnName("Selling Price");
         columnBinding.setColumnClass(Double.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${professionalSellingPrice}"));
+        columnBinding.setColumnName("Professional Selling Price");
+        columnBinding.setColumnClass(Double.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jTable_Part.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -267,78 +478,9 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         });
         jScrollPane2.setViewportView(jTable_Part);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.sellingPrice}"), jTextField_Part_SellingPrice, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.brand}"), jTextField_Part_Brand, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        jTextField_Part_Stock.setNextFocusableComponent(jTextArea_Part_Designation);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.stock}"), jTextField_Part_Stock, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        jTextField_Part_Search.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField_Part_SearchKeyReleased(evt);
-            }
-        });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.purchasingPrice}"), jTextField_Part_PurchasingPrice, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        jTextField_Part_EanCode.setNextFocusableComponent(jLabel_Part_Stock);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.eanCode}"), jTextField_Part_EanCode, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        jTextField_Part_EanCode.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_Part_EanCodeActionPerformed(evt);
-            }
-        });
-
-        jTextField_Part_Id.setEditable(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.id}"), jTextField_Part_Id, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        jTextField_Part_Id.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_Part_IdActionPerformed(evt);
-            }
-        });
-
-        jTextField_Part_Reference.setNextFocusableComponent(jLabel_Part_Stock);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_Part, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.reference}"), jTextField_Part_Reference, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        jTextField_Part_Reference.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_Part_ReferenceActionPerformed(evt);
-            }
-        });
-
-        jLabel_Part_Brand.setText("jLabel1");
-
-        jLabel_Part_SellingPrice.setText("jLabel1");
-
-        jLabel_Part_Designation.setText("jLabel1");
-
-        jLabel_Part_Stock.setText("jLabel1");
-
-        jLabel_Part_EanCode.setText("jLabel1");
-
-        jLabel_Part_Id.setText("jLabel1");
-
         jLabel_Part_Search.setText("jLabel1");
 
-        jLabel_Part_PurchasingPrice.setText("jLabel1");
-
-        jLabel_Part_Reference.setText("jLabel1");
-
-        jLabel_Part_Provider.setText("jLabel1");
+        jLabel_Part_Count.setText("jLabel1");
 
         jButton_Part_Open_Csv.setText("open csv");
         jButton_Part_Open_Csv.addActionListener(new java.awt.event.ActionListener() {
@@ -347,10 +489,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
             }
         });
 
-        jTextField_Part_CsvFilePath.setEnabled(false);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${csvFile}"), jTextField_Part_CsvFilePath, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
+        jComboBox_Part_ProviderToImport.setEnabled(false);
 
         jButton_Part_Import.setText("Import");
         jButton_Part_Import.setEnabled(false);
@@ -360,158 +499,97 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
             }
         });
 
-        jLabel_Part_Count.setText("jLabel1");
+        jTextField_Part_CsvFilePath.setEnabled(false);
 
-        jButton_Refresh.setText("jButton1");
-        jButton_Refresh.addActionListener(new java.awt.event.ActionListener() {
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${csvFile}"), jTextField_Part_CsvFilePath, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jButton_Invoicing.setText("Invoicing");
+        jButton_Invoicing.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_RefreshActionPerformed(evt);
+                jButton_InvoicingActionPerformed(evt);
             }
         });
 
-        jComboBox_Part_ProviderToImport.setEnabled(false);
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton_Invoicing, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBox_Part_ProviderToImport, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_Part_Open_Csv, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jProgressBar_Part_Importing, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_Part_Import, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(392, 392, 392))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabel_Part_Search)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField_Part_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel_Part_Count)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 926, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField_Part_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_Part_Search)
+                    .addComponent(jButton_Refresh)
+                    .addComponent(jLabel_Part_Count))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_Part_Open_Csv)
+                    .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox_Part_ProviderToImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_Invoicing))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton_Part_Import)
+                    .addComponent(jProgressBar_Part_Importing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(52, 52, 52))
+        );
+
+        jSplitPane1.setRightComponent(jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(448, 448, 448)
-                        .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton_Update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton_Cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton_Add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton_Remove, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel_Part_Id)
-                                    .addComponent(jLabel_Part_EanCode)
-                                    .addComponent(jLabel_Part_Reference)
-                                    .addComponent(jLabel_Part_Stock)
-                                    .addComponent(jLabel_Part_Designation)
-                                    .addComponent(jLabel_Part_Brand)
-                                    .addComponent(jLabel_Part_SellingPrice)
-                                    .addComponent(jLabel_Part_PurchasingPrice))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextField_Part_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel_Part_Provider)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jComboBox_Part_Provider, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jTextField_Part_EanCode, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField_Part_Reference, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField_Part_Stock, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField_Part_Brand, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField_Part_SellingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField_Part_PurchasingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(123, 123, 123)
-                                .addComponent(jLabel_Part_Search)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField_Part_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel_Part_Count))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(156, 156, 156)
-                                        .addComponent(jProgressBar_Part_Importing, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox_Part_ProviderToImport, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton_Part_Import, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton_Part_Open_Csv, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton_Invoicing, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 847, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(76, 76, 76))
+                .addContainerGap()
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jButton_Refresh)
-                .addGap(13, 13, 13)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField_Part_Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel_Part_Id)
-                            .addComponent(jLabel_Part_Provider)
-                            .addComponent(jComboBox_Part_Provider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Part_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel_Part_Search)
-                            .addComponent(jLabel_Part_Count))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextField_Part_EanCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel_Part_EanCode))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextField_Part_Reference, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel_Part_Reference))
-                                .addGap(15, 15, 15)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextField_Part_Stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel_Part_Stock))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel_Part_Designation))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextField_Part_Brand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel_Part_Brand))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextField_Part_SellingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel_Part_SellingPrice))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextField_Part_PurchasingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel_Part_PurchasingPrice)))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButton_Update)
-                                    .addComponent(jButton_Remove))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButton_Cancel)
-                                    .addComponent(jButton_Add)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jButton_Part_Open_Csv)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jComboBox_Part_ProviderToImport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField_Part_CsvFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(14, 14, 14)
-                        .addComponent(jProgressBar_Part_Importing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton_Part_Import))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton_Invoicing)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         bindingGroup.bind();
@@ -642,15 +720,19 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     private javax.swing.JLabel jLabel_Part_Designation;
     private javax.swing.JLabel jLabel_Part_EanCode;
     private javax.swing.JLabel jLabel_Part_Id;
+    private javax.swing.JLabel jLabel_Part_ProfessionalSellingPrice;
     private javax.swing.JLabel jLabel_Part_Provider;
     private javax.swing.JLabel jLabel_Part_PurchasingPrice;
     private javax.swing.JLabel jLabel_Part_Reference;
     private javax.swing.JLabel jLabel_Part_Search;
     private javax.swing.JLabel jLabel_Part_SellingPrice;
     private javax.swing.JLabel jLabel_Part_Stock;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JProgressBar jProgressBar_Part_Importing;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTable jTable_Part;
     private javax.swing.JTextArea jTextArea_Part_Designation;
     private javax.swing.JTextField jTextField5;
@@ -659,6 +741,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     private javax.swing.JTextField jTextField_Part_CsvFilePath;
     private javax.swing.JTextField jTextField_Part_EanCode;
     private javax.swing.JTextField jTextField_Part_Id;
+    private javax.swing.JTextField jTextField_Part_ProfessionalSellingPrice;
     private javax.swing.JTextField jTextField_Part_PurchasingPrice;
     private javax.swing.JTextField jTextField_Part_Reference;
     private javax.swing.JTextField jTextField_Part_Search;
@@ -669,14 +752,14 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
 
     private void prepareForm() {
         loadProviders();
-        if(providers.size()==0){
-        jButton_Part_Import.setVisible(false);
-        jProgressBar_Part_Importing.setVisible(false);
+        if (providers.isEmpty()) {
+            jButton_Part_Import.setVisible(false);
+            jProgressBar_Part_Importing.setVisible(false);
+        } else {
+            jButton_Part_Import.setVisible(true);
+            jProgressBar_Part_Importing.setVisible(true);
         }
-        else{
-        jButton_Part_Import.setVisible(true);
-        jProgressBar_Part_Importing.setVisible(true);
-        }
+
         jLabel_Part_Count.setText(parts.size() + " " + Constants.Labels.PARTS);
 
         jLabel_Part_Id.setText(Constants.Labels.PART_ID);
@@ -687,6 +770,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
 
         jLabel_Part_PurchasingPrice.setText(Constants.Labels.PUR_PRICE);
         jLabel_Part_SellingPrice.setText(Constants.Labels.SELLING_PRICE);
+        jLabel_Part_ProfessionalSellingPrice.setText(Constants.Labels.PRO_SELLING_PRICE);
         jLabel_Part_Stock.setText(Constants.Labels.STOCK);
 
         jLabel_Part_Search.setText(Constants.Labels.SEARCH);
@@ -810,6 +894,9 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sellingPrice}"));
         columnBinding.setColumnName(Constants.Labels.SELLING_PRICE_HEADER);
         columnBinding.setColumnClass(Double.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${professionalSellingPrice}"));
+        columnBinding.setColumnName(Constants.Labels.PRO_SELLING_PRICE_HEADER);
+        columnBinding.setColumnClass(Double.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
 
@@ -823,25 +910,37 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         cm.getColumn(6).setPreferredWidth(40);
         cm.getColumn(7).setPreferredWidth(40);
         cm.getColumn(8).setPreferredWidth(40);
+        cm.getColumn(9).setPreferredWidth(40);
 
         cm.getColumn(6).setCellRenderer(new PriceCellRender());
         cm.getColumn(8).setCellRenderer(new PriceCellRender());
+        cm.getColumn(9).setCellRenderer(new PriceCellRender());
 
         cm.getColumn(7).setCellRenderer(new StockCellRender());
         cm.getColumn(5).setCellRenderer(new ProviderCellRender());
 
-        //jTable_Part.setAutoCreateRowSorter(true);
-        TableModel model = jTable_Part.getModel();
-        sorter = new TableRowSorter<>(model);
+        intSortOrderList(cm);
 
-        sorter.addRowSorterListener((RowSorterEvent evt) -> {
-            parts = removingDuplicatesAndSortPartList(parts);
+        disableDefaultJtableSorting(jTable_Part);
 
-            // bindingPartTable();
-            System.out.println(LocalDateTime.now());
+        jTable_Part.getTableHeader().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int col = jTable_Part.columnAtPoint(e.getPoint());
+                String name = jTable_Part.getColumnName(col);
+                resetHeaders(sortOrderList, jTable_Part);
+                System.out.println("Column index selected " + col + " " + name);
+                System.out.println("avant " +sortOrderList);
+                changeSortOrder(col);
+                System.out.println("apres " +sortOrderList);
+                chooseColoumnsSort(col);
+                System.out.println("apres le tri " +sortOrderList);
+                displaySortOrderIcon(jTable_Part, sortOrderList);
+                System.out.println("apres l'affichage " +sortOrderList);
+                
+            }
 
         });
-        jTable_Part.setRowSorter(sorter);
 
     }
 
@@ -907,6 +1006,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         part.setBrand(jTextField_Part_Brand.getText().toUpperCase());
         part.setPurchasingPrice(new Double(jTextField_Part_PurchasingPrice.getText()));
         part.setSellingPrice(new Double(jTextField_Part_SellingPrice.getText()));
+        part.setProfessionalSellingPrice(new Double(jTextField_Part_ProfessionalSellingPrice.getText()));
         Provider provider = findProviderByName(providers, (String) jComboBox_Part_Provider.getSelectedItem());
         provider.addPart(part);
         part.setProvider(provider);
@@ -944,6 +1044,9 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         part.setSellingPrice(sp);
         Double pp = (Double) (jTable_Part.getModel().getValueAt(rowt, 6));
         part.setPurchasingPrice(pp);
+
+        Double psp = (Double) (jTable_Part.getModel().getValueAt(rowt, 9));
+        part.setProfessionalSellingPrice(psp);
 
         return part;
     }
@@ -1097,6 +1200,166 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         jComboBox_Part_ProviderToImport.removeAllItems();
         providers.forEach(p -> jComboBox_Part_Provider.addItem(p.getName()));
         providers.forEach(p -> jComboBox_Part_ProviderToImport.addItem(p.getName()));
+    }
+
+    public void intSortOrderList(TableColumnModel cm) {
+        int i = 0;
+        while (sortOrderList.size() != cm.getColumnCount() && i < cm.getColumnCount()) {
+            sortOrderList.add(0);
+            i++;
+        }
+    }
+
+    public void disableDefaultJtableSorting(JTable table) {
+        TableModel model = table.getModel();
+        TableColumnModel colModel = table.getColumnModel();
+        sorter = new TableRowSorter<>(model);
+
+        for (int i = 0; i < colModel.getColumnCount(); i++) {
+            sorter.setSortable(i, false);
+        }
+        table.setRowSorter(sorter);
+    }
+
+    public  void changeSortOrder(int col) {
+        int so = sortOrderList.get(col);
+
+        for (int i = 0; i < sortOrderList.size(); i++) {
+            sortOrderList.set(i, 0);
+        }
+
+        switch (so) {
+            case 0:
+                sortOrderList.set(col, 1);
+                break;
+            case 1:
+                sortOrderList.set(col, 2);
+                break;
+            case 2:
+                sortOrderList.set(col, 1);
+                break;
+            default:
+                sortOrderList.set(col, 0);
+                break;
+        }
+   
+    }
+
+    public void chooseColoumnsSort(int col) {
+        switch (col) {
+            case 0:
+                if (sortOrderList.get(col) == 1) {
+                    PartsPredicates.sortPartsById(parts);
+                } else if (sortOrderList.get(col) == 2) {
+                    PartsPredicates.sortReversePartsById(parts);
+                }
+                break;
+            case 1:
+                if (sortOrderList.get(col) == 1) {
+                    PartsPredicates.sortPartsByEanCode(parts);
+                } else if (sortOrderList.get(col) == 2) {
+                    PartsPredicates.sortReversePartsByEanCode(parts);
+                }
+                break;
+
+            case 2:
+                if (sortOrderList.get(col) == 1) {
+                    PartsPredicates.sortPartsByRef(parts);
+                } else if (sortOrderList.get(col) == 2) {
+                    PartsPredicates.sortReversePartsByRef(parts);
+                }
+                break;
+            case 3:
+                if (sortOrderList.get(col) == 1) {
+                    PartsPredicates.sortPartsByDesignation(parts);
+                } else if (sortOrderList.get(col) == 2) {
+                    PartsPredicates.sortReversePartsByDesignation(parts);
+                }
+                break;
+            case 4:
+                if (sortOrderList.get(col) == 1) {
+                    PartsPredicates.sortPartsByBrand(parts);
+                } else if (sortOrderList.get(col) == 2) {
+                    PartsPredicates.sortReversePartsByBrand(parts);
+                }
+                break;
+            case 5:
+                if (sortOrderList.get(col) == 1) {
+                    PartsPredicates.sortPartsByProvider(parts);
+                } else if (sortOrderList.get(col) == 2) {
+                    PartsPredicates.sortReversePartsByProvider(parts);
+                }
+                break;
+
+            case 6:
+                if (sortOrderList.get(col) == 1) {
+                    PartsPredicates.sortPartsByPurPrice(parts);
+                } else if (sortOrderList.get(col) == 2) {
+                    PartsPredicates.sortReversePartsByPurPrice(parts);
+                }
+                break;
+
+            case 7:
+                if (sortOrderList.get(col) == 1) {
+                    PartsPredicates.sortPartsByStock(parts);
+                } else if (sortOrderList.get(col) == 2) {
+                    PartsPredicates.sortReversePartsByStock(parts);
+                }
+                break;
+
+            case 8:
+                if (sortOrderList.get(col) == 1) {
+                    PartsPredicates.sortPartsByIndivPrice(parts);
+                } else if (sortOrderList.get(col) == 2) {
+                    PartsPredicates.sortReversePartsByIndivPrice(parts);
+                }
+                break;
+
+            case 9:
+                if (sortOrderList.get(col) == 1) {
+                    PartsPredicates.sortPartsByProPrice(parts);
+                } else if (sortOrderList.get(col) == 2) {
+                    PartsPredicates.sortReversePartsByProPrice(parts);
+                }
+                break;
+            default:
+                PartsPredicates.sortPartsById(parts);
+                break;
+        }
+    }
+
+    public void displaySortOrderIcon(JTable table, List<Integer> list) {
+         
+        resetHeaders(list, table);
+        
+         list.forEach(so -> {
+           
+          
+            if (so != 0){
+             switch (so) {
+                 case 2:
+                     table.getTableHeader().getColumnModel().getColumn(list.indexOf(so)).setHeaderRenderer(new IconHeaderRenderer());
+                     table.getColumnModel().getColumn(list.indexOf(so)).setHeaderValue(new TextAndIcon(table.getColumnName(list.indexOf(so)), UIManager.getIcon("Table.ascendingSortIcon")));
+                     break;
+                 case 1:
+                     table.getTableHeader().getColumnModel().getColumn(list.indexOf(so)).setHeaderRenderer(new IconHeaderRenderer());
+                     table.getColumnModel().getColumn(list.indexOf(so)).setHeaderValue(new TextAndIcon(table.getColumnName(list.indexOf(so)), UIManager.getIcon("Table.descendingSortIcon")));
+                     break;
+                 default:
+                     table.getTableHeader().getColumnModel().getColumn(list.indexOf(so)).setHeaderRenderer(new IconHeaderRenderer());
+                     table.getColumnModel().getColumn(list.indexOf(so)).setHeaderValue(new TextAndIcon(table.getColumnName(list.indexOf(so)), null));
+                     break;}
+             }
+            });
+
+        
+
+    }
+
+    public void resetHeaders(List<Integer> list, JTable table) {
+        list.forEach(so -> {
+            table.getTableHeader().getColumnModel().getColumn(list.indexOf(so)).setHeaderRenderer(new IconHeaderRenderer());
+            table.getColumnModel().getColumn(list.indexOf(so)).setHeaderValue(new TextAndIcon(table.getColumnName(list.indexOf(so)), null));});
     }
 
 }

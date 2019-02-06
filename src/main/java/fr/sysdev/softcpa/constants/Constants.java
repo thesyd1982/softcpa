@@ -135,9 +135,10 @@ public abstract class Constants {
     public static String RROVIDERS = "Providers";
     public static String ONE_PROVIDER= "One Provider found!";
     public static String STOCK = "Stock";
-    public static String SELLING_PRICE_HEADER ="S-P";
-        public static String PUR_PRICE_HEADER="P-P";
-    
+    public static String SELLING_PRICE_HEADER ="ISP";
+    public static String PUR_PRICE_HEADER="PP";
+    public static String PRO_SELLING_PRICE=" Pro price" ;
+     public static String PRO_SELLING_PRICE_HEADER ="PSP";
     }
 //</editor-fold>
     

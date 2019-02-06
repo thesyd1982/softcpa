@@ -20,16 +20,17 @@ import javax.persistence.Table;
  * @author f
  */
 @Entity
-@Table(name = "invoceLine")
-class InvoceLine implements Serializable {
+@Table(name = "invoiceLine")
+public class InvoiceLine implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_invoceLine")
+    @Column(name = "id_invoiceLine")
     private Long id;
     @OneToOne
     @JoinColumn(name = "id_invoice")
     private Invoice invoice;
     @OneToOne
+    @JoinColumn(name = "id_part")
     private Part part;
     private int quantity;
 
@@ -67,6 +68,6 @@ class InvoceLine implements Serializable {
 
     @Override
     public String toString() {
-        return "InvoceLine{" + "id=" + id + ", invoice=" + invoice + ", part=" + part + ", quantity=" + quantity + '}';
+        return "InvoiceLine{" + "id=" + id + ", invoice=" + invoice + ", part=" + part + ", quantity=" + quantity + '}';
     }
 }
