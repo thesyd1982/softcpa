@@ -7,14 +7,13 @@ package fr.sysdev.softcpa.Service;
 
 import fr.sysdev.softcpa.entity.Client;
 import fr.sysdev.softcpa.Repository.IClientRepository;
+import fr.sysdev.softcpa.entity.Invoice;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -43,10 +42,7 @@ public class ClientService extends Observable implements IClientService {
     @Override
     public List<Client> getClients() {
 
-        List<Client> clients = new ArrayList<>();
-        clientRepository.findAll().iterator().forEachRemaining(clients::add);
-        //log.debug(clients.toString());
-        return clients;
+        return (List<Client>) clientRepository.findAll();
     }
 
     @Override
@@ -68,6 +64,7 @@ public class ClientService extends Observable implements IClientService {
     @Override
     @Transactional
     public Client updateClient(Client client) {
+    
         Client c = clientRepository.save(client);
         this.setChanged();
         this.notifyObservers();

@@ -10,7 +10,10 @@ import fr.sysdev.softcpa.Service.IAdrressService;
 import fr.sysdev.softcpa.Service.IClientService;
 import fr.sysdev.softcpa.View.Client.ClientView;
 import fr.sysdev.softcpa.entity.Client;
+import fr.sysdev.softcpa.entity.Invoice;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +83,15 @@ public class ClientController {
     private void updateClient() {
         
         this.getView().updateClient();
+        
         Client client = this.getView().getClient();
+        Client c = this.iClientService.getClientById(client.getId());
+        List invoices = c.getInvoices();
+        
+        if(invoices.size()>0)
+        client.setInvoices(invoices);
+        else client.setInvoices(new ArrayList <>());
+        
         this.iClientService.updateClient(client);
     }
 

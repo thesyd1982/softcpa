@@ -10,16 +10,15 @@ package fr.sysdev.softcpa.entity;
  * @author f
  */
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.*;
-
 
 @Entity
 @Table(name = "client")
 public class Client implements Serializable {
 
-    @Id    
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_client")
     private Long id;
@@ -28,9 +27,8 @@ public class Client implements Serializable {
     @JoinColumn(name = "id_address")
     private Address address;
 
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "client", fetch = FetchType.EAGER, orphanRemoval = true)
-    private List <Invoice>invoicies; 
+    private List<Invoice> invoicies;
 
     @Column(name = "name")
     private String name;
@@ -41,20 +39,16 @@ public class Client implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_company")
     private Company company;
-    
-    
-    
-    
+
     @Column(name = "phone_number")
     private String phoneNumber;
 
     @Column(name = "mail")
     private String email;
-    
+
     @Column(name = "status")
     private int status;
-    
-    
+
     public Long getId() {
         return id;
     }
@@ -105,8 +99,8 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        String strClient = "{ id : "+id+" name : "+name+", surname:"+surname+", email:"+email+", phone :"+ phoneNumber+"}";
-        return strClient ;
+        String strClient = "{ id : " + id + " name : " + name + ", surname:" + surname + ", email:" + email + ", phone :" + phoneNumber + "}";
+        return strClient;
     }
 
     public int getStatus() {
@@ -116,7 +110,7 @@ public class Client implements Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
-    
+
     public Company getCompany() {
         return company;
     }
@@ -125,12 +119,14 @@ public class Client implements Serializable {
         this.company = company;
     }
 
-    public List <Invoice> getInvoices() {
+    public List<Invoice> getInvoices() {
+
         return invoicies;
     }
 
-    public void setInvoices(List <Invoice> invoicies) {
+    public void setInvoices(List<Invoice> invoicies) {
+
         this.invoicies = invoicies;
     }
-    
+
 }

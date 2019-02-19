@@ -9,6 +9,7 @@ import fr.sysdev.softcpa.constants.Constants;
 import fr.sysdev.softcpa.entity.Address;
 import fr.sysdev.softcpa.entity.Client;
 import fr.sysdev.softcpa.entity.Company;
+import fr.sysdev.softcpa.entity.Invoice;
 import fr.sysdev.softcpa.utils.LoggingBindingListener;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -455,6 +456,7 @@ public class ClientView extends javax.swing.JInternalFrame {
         jTable_client.setSelectionBackground(Color.blue);
         jTable_client.setSelectionForeground(Color.white);
         client = getClientFromSelectedTableRow();
+        //client.setInvoices(new ArrayList<Invoice>());
         //clientToUpdate.setStatus(rowt);
         //setClient(clientToUpdate) ;
     }

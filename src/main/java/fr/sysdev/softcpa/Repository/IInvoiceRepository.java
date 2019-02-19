@@ -6,15 +6,13 @@
 package fr.sysdev.softcpa.Repository;
 
 
-import fr.sysdev.softcpa.Model.Facture;
-import java.util.List;
+import fr.sysdev.softcpa.entity.Invoice;
+import org.springframework.data.repository.CrudRepository;
 
 /**
  *
  * @author COPCGRE
  */
-public interface FactureRepository  {
-   public void save(Facture facture);
-   public Facture getById(int id);
-   public List<Facture> list();
-}
+public interface IInvoiceRepository extends CrudRepository  <Invoice,Long>  {
+
+} 

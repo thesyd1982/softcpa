@@ -8,6 +8,7 @@ package fr.sysdev.softcpa.View;
 import fr.sysdev.softcpa.View.Part.PartView;
 import fr.sysdev.softcpa.View.Client.ClientView;
 import fr.sysdev.softcpa.Controller.DefaultController;
+import fr.sysdev.softcpa.View.Invoice.InvoiceView;
 import fr.sysdev.softcpa.View.Invoicing.InvoicingView;
 import fr.sysdev.softcpa.View.Provider.ProviderView;
 import java.beans.PropertyVetoException;
@@ -17,13 +18,14 @@ import javax.swing.JInternalFrame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+
 /**
  *
  * @author COPCGRE
  */
-
+@Component
 public class DefaultView extends javax.swing.JFrame {
+
     @Autowired
     private DefaultController defaultController;
     @Autowired
@@ -34,8 +36,9 @@ public class DefaultView extends javax.swing.JFrame {
     private InvoicingView invoicingView;
     @Autowired
     private ProviderView providerView;
-    
-    
+    @Autowired
+    private InvoiceView invoiceView;
+
     private HashMap<String, JInternalFrame> viewsMap;
 
     /**
@@ -61,9 +64,10 @@ public class DefaultView extends javax.swing.JFrame {
         jButton_Clients = new javax.swing.JButton();
         jButton_Facturation = new javax.swing.JButton();
         jButton_Devis = new javax.swing.JButton();
-        jButton_Fournisseur = new javax.swing.JButton();
+        jButton_Providers = new javax.swing.JButton();
         jButton_Stock = new javax.swing.JButton();
         jButton_Avoirs = new javax.swing.JButton();
+        jButton_Invoices = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu_Clients = new javax.swing.JMenu();
         jMenu_Stock = new javax.swing.JMenu();
@@ -79,7 +83,7 @@ public class DefaultView extends javax.swing.JFrame {
         );
         jDesktopPaneLayout.setVerticalGroup(
             jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 382, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jButton_Clients.setText("Clients");
@@ -98,10 +102,10 @@ public class DefaultView extends javax.swing.JFrame {
 
         jButton_Devis.setText("Devis");
 
-        jButton_Fournisseur.setText("Fournisseurs");
-        jButton_Fournisseur.addActionListener(new java.awt.event.ActionListener() {
+        jButton_Providers.setText("Fournisseurs");
+        jButton_Providers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_FournisseurActionPerformed(evt);
+                jButton_ProvidersActionPerformed(evt);
             }
         });
 
@@ -113,6 +117,13 @@ public class DefaultView extends javax.swing.JFrame {
         });
 
         jButton_Avoirs.setText("Avoirs");
+
+        jButton_Invoices.setText("Invoices");
+        jButton_Invoices.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_InvoicesActionPerformed(evt);
+            }
+        });
 
         jMenu_Clients.setText("Clients");
         jMenu_Clients.addActionListener(new java.awt.event.ActionListener() {
@@ -133,43 +144,51 @@ public class DefaultView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton_Avoirs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton_Stock, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton_Clients, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton_Fournisseur, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton_Devis, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton_Facturation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton_Avoirs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton_Stock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton_Clients, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton_Providers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton_Devis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton_Facturation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton_Invoices, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jDesktopPane)
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton_Avoirs, jButton_Clients, jButton_Devis, jButton_Facturation, jButton_Invoices, jButton_Providers, jButton_Stock});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton_Facturation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_Devis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_Avoirs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(113, 113, 113)
-                        .addComponent(jButton_Stock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_Facturation, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton_Devis, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton_Clients, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(13, 13, 13)
-                        .addComponent(jButton_Fournisseur, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButton_Invoices, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton_Avoirs, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
+                        .addComponent(jButton_Stock, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton_Clients, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_Providers, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jDesktopPane))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton_Avoirs, jButton_Clients, jButton_Devis, jButton_Facturation, jButton_Invoices, jButton_Providers, jButton_Stock});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenu_ClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_ClientsActionPerformed
-      
+
 
     }//GEN-LAST:event_jMenu_ClientsActionPerformed
 
@@ -182,7 +201,7 @@ public class DefaultView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_ClientsActionPerformed
 
     private void jButton_StockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_StockActionPerformed
-       pieceView = defaultController.gestionStock();
+        pieceView = defaultController.gestionStock();
         try {
             addFrame(pieceView);
         } catch (Exception e) {
@@ -197,30 +216,37 @@ public class DefaultView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton_FacturationActionPerformed
 
-    private void jButton_FournisseurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_FournisseurActionPerformed
+    private void jButton_ProvidersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ProvidersActionPerformed
         providerView = defaultController.managingProviders();
         try {
             addFrame(providerView);
         } catch (Exception e) {
         }
-    }//GEN-LAST:event_jButton_FournisseurActionPerformed
+    }//GEN-LAST:event_jButton_ProvidersActionPerformed
+
+    private void jButton_InvoicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_InvoicesActionPerformed
+        invoiceView = defaultController.managingInvoices();
+        try {
+            addFrame(invoiceView);
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jButton_InvoicesActionPerformed
 
     public void addFrame(JInternalFrame view) throws PropertyVetoException {
-           boolean open = false;
-          
-          for (Object frame : jDesktopPane.getAllFrames()) {
-            if(frame.equals(view))
-            {   view.setSelected(true);
+        boolean open = false;
+
+        for (Object frame : jDesktopPane.getAllFrames()) {
+            if (frame.equals(view)) {
+                view.setSelected(true);
                 open = true;
                 break;
             }
         }
-          if(!open){
+        if (!open) {
             view.setVisible(true);
             jDesktopPane.add(view);
             view.setSelected(true);
-          }
-          
+        }
 
     }
 
@@ -230,7 +256,8 @@ public class DefaultView extends javax.swing.JFrame {
     private javax.swing.JButton jButton_Clients;
     private javax.swing.JButton jButton_Devis;
     private javax.swing.JButton jButton_Facturation;
-    private javax.swing.JButton jButton_Fournisseur;
+    private javax.swing.JButton jButton_Invoices;
+    private javax.swing.JButton jButton_Providers;
     private javax.swing.JButton jButton_Stock;
     private javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JMenuBar jMenuBar1;

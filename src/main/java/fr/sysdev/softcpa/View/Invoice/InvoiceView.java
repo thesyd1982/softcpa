@@ -5,16 +5,19 @@
  */
 package fr.sysdev.softcpa.View.Invoice;
 
+import fr.sysdev.softcpa.constants.Constants;
 import fr.sysdev.softcpa.entity.Invoice;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import fr.sysdev.softcpa.utils.predicates.InvoicesPredicates;
 import javax.swing.JOptionPane;
+import org.springframework.stereotype.Component;
 /**
  *
  * @author f
  */
+@Component
 public class InvoiceView extends javax.swing.JInternalFrame {
 
     /**
@@ -28,34 +31,12 @@ public class InvoiceView extends javax.swing.JInternalFrame {
     }
 
     public InvoiceView(List<Invoice> invoices) {
+        this.setTitle(Constants.JFrameTitles.INVOICES);
         this.invoices = invoices;
+        initComponents();
     }
 
-    public InvoiceView(List<Invoice> invoices, String string) {
-        super(string);
-        this.invoices = invoices;
-    }
-
-    public InvoiceView(List<Invoice> invoices, String string, boolean bln) {
-        super(string, bln);
-        this.invoices = invoices;
-    }
-
-    public InvoiceView(List<Invoice> invoices, String string, boolean bln, boolean bln1) {
-        super(string, bln, bln1);
-        this.invoices = invoices;
-    }
-
-    public InvoiceView(List<Invoice> invoices, String string, boolean bln, boolean bln1, boolean bln2) {
-        super(string, bln, bln1, bln2);
-        this.invoices = invoices;
-    }
-
-    public InvoiceView(List<Invoice> invoices, String string, boolean bln, boolean bln1, boolean bln2, boolean bln3) {
-        super(string, bln, bln1, bln2, bln3);
-        this.invoices = invoices;
-    }
-
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -329,5 +310,9 @@ public class InvoiceView extends javax.swing.JInternalFrame {
 
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
+    }
+
+    public void loadInvoices() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

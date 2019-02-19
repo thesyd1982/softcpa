@@ -31,8 +31,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-import javax.swing.event.RowSorterEvent;
-
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.TableColumnModel;
@@ -643,14 +641,13 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     private void jButton_Part_Open_CsvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Part_Open_CsvActionPerformed
         getCsvFilePath();
         jButton_Part_Import.setEnabled(true);
+        jButton_Part_Import.setVisible(true);
         jComboBox_Part_ProviderToImport.setEnabled(true);
     }//GEN-LAST:event_jButton_Part_Open_CsvActionPerformed
 
     private void jButton_Part_ImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Part_ImportActionPerformed
         t.start();
         jButton_Part_Import.setEnabled(false);
-
-
     }//GEN-LAST:event_jButton_Part_ImportActionPerformed
 
     private void jTable_PartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_PartMouseClicked
@@ -669,6 +666,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
             parts.clear();
             parts.addAll(allParts);
+            bindingPartTable();
         }
         search();
     }//GEN-LAST:event_jTextField_Part_SearchKeyReleased
@@ -979,7 +977,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         jTextField_Part_PurchasingPrice.setText("");
         jTextField_Part_Stock.setText("");
         jTextField_Part_SellingPrice.setText("");
-
+        jTextField_Part_ProfessionalSellingPrice.setText("");
         jButton_Add.setVisible(true);
         jButton_Remove.setVisible(false);
         jButton_Update.setVisible(false);

@@ -5,10 +5,12 @@
  */
 package fr.sysdev.softcpa.View.Invoicing;
 
-
+import fr.sysdev.softcpa.View.Invoice.InvoiceDetailsView;
 import fr.sysdev.softcpa.constants.Constants;
 import fr.sysdev.softcpa.entity.Client;
+import fr.sysdev.softcpa.entity.Invoice;
 import fr.sysdev.softcpa.entity.InvoiceLine;
+import fr.sysdev.softcpa.entity.InvoiceStatus;
 import fr.sysdev.softcpa.entity.Part;
 import fr.sysdev.softcpa.utils.predicates.PartsPredicates;
 import java.awt.BorderLayout;
@@ -19,9 +21,17 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
+import java.beans.PropertyVetoException;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Stream;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -30,6 +40,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.border.MatteBorder;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.springframework.stereotype.Component;
 
@@ -43,28 +54,27 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     /**
      * Creates new form invoicingView
      */
-    
     private List<Client> clients;
-    private Client client ;
-    private List<Part> parts ; 
-    private List<Part> selectedParts = new ArrayList<>(); 
-    private List<InvoiceLine> invoiceLines = new ArrayList<>(); 
+    private Client client;
+    private List<Part> parts;
+    private List<InvoiceLine> selectedInvoiceLines = new ArrayList<>();
+    private List<InvoiceLine> invoiceLines = new ArrayList<>();
     private Client seller;
-    private ArrayList<String>clientsNamesList ;
+    private ArrayList<String> clientsNamesList;
     private DefaultListModel dlm;
-    String details="";
-    
+    String details = "";
+
     public InvoicingView() {
         initComponents();
-
     }
 
-    public InvoicingView(List<Client> clients, List<Part> parts ) {
+    public InvoicingView(List<Client> clients, List<Part> parts) {
+
         this.clients = clients;
         this.parts = parts;
         initComponents();
         prepareForm();
-       
+
     }
 
     /**
@@ -113,11 +123,16 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         jLabel_Client_CompanyName_Value = new javax.swing.JLabel();
         jTextField_Invoicing_Numberplate = new javax.swing.JTextField();
         jLabel_Invoicing_Numberplate = new javax.swing.JLabel();
-        jTextFieldl_Invoicing_Vehicle_Type = new javax.swing.JTextField();
+        jTextField_Invoicing_Vehicle_Type = new javax.swing.JTextField();
         jLabel_Invoicing_Vehicle_Type = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel_Invoice_Lines = new javax.swing.JPanel();
+        jLabel_Amount = new javax.swing.JLabel();
+        jLabel_Amount_Value = new javax.swing.JLabel();
+        jLabel_SelectionCount = new javax.swing.JLabel();
+        jLabel_SelectionCount_Value = new javax.swing.JLabel();
+        jButton_Validate = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -163,7 +178,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
 
         jLabel_Search_Part.setText("jLabel1");
 
-        jPanel_Invoicing_Search_Result.setLayout(new java.awt.GridLayout(50, 0, 0, 50));
+        jPanel_Invoicing_Search_Result.setLayout(new java.awt.GridLayout(50, 0, 0, 5));
         jScrollPane2.setViewportView(jPanel_Invoicing_Search_Result);
 
         jPanel_Invoicing_Client.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -383,8 +398,19 @@ public class InvoicingView extends javax.swing.JInternalFrame {
             }
         });
 
-        jPanel_Invoice_Lines.setLayout(new java.awt.GridLayout(1000, 0, 0, 50));
+        jPanel_Invoice_Lines.setLayout(new java.awt.GridLayout(50, 0, 0, 5));
         jScrollPane1.setViewportView(jPanel_Invoice_Lines);
+
+        jLabel_Amount.setText("jLabel1");
+
+        jLabel_SelectionCount.setText("jLabel3");
+
+        jButton_Validate.setText("jButton2");
+        jButton_Validate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ValidateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -392,36 +418,53 @@ public class InvoicingView extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox_Client, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel_Invoicing_Company, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel_Invoicing_Client, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBox_Client, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel_Invoicing_Company, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel_Invoicing_Client, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel_Invoicing_Vehicle_Type)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldl_Invoicing_Vehicle_Type, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel_Search_Part)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField_Search_Part, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(29, 29, 29)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel_Invoicing_Vehicle_Type)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextField_Invoicing_Vehicle_Type, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel_Search_Part)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextField_Search_Part, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel_Invoicing_Numberplate)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextField_Invoicing_Numberplate, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton_Refresh, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel_Invoicing_Numberplate)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField_Invoicing_Numberplate, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(22, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 943, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel_Amount)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel_Amount_Value)
+                                .addGap(56, 56, 56)
+                                .addComponent(jLabel_SelectionCount)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel_SelectionCount_Value)
+                                .addGap(189, 189, 189))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButton_Validate)
+                                .addGap(172, 172, 172))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -434,22 +477,30 @@ public class InvoicingView extends javax.swing.JInternalFrame {
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel_Invoicing_Client, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel_Invoicing_Company, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel_Invoicing_Vehicle_Type)
-                            .addComponent(jTextFieldl_Invoicing_Vehicle_Type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField_Invoicing_Vehicle_Type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel_Search_Part)
                             .addComponent(jTextField_Search_Part, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton_Refresh))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(149, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel_Invoicing_Client, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel_Invoicing_Company, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_Amount)
+                    .addComponent(jLabel_Amount_Value)
+                    .addComponent(jLabel_SelectionCount)
+                    .addComponent(jLabel_SelectionCount_Value))
+                .addGap(18, 18, 18)
+                .addComponent(jButton_Validate)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -459,64 +510,127 @@ public class InvoicingView extends javax.swing.JInternalFrame {
 
     private void jComboBox_ClientItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_ClientItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-          Object item = evt.getItem();
+            Object item = evt.getItem();
             Optional<Client> clientOptional = clients.stream().filter((t) -> {
-                
-                return item.toString().equals(t.getName()+" "+t.getSurname());
-            }).findAny();
-            
-            
-               if(clientOptional.isPresent()){
-                   client =clientOptional.get();
-                   if(client.getStatus()==0) {showClientPanel(); hideCompanyPanel();}
-                   else {showClientPanel();showCompanyPanel();}
-                   refresh();
-               }
-               
-               
-               
-               else{
-                    hideClientPanel();
-                   }
 
-             System.out.println(item);
-             System.out.println("client :"+ client);
-             
-       }
+                return item.toString().equals(t.getName() + " " + t.getSurname());
+            }).findAny();
+
+            if (clientOptional.isPresent()) {
+                client = clientOptional.get();
+                if (client.getStatus() == 0) {
+                    showClientPanel();
+                    hideCompanyPanel();
+                } else {
+                    showClientPanel();
+                    showCompanyPanel();
+                }
+                refresh();
+            } else {
+                hideClientPanel();
+            }
+
+//            System.out.println(item);
+//            System.out.println("client :" + client);
+//            System.out.println("invoice : "+invoice);
+
+        }
     }//GEN-LAST:event_jComboBox_ClientItemStateChanged
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-      
-      prepareForm();
-        
+
+        prepareForm();
+
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void jButton_RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RefreshActionPerformed
-      prepareForm();
+        prepareForm();
     }//GEN-LAST:event_jButton_RefreshActionPerformed
 
     private void jTextField_Search_PartKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_Search_PartKeyReleased
         int code = evt.getKeyCode();
         int modifiers = evt.getModifiers();
         if (code == evt.VK_CONTROL) {
-         //JOptionPane.showMessageDialog(null, code);
-        // search();
-         }
-        else{
-        search();
+            //JOptionPane.showMessageDialog(null, code);
+            // search();
+        } else {
+            search();
         }
-        
+
     }//GEN-LAST:event_jTextField_Search_PartKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            invoiceLines.forEach(
-                    l->details = details+"\n" + l.getPart().getReference()+" | "
-                    +l.getPart().getDesignation()+" : "+l.getPart().getBrand()+" | "
-                    +l.getPart().getSellingPrice()+" € | "+l.getQuantity()+" | "
-                    +(l.getQuantity()*l.getPart().getSellingPrice())+" € "
-                     );
-            JOptionPane.showMessageDialog(null, details);
+        invoiceLines.forEach(
+                l -> details = details + "\n" + l.getPart().getReference() + " | "
+                + l.getPart().getDesignation() + " : " + l.getPart().getBrand() + " | "
+                + l.getPart().getSellingPrice() + " € | " + l.getQuantity() + " | "
+                + (l.getQuantity() * l.getPart().getSellingPrice()) + " € "
+        );
+        JOptionPane.showMessageDialog(null, details);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton_ValidateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ValidateActionPerformed
+        Object[] buttons = {
+            Constants.Labels.INVOICE,
+            Constants.Labels.CREDIT_NOTE,
+            Constants.Labels.DELIVERY_FORM,
+            Constants.Labels.QUIT
+        };
+        int rc = JOptionPane.showOptionDialog(null, "Question ?", Constants.Labels.CONFIRMATION,
+                JOptionPane.WARNING_MESSAGE, 0, null, buttons, buttons[2]);
+         invoiceLines.forEach(
+                l -> details = details + "\n" + l.getPart().getReference() + " | "
+                + l.getPart().getDesignation() + " : " + l.getPart().getBrand() + " | "
+                + l.getPart().getSellingPrice() + " € | " + l.getQuantity() + " | "
+                + (l.getQuantity() * l.getPart().getSellingPrice()) + " € "
+        );
+         if(rc == 0){
+             //JOptionPane.showMessageDialog(null, client+"\n"+selectedInvoiceLines+"\n"+details);
+             Invoice in = new Invoice();
+             in.setClient(client);
+             in.setInvocesLines(selectedInvoiceLines);
+             System.out.println(in.getInvocesLines());
+             LocalDate locald = LocalDate.now();
+             
+             in.setInvoiceDate(locald);
+             in.setAmount((long) amount());
+             InvoiceStatus is = new InvoiceStatus();
+             is.setInvoiceStatus(Constants.Labels.UNPAID);
+             in.setInvoiceStatus(is);
+
+             in.setVehicleType(jTextField_Invoicing_Vehicle_Type.getText());
+             in.setPlatenumber(jTextField_Invoicing_Numberplate.getText());
+             in.setInvoiceNumber(Constants.Labels.INVOICE_PREFIX+locald.getDayOfMonth()+locald.getMonthValue()+locald.getYear()+'-'+"key");
+             
+             
+             
+             LocalDate bd = LocalDate.of(1982,01,18);
+              
+             Period p = Period.between(bd, locald);
+             System.out.printf("age %d ans et %d mois et %d jours", p.getYears(), p.getMonths(),p.getDays());
+             
+            try {
+                displayInvoice(in);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(InvoicingView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           
+         }
+    
+        
+         
+         
+    }//GEN-LAST:event_jButton_ValidateActionPerformed
+
+    public void displayInvoice(Invoice in) throws PropertyVetoException {
+        InvoiceDetailsView idv=new InvoiceDetailsView(in);
+        idv.setVisible(true);
+         this.getParent().add(idv);
+        idv.setSelected(true);
+        idv.toFront();
+        idv.setFocusable(true);
+       
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -524,6 +638,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     private fr.sysdev.softcpa.utils.Converter.IdConvertor idConvertor1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_Refresh;
+    private javax.swing.JButton jButton_Validate;
     private javax.swing.JComboBox<String> jComboBox_Client;
     private javax.swing.JLabel jLabel_Address_City;
     private javax.swing.JLabel jLabel_Address_City_Value;
@@ -533,6 +648,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel_Address_PostCode_Value;
     private javax.swing.JLabel jLabel_Address_Street;
     private javax.swing.JLabel jLabel_Address_Street_Value;
+    private javax.swing.JLabel jLabel_Amount;
+    private javax.swing.JLabel jLabel_Amount_Value;
     private javax.swing.JLabel jLabel_Client_CompanyID;
     private javax.swing.JLabel jLabel_Client_CompanyID_Value;
     private javax.swing.JLabel jLabel_Client_CompanyName;
@@ -552,6 +669,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel_Invoicing_Numberplate;
     private javax.swing.JLabel jLabel_Invoicing_Vehicle_Type;
     private javax.swing.JLabel jLabel_Search_Part;
+    private javax.swing.JLabel jLabel_SelectionCount;
+    private javax.swing.JLabel jLabel_SelectionCount_Value;
     private javax.swing.JPanel jPanel_Invoice_Lines;
     private javax.swing.JPanel jPanel_Invoicing_Client;
     private javax.swing.JPanel jPanel_Invoicing_Company;
@@ -559,39 +678,41 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField_Invoicing_Numberplate;
+    private javax.swing.JTextField jTextField_Invoicing_Vehicle_Type;
     private javax.swing.JTextField jTextField_Search_Part;
-    private javax.swing.JTextField jTextFieldl_Invoicing_Vehicle_Type;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
     public void loadClients() {
-        
+
         dlm = new DefaultListModel<>();
-        
+
         jComboBox_Client.removeAllItems();
         jComboBox_Client.addItem(Constants.Messages.CHOOSE_CLIENT);
         jComboBox_Client.setSelectedIndex(0);
-        
-       clientsNamesList = clientsNamesList();
-       clientsNamesList.forEach(
-               (String c)->{ jComboBox_Client.addItem(c);
-                              dlm.addElement(c);
-                });       
-       
-       
-       AutoCompleteDecorator.decorate(jComboBox_Client);
-       
-       String[] clientsArray = new String[clientsNamesList.size()];
-        
-        
+
+        clientsNamesList = clientsNamesList();
+        clientsNamesList.forEach(
+                (String c) -> {
+                    jComboBox_Client.addItem(c);
+                    dlm.addElement(c);
+                });
+
+        AutoCompleteDecorator.decorate(jComboBox_Client);
+
+        String[] clientsArray = new String[clientsNamesList.size()];
+
         clientsArray = clientsNamesList.toArray(clientsArray);
-      
+
     }
-    
-    private ArrayList<String>clientsNamesList(){ArrayList<String>cnl ;
+
+    private ArrayList<String> clientsNamesList() {
+        ArrayList<String> cnl;
         cnl = new ArrayList<>();
-       clients.forEach( (Client c)-> {cnl.add(c.getName()+" "+c.getSurname());  });
-       return cnl;
+        clients.forEach((Client c) -> {
+            cnl.add(c.getName() + " " + c.getSurname());
+        });
+        return cnl;
     }
 
     private void prepareForm() {
@@ -603,7 +724,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         jLabel_Client_Name.setText(Constants.Labels.NAME);
         jLabel_Client_PhoneNumber.setText(Constants.Labels.PHONE_NUMBER);
         jLabel_Client_Surname.setText(Constants.Labels.SURNAME);
-       //jLabel_Client_Search.setText(Constants.Labels.SEARCH);
+
         jLabel_Address_Street.setText(Constants.Labels.STREET);
         jLabel_Client_Status.setText(Constants.Labels.CLIENT_STATUS);
         jLabel_Client_CompanyName.setText(Constants.Labels.COMPANY_NAME);
@@ -611,8 +732,15 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         jLabel_Search_Part.setText(Constants.Labels.SEARCH);
         jButton_Refresh.setText(Constants.Labels.REFRESH_BTN);
         
-         loadClients();
+       jButton_Validate.setText(Constants.Labels.VALIDATE);
         
+        jLabel_Amount.setText(Constants.Labels.AMOUNT);
+        jLabel_SelectionCount.setText(Constants.Labels.SELECTION_COUNT);
+        jLabel_Invoicing_Numberplate.setText(Constants.Labels.PLATENUMBER);
+        jLabel_Invoicing_Vehicle_Type.setText(Constants.Labels.VEHICLE_TYPE);
+        
+        loadClients();
+
         hideClientPanel();
         hideCompanyPanel();
     }
@@ -689,336 +817,491 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         bindingGroup.bind();
     }
 
-
-    
     public void hideCompanyPanel() {
         jPanel_Invoicing_Company.setVisible(false);
     }
-    
+
     public void showCompanyPanel() {
         jPanel_Invoicing_Company.setVisible(true);
     }
-    
-    public void hideClientPanel(){
-       jPanel_Invoicing_Client.setVisible(false);
+
+    public void hideClientPanel() {
+        jPanel_Invoicing_Client.setVisible(false);
     }
-    
-    public void showClientPanel(){
+
+    public void showClientPanel() {
         jPanel_Invoicing_Client.setVisible(true);
     }
-    
-    public JButton getRefreshBtn(){
-    
-    return jButton_Refresh;
+
+    public JButton getRefreshBtn() {
+
+        return jButton_Refresh;
     }
 
-    
-    
     private void search() {
-        
-        ArrayList<JPanel> panels = new ArrayList<>();
-        ArrayList<JPanel>  selectedPanels = new ArrayList<>();
-        ArrayList<InvoiceLine> searchResultsInvoicelines = new ArrayList<>();
-        
-        Border border = BorderFactory.createLineBorder(Color.BLUE, 1);
 
-        
+        ArrayList<InvoiceLine> searchResultsInvoicelines = new ArrayList<>();
+
         String s = jTextField_Search_Part.getText().toUpperCase();
-        List<Part> filter = PartsPredicates.filterParts(parts,PartsPredicates.refEquals(s));
-        final InvoiceLine il = new InvoiceLine();
-        filter.forEach(
-                p-> {il.setPart(p);
-                il.setQuantity(1);
-                searchResultsInvoicelines.add(il);
-                });
-        
-        
-        
-        jPanel_Invoicing_Search_Result.removeAll() ;
-       if( searchResultsInvoicelines.size()>0){
-            
-           searchResultsInvoicelines.forEach((l) -> createResultPanel(l, border, panels, selectedPanels));
-        
-       
-            panels.forEach((p)->jPanel_Invoicing_Search_Result.add(p));
-        
-        
+        List<Part> filter = PartsPredicates.filterParts(parts, PartsPredicates.refEquals(s));
+        searchResultsInvoicelines = createDefaultInvoiceLines(filter);
+
+        jPanel_Invoicing_Search_Result.removeAll();
+        if (searchResultsInvoicelines.size() > 0) {
+            jPanel_Invoicing_Search_Result.add(createHeadersPanel());
+            searchResultsInvoicelines.forEach((l) -> {
+                JPanel p = createResultPanel(l);
+                jPanel_Invoicing_Search_Result.add(p);
+
+            });
+
             jPanel_Invoicing_Search_Result.setVisible(true);
             jPanel_Invoicing_Search_Result.revalidate();
             jPanel_Invoicing_Search_Result.repaint();
-         }
-       else{
-           panels.clear();
-           jPanel_Invoicing_Search_Result.removeAll() ;
-           jPanel_Invoicing_Search_Result.revalidate();
-           jPanel_Invoicing_Search_Result.repaint();
-            
-       }
-       
+        } else {
 
-        
+            jPanel_Invoicing_Search_Result.removeAll();
+            jPanel_Invoicing_Search_Result.revalidate();
+            jPanel_Invoicing_Search_Result.repaint();
+
+        }
+
     }
 
-    public JPanel createResultPanel(InvoiceLine il, Border border, ArrayList<JPanel> panels,ArrayList<JPanel>  selectedPanels) {
-        
+    public JPanel createResultPanel(InvoiceLine il) {
+
         JPanel panel;
         JLabel label;
         JButton addBtn;
+        Border border = BorderFactory.createLineBorder(Color.BLUE, 1);
         panel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
         panel.setLayout(gbl);
         GridBagConstraints gdbc = new GridBagConstraints();
         int x = 0;
-        int y= 0;
+        int y = 0;
         int w = 1;
         label = new JLabel(il.getPart().getReference());
         label.setBorder(border);
-        label.setName("labelReference"+il.getPart().getId());
+        label.setName("labelReference" + il.getPart().getId());
         gdbc.gridx = x;
         gdbc.gridy = y;
         gdbc.gridwidth = w;
-        gdbc.ipadx =40;
-        gdbc.insets = new Insets(0,0,0,12);
+        gdbc.ipadx = 40;
+        gdbc.insets = new Insets(0, 0, 0, 12);
+
         label.setBorder(border);
-        panel.add(label,gdbc);
+        panel.add(label, gdbc);
         label = new JLabel(il.getPart().getDesignation());
-        label.setName("labelDesignation"+il.getPart().getId());
-        x =x+w;
+        label.setName("labelDesignation" + il.getPart().getId());
+        x = x + w;
         gdbc.gridx = x;
         gdbc.gridy = y;
         w = 3;
         gdbc.gridwidth = w;
-        gdbc.fill= GridBagConstraints.HORIZONTAL;
-        gdbc.ipadx =250;
-        label.setPreferredSize(new Dimension(50,20));
-        label.setMinimumSize(new Dimension(50,20));
-        label.setMaximumSize(new Dimension(50,20));
+        gdbc.fill = GridBagConstraints.HORIZONTAL;
+        gdbc.ipadx = 250;
+        label.setPreferredSize(new Dimension(50, 20));
+        label.setMinimumSize(new Dimension(50, 20));
+        label.setMaximumSize(new Dimension(50, 20));
         label.setBorder(border);
-        panel.add(label,gdbc);
+        panel.add(label, gdbc);
         label = new JLabel(il.getPart().getBrand());
-        label.setName("labelBrand"+il.getPart().getId());
-        x =x+w;
+        label.setName("labelBrand" + il.getPart().getId());
+        x = x + w;
         gdbc.gridx = x;
         gdbc.gridy = y;
-        w =1;
+        w = 1;
         gdbc.gridwidth = w;
-        gdbc.ipadx =40;
+        gdbc.ipadx = 40;
         label.setBorder(border);
-        label.setPreferredSize(new Dimension(50,20));
-        label.setMinimumSize(new Dimension(50,20));
-        label.setMaximumSize(new Dimension(50,20));
-        panel.add(label,gdbc);
-        label = new JLabel(il.getPart().getProvider().getName()+"");
-        label.setName("labelProviderName"+il.getPart().getId());
-        x =x+w;
-        gdbc.gridx = x;
-        gdbc.gridy = y;
-        gdbc.gridwidth = w;
-        label.setBorder(border);
-        label.setPreferredSize(new Dimension(50,20));
-        label.setMinimumSize(new Dimension(50,20));
-        label.setMaximumSize(new Dimension(50,20));
-        panel.add(label,gdbc);
-        label = new JLabel(il.getPart().getPurchasingPrice()+"");
-        label.setName("labelPurchasingPrice"+il.getPart().getId());
-        x =x+w;
+        label.setPreferredSize(new Dimension(50, 20));
+        label.setMinimumSize(new Dimension(50, 20));
+        label.setMaximumSize(new Dimension(50, 20));
+        panel.add(label, gdbc);
+        label = new JLabel(il.getPart().getProvider().getName() + "");
+        label.setName("labelProviderName" + il.getPart().getId());
+        x = x + w;
         gdbc.gridx = x;
         gdbc.gridy = y;
         gdbc.gridwidth = w;
-        gdbc.ipadx =30;
-        label.setPreferredSize(new Dimension(30,20));
-        label.setMinimumSize(new Dimension(30,20));
-        label.setMaximumSize(new Dimension(30,20));
         label.setBorder(border);
-        panel.add(label,gdbc);
-        label = new JLabel(il.getPart().getSellingPrice()+"");
-        label.setName("labelSellingPrice"+il.getPart().getId());
-        x =x+w;
+        label.setPreferredSize(new Dimension(50, 20));
+        label.setMinimumSize(new Dimension(50, 20));
+        label.setMaximumSize(new Dimension(50, 20));
+        panel.add(label, gdbc);
+        label = new JLabel(il.getPart().getPurchasingPrice() + "");
+        label.setName("labelPurchasingPrice" + il.getPart().getId());
+        x = x + w;
         gdbc.gridx = x;
         gdbc.gridy = y;
         gdbc.gridwidth = w;
-        gdbc.ipadx =30;
-        label.setPreferredSize(new Dimension(30,20));
-        label.setMinimumSize(new Dimension(30,20));
-        label.setMaximumSize(new Dimension(30,20));
+        gdbc.ipadx = 30;
+        label.setPreferredSize(new Dimension(30, 20));
+        label.setMinimumSize(new Dimension(30, 20));
+        label.setMaximumSize(new Dimension(30, 20));
         label.setBorder(border);
-        panel.add(label,gdbc);
-        addBtn = new JButton("[ + ]");
-        addBtn.setName("add"+il.getPart().getId());
-        final JPanel p = panel;
+        panel.add(label, gdbc);
         
-        final JTextField qt = new JTextField("1",5);
+        if (client == null || client.getStatus() != 1) {
+        label = new JLabel(il.getPart().getSellingPrice() + "");
+        label.setName("labelSellingPrice" + il.getPart().getId());
+        }
+        else {
+        label = new JLabel(il.getPart().getProfessionalSellingPrice()+ "");
+        label.setName("labelProSellingPrice" + il.getPart().getId());
+        }
+        
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        gdbc.gridwidth = w;
+        gdbc.ipadx = 30;
+        label.setPreferredSize(new Dimension(30, 20));
+        label.setMinimumSize(new Dimension(30, 20));
+        label.setMaximumSize(new Dimension(30, 20));
+        label.setBorder(border);
+        panel.add(label, gdbc);
+        addBtn = new JButton("[ + ]");
+        addBtn.setName("add" + il.getPart().getId());
+        final JTextField qt = new JTextField("" + il.getQuantity(), 5);
         addBtn.addActionListener((ActionEvent ae) -> {
-            
-            jPanel_Invoicing_Search_Result.removeAll() ;
+            il.setQuantity(Integer.parseInt(qt.getText()));
+            jPanel_Invoicing_Search_Result.removeAll();
             jPanel_Invoicing_Search_Result.revalidate();
             jPanel_Invoicing_Search_Result.repaint();
-          
-            selectedParts.add(il.getPart());
-            il.setPart(il.getPart());
-            il.setQuantity(Integer.parseInt(qt.getText()));
-            invoiceLines.add(il);
-            jTextField_Search_Part.setText("");
-            JPanel selectedPanel = createSelectedPanel(il,border);
-            selectedPanels.add(selectedPanel);
-            selectedPanels.forEach(sp ->jPanel_Invoice_Lines.add(sp) );
+
+           List<Part> filter = PartsPredicates.filterParts(parts, PartsPredicates.refEquals(il.getPart().getReference()));
             
-            jPanel_Invoice_Lines.setPreferredSize(new Dimension(460,20));
+            Stream<InvoiceLine> ils = selectedInvoiceLines.stream().filter(p -> p.getPart().getReference().equals(il.getPart().getReference()));
+            
+            List<InvoiceLine> list;
+            
+
+           
+            
+            selectedInvoiceLines.add(il);
+
+            jPanel_Invoice_Lines.removeAll();
+            selectedInvoiceLines.forEach(l -> {
+                JPanel selectedPanel = createSelectedPanel(l);
+                jPanel_Invoice_Lines.add(selectedPanel);
+            });
+
+            jLabel_SelectionCount_Value.setText(selectedInvoiceLines.size() + "");
+            jLabel_Amount_Value.setText(amount() + " €");
+            jPanel_Invoice_Lines.setVisible(true);
             jPanel_Invoice_Lines.revalidate();
             jPanel_Invoice_Lines.repaint();
-            
-            
-            
-            System.out.println(""+il);});
-            
-          
-            
+
+            jTextField_Search_Part.setText("");
+        });
+
         JPanel pan = new JPanel();
-       
-        pan.add(addBtn,BorderLayout.LINE_START);
+
+        pan.add(addBtn);
         pan.add(qt);
-        x =x+w;
+        x = x + w;
         gdbc.gridx = x;
         gdbc.gridy = y;
         w = 3;
         gdbc.gridwidth = w;
-        panel.add(pan,gdbc);
-        panel.setPreferredSize(new Dimension(460,20));
-        panel.setName("panel"+il.getPart().getId());
-        panels.add(panel);
-        jScrollPane1.add(panel);
+        panel.add(pan, gdbc);
+        panel.setPreferredSize(new Dimension(500, 40));
+        panel.setBorder(new MatteBorder(0,
+                0,
+                1,
+                0,
+                Color.red));
+
+        panel.setName("panel" + il.getPart().getId());
+
         return panel;
     }
 
-    public JPanel createSelectedPanel(InvoiceLine il, Border border) {
+    public double amount() {
+        if (client == null || client.getStatus() != 0) {
+            return selectedInvoiceLines.stream().mapToDouble(i -> i.getQuantity() * i.getPart().getProfessionalSellingPrice()).sum();
+        } else {
+            return selectedInvoiceLines.stream().mapToDouble(i -> i.getQuantity() * i.getPart().getSellingPrice()).sum();
+        }
+    }
+
+    public JPanel createSelectedPanel(InvoiceLine il) {
         JPanel panel;
         JLabel label;
         JButton removeBtn;
-       
+        Border border = BorderFactory.createLineBorder(Color.BLUE, 0);
+
         panel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
         panel.setLayout(gbl);
         GridBagConstraints gdbc = new GridBagConstraints();
         int x = 0;
-        int y= 0;
+        int y = 0;
         int w = 1;
         label = new JLabel(il.getPart().getReference());
         label.setBorder(border);
-        label.setName("labelReference"+il.getPart().getId());
+        label.setName("labelReference" + il.getPart().getId());
         gdbc.gridx = x;
         gdbc.gridy = y;
         gdbc.gridwidth = w;
-        gdbc.ipadx =40;
-        gdbc.insets = new Insets(0,0,0,12);
+        gdbc.ipadx = 40;
+        gdbc.insets = new Insets(0, 0, 0, 12);
         label.setBorder(border);
-        panel.add(label,gdbc);
+        panel.add(label, gdbc);
         label = new JLabel(il.getPart().getDesignation());
-        label.setName("labelDesignation"+il.getPart().getId());
-        x =x+w;
+        label.setName("labelDesignation" + il.getPart().getId());
+        x = x + w;
         gdbc.gridx = x;
         gdbc.gridy = y;
         w = 3;
         gdbc.gridwidth = w;
-        gdbc.fill= GridBagConstraints.HORIZONTAL;
-        gdbc.ipadx =250;
-        label.setPreferredSize(new Dimension(50,20));
-        label.setMinimumSize(new Dimension(50,20));
-        label.setMaximumSize(new Dimension(50,20));
+        gdbc.fill = GridBagConstraints.HORIZONTAL;
+        gdbc.ipadx = 250;
+        label.setPreferredSize(new Dimension(50, 20));
+        label.setMinimumSize(new Dimension(50, 20));
+        label.setMaximumSize(new Dimension(50, 20));
         label.setBorder(border);
-        panel.add(label,gdbc);
+        panel.add(label, gdbc);
         label = new JLabel(il.getPart().getBrand());
-        label.setName("labelBrand"+il.getPart().getId());
-        x =x+w;
+        label.setName("labelBrand" + il.getPart().getId());
+        x = x + w;
         gdbc.gridx = x;
         gdbc.gridy = y;
-        w =1;
+        w = 1;
         gdbc.gridwidth = w;
-        gdbc.ipadx =40;
+        gdbc.ipadx = 40;
         label.setBorder(border);
-        label.setPreferredSize(new Dimension(50,20));
-        label.setMinimumSize(new Dimension(50,20));
-        label.setMaximumSize(new Dimension(50,20));
-        panel.add(label,gdbc);
-        label = new JLabel(il.getPart().getProvider().getName()+"");
-        label.setName("labelProviderName"+il.getPart().getId());
-        x =x+w;
-        gdbc.gridx = x;
-        gdbc.gridy = y;
-        gdbc.gridwidth = w;
-        label.setBorder(border);
-        label.setPreferredSize(new Dimension(50,20));
-        label.setMinimumSize(new Dimension(50,20));
-        label.setMaximumSize(new Dimension(50,20));
-        panel.add(label,gdbc);
-        label = new JLabel(il.getPart().getPurchasingPrice()+"");
-        label.setName("labelPurchasingPrice"+il.getPart().getId());
-        x =x+w;
+        label.setPreferredSize(new Dimension(50, 20));
+        label.setMinimumSize(new Dimension(50, 20));
+        label.setMaximumSize(new Dimension(50, 20));
+        panel.add(label, gdbc);
+        label = new JLabel(il.getPart().getProvider().getName() + "");
+        label.setName("labelProviderName" + il.getPart().getId());
+        x = x + w;
         gdbc.gridx = x;
         gdbc.gridy = y;
         gdbc.gridwidth = w;
-        gdbc.ipadx =30;
-        label.setPreferredSize(new Dimension(30,20));
-        label.setMinimumSize(new Dimension(30,20));
-        label.setMaximumSize(new Dimension(30,20));
         label.setBorder(border);
-        panel.add(label,gdbc);
-        label = new JLabel(il.getPart().getSellingPrice()+"");
-        label.setName("labelSellingPrice"+il.getPart().getId());
-        x =x+w;
+        label.setPreferredSize(new Dimension(50, 20));
+        label.setMinimumSize(new Dimension(50, 20));
+        label.setMaximumSize(new Dimension(50, 20));
+        panel.add(label, gdbc);
+        label = new JLabel(il.getPart().getPurchasingPrice() + "");
+        label.setName("labelPurchasingPrice" + il.getPart().getId());
+        x = x + w;
         gdbc.gridx = x;
         gdbc.gridy = y;
         gdbc.gridwidth = w;
-        gdbc.ipadx =30;
-        label.setPreferredSize(new Dimension(30,20));
-        label.setMinimumSize(new Dimension(30,20));
-        label.setMaximumSize(new Dimension(30,20));
+        gdbc.ipadx = 30;
+        label.setPreferredSize(new Dimension(30, 20));
+        label.setMinimumSize(new Dimension(30, 20));
+        label.setMaximumSize(new Dimension(30, 20));
         label.setBorder(border);
-        panel.add(label,gdbc);
-        removeBtn = new JButton("-");
-        removeBtn.setName("remove"+il.getPart().getId());
-        final JPanel p = panel;
-        final JTextField qt= new JTextField(""+il.getQuantity(),5);
+        panel.add(label, gdbc);
+        
+        if (client == null || client.getStatus() != 1) {
+        label = new JLabel(il.getPart().getSellingPrice() + "");
+        label.setName("labelSellingPrice" + il.getPart().getId());
+        }
+        else {
+        label = new JLabel(il.getPart().getProfessionalSellingPrice()+ "");
+        label.setName("labelProSellingPrice" + il.getPart().getId());
+        }
+        
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        gdbc.gridwidth = w;
+        gdbc.ipadx = 30;
+        label.setPreferredSize(new Dimension(30, 20));
+        label.setMinimumSize(new Dimension(30, 20));
+        label.setMaximumSize(new Dimension(30, 20));
+        label.setBorder(border);
+        panel.add(label, gdbc);
+        removeBtn = new JButton("[ - ]");
+        removeBtn.setName("remove" + il.getPart().getId());
+        // final JPanel p = panel;
+        final JTextField qt = new JTextField("" + il.getQuantity(), 5);
         removeBtn.addActionListener((ActionEvent ae) -> {
 
-            selectedParts.remove(il.getPart());
-            
-            jPanel_Invoice_Lines.remove(p);
+            selectedInvoiceLines.remove(il);
+
+            jLabel_SelectionCount_Value.setText(selectedInvoiceLines.size() + "");
+            jLabel_Amount_Value.setText(amount() + " €");
+
+            jPanel_Invoice_Lines.remove(panel);
             jPanel_Invoice_Lines.revalidate();
             jPanel_Invoice_Lines.repaint();
-            
+
         });
         JPanel pan = new JPanel();
-        pan.add(removeBtn,BorderLayout.LINE_START);
+        pan.add(removeBtn, BorderLayout.LINE_START);
         pan.add(qt);
-        x =x+w;
+
+        x = x + w;
         gdbc.gridx = x;
         gdbc.gridy = y;
         w = 3;
         gdbc.gridwidth = w;
-        panel.add(pan,gdbc);
-        panel.setPreferredSize(new Dimension(460,20));
-        panel.setName("panel"+il.getPart().getId());
- 
+        panel.add(pan, gdbc);
+        panel.setPreferredSize(new Dimension(500, 40));
+        panel.setBorder(new MatteBorder(0,
+                0,
+                1,
+                0,
+                Color.green));
+        panel.setName("panel" + il.getPart().getId());
+
         return panel;
     }
-    
 
-    
     public void loadParts() {
-        
+        createDefaultInvoiceLines(parts);
         System.out.println("Maj des parts");
     }
 
-    public List<Part> getSelectedParts() {
-        return selectedParts;
+    public ArrayList<InvoiceLine> createDefaultInvoiceLines(List<Part> parts) {
+
+        ArrayList ils = new ArrayList();
+        parts.forEach(p -> {
+            InvoiceLine il = new InvoiceLine();
+            il.setPart(p);
+            il.setQuantity(1);
+            ils.add(il);
+        });
+        return ils;
     }
 
-    public void setSelectedParts(List<Part> selectedParts) {
-        this.selectedParts = selectedParts;
+    public List<InvoiceLine> getSelectedInvoiceLines() {
+        return selectedInvoiceLines;
+    }
+
+    public void setSelectedInvoiceLines(List<InvoiceLine> selectedInvoiceLines) {
+        this.selectedInvoiceLines = selectedInvoiceLines;
+    }
+
+    
+     public JPanel createHeadersPanel() {
+
+        JPanel panel;
+        JLabel label;
+
+        Border border = BorderFactory.createLineBorder(Color.BLUE, 1);
+        panel = new JPanel();
+        GridBagLayout gbl = new GridBagLayout();
+        panel.setLayout(gbl);
+        GridBagConstraints gdbc = new GridBagConstraints();
+        int x = 0;
+        int y = 0;
+        int w = 1;
+        label = new JLabel(Constants.Labels.REF);
+        label.setBorder(border);
+        label.setName("labelHeaderReference");
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        gdbc.gridwidth = w;
+        gdbc.ipadx = 40;
+        gdbc.insets = new Insets(0, 0, 0, 12);
+
+        label.setBorder(border);
+        panel.add(label, gdbc);
+        label = new JLabel(Constants.Labels.DESIGNATION);
+        label.setName("labelHeaderDesignation");
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        w = 3;
+        gdbc.gridwidth = w;
+        gdbc.fill = GridBagConstraints.HORIZONTAL;
+        gdbc.ipadx = 250;
+        label.setPreferredSize(new Dimension(50, 20));
+        label.setMinimumSize(new Dimension(50, 20));
+        label.setMaximumSize(new Dimension(50, 20));
+        label.setBorder(border);
+        panel.add(label, gdbc);
+        label = new JLabel(Constants.Labels.BRAND);
+        label.setName("labelHeaderBrand");
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        w = 1;
+        gdbc.gridwidth = w;
+        gdbc.ipadx = 40;
+        label.setBorder(border);
+        label.setPreferredSize(new Dimension(50, 20));
+        label.setMinimumSize(new Dimension(50, 20));
+        label.setMaximumSize(new Dimension(50, 20));
+        panel.add(label, gdbc);
+        label = new JLabel(Constants.Labels.PROVIDER);
+        label.setName("labelHeaderProviderName");
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        gdbc.gridwidth = w;
+        label.setBorder(border);
+        label.setPreferredSize(new Dimension(50, 20));
+        label.setMinimumSize(new Dimension(50, 20));
+        label.setMaximumSize(new Dimension(50, 20));
+        panel.add(label, gdbc);
+        label = new JLabel(Constants.Labels.PUR_PRICE_HEADER);
+        label.setName("labelHeaderPurchasingPrice");
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        gdbc.gridwidth = w;
+        gdbc.ipadx = 30;
+        label.setPreferredSize(new Dimension(30, 20));
+        label.setMinimumSize(new Dimension(30, 20));
+        label.setMaximumSize(new Dimension(30, 20));
+        label.setBorder(border);
+        panel.add(label, gdbc);
+        
+        if (client == null || client.getStatus() != 1) {
+        label = new JLabel(Constants.Labels.SELLING_PRICE_HEADER);
+        label.setName("labelHeaderSellingPrice");
+        }
+        else {
+        label = new JLabel(Constants.Labels.PRO_SELLING_PRICE_HEADER);
+        label.setName("labelHeaderProSellingPrice");
+        }
+    
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        gdbc.gridwidth = w;
+        gdbc.ipadx = 30;
+        label.setPreferredSize(new Dimension(30, 20));
+        label.setMinimumSize(new Dimension(30, 20));
+        label.setMaximumSize(new Dimension(30, 20));
+        label.setBorder(border);
+        panel.add(label, gdbc);
+
+
+        JPanel pan = new JPanel();
+        label = new JLabel(Constants.Labels.QUANTITY);
+        label.setName("labelHeaderQuantity");
+        pan.add(label);
+        label = new JLabel(" test");
+        pan.add(label);
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        w = 3;
+        gdbc.gridwidth = w;
+        panel.add(pan, gdbc);
+        panel.setPreferredSize(new Dimension(500, 40));
+        panel.setBorder(new MatteBorder(0,
+                0,
+                1,
+                0,
+                Color.red));
+
+        panel.setName("panelHeader");
+
+        return panel;
     }
     
-    
-    
-  
     
 }

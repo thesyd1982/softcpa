@@ -41,7 +41,7 @@ public class Payment implements Serializable {
 
     @Column(name = "date_of_payment")
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dateOfPayments;
+    private Date dateOfPayment;
 
     public long getId() {
         return id;
@@ -67,12 +67,12 @@ public class Payment implements Serializable {
         this.amount = amount;
     }
 
-    public Date getDateOfPayments() {
-        return dateOfPayments;
+    public Date getDateOfPayment() {
+        return dateOfPayment;
     }
 
-    public void setDateOfPayments(Date dateOfPayments) {
-        this.dateOfPayments = dateOfPayments;
+    public void setDateOfPayment(Date dateOfPayment) {
+        this.dateOfPayment = dateOfPayment;
     }
 
     @Override

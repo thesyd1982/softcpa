@@ -10,9 +10,9 @@ package fr.sysdev.softcpa.entity;
  * @author f
  */
 import java.io.Serializable;
+import java.time.LocalDate;
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import java.util.List; 
 
 @Entity
 @Table(name = "invoice")
@@ -48,8 +48,7 @@ public class Invoice implements Serializable {
     private String vehicleType;
     
     @Column(name = "invoice_date")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date invoiceDate;
+    private LocalDate invoiceDate;
 
     @Column(name = "amount")
     private long amount;
@@ -86,11 +85,11 @@ public class Invoice implements Serializable {
         this.invoiceStatus = invoiceStatus;
     }
 
-    public Date getInvoiceDate() {
+    public LocalDate getInvoiceDate() {
         return invoiceDate;
     }
 
-    public void setInvoiceDate(Date invoiceDate) {
+    public void setInvoiceDate(LocalDate invoiceDate) {
         this.invoiceDate = invoiceDate;
     }
   

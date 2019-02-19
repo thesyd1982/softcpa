@@ -6,6 +6,7 @@
 package fr.sysdev.softcpa.Controller.Invoicing;
 
 import fr.sysdev.softcpa.Service.IClientService;
+import fr.sysdev.softcpa.Service.IInvoiceService;
 import fr.sysdev.softcpa.Service.IPartService;
 import fr.sysdev.softcpa.View.Invoicing.InvoicingView;
 import java.awt.event.ActionListener;
@@ -25,6 +26,8 @@ public class InvoicingController {
     @Autowired
     private final IPartService iPartService;
     @Autowired
+    private final IInvoiceService invoiceService;
+    @Autowired
     private final InvoicingView view;
     
     
@@ -36,9 +39,10 @@ public class InvoicingController {
     }
     
 
-    public InvoicingController(IClientService iClientService,IPartService iPartService) {
-         this.iClientService =iClientService;
+    public InvoicingController(IClientService iClientService,IPartService iPartService, IInvoiceService invoiceService) {
+         this.iClientService = iClientService;
          this.iPartService = iPartService;
+         this.invoiceService =invoiceService;
          this.view = new InvoicingView(iClientService.getClients(), iPartService.getParts()); 
          prepareListeners() ;
     }

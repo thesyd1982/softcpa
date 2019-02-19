@@ -30,7 +30,7 @@ public abstract class Constants {
         String RATE_MODAL = "Adding rates";
         String ROOM_X_RESERVATION_MODAL = "Adding room reservations";
     }
-
+     
  public interface Messages {
 
         public static String CHOOSE_CLIENT = "Choose the client to invoice.";
@@ -50,7 +50,10 @@ public abstract class Constants {
         String ENTER_VALID_NAME ="Enter a valid name (only letters).";
         String DELETE_CLIENT_ALERT = "Are you sure you want to delete this client?";
     }
+    public interface JFrameTitles {
 
+        public static String INVOICES ="Invoices";
+    }
     
     //<editor-fold defaultstate="collapsed" desc="Labels">
   public interface Labels {
@@ -138,7 +141,22 @@ public abstract class Constants {
     public static String SELLING_PRICE_HEADER ="ISP";
     public static String PUR_PRICE_HEADER="PP";
     public static String PRO_SELLING_PRICE=" Pro price" ;
-     public static String PRO_SELLING_PRICE_HEADER ="PSP";
+    public static String PRO_SELLING_PRICE_HEADER ="PSP";
+    public static String SELECTION_COUNT="Selection Count";
+    public static String INVOICE = "Invoice";
+    public static String CREDIT_NOTE = "Credit Note";
+    public static String DELIVERY_FORM = "Delivery Form";
+    public static String QUIT = "Quit";
+    public static String CONFIRMATION="Confirmation";
+    public static String PLATENUMBER = "PlateNumber";
+    public static String VEHICLE_TYPE ="Vehicle Type";
+    public static String VALIDATE = "Validate";
+    public static String DATE = "Date";
+    public static String UNPAID = "Unpaid";
+    public static String INVOICE_PREFIX ="INV";
+    public static String INVOICE_NUMBER = "Invoice Number";
+    public static String PAYMENT_DATE ="Payment Date";
+    public static String PAYED="Payed";
     }
 //</editor-fold>
     
