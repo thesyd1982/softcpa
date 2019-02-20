@@ -31,6 +31,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -971,16 +972,22 @@ public class InvoicingView extends javax.swing.JInternalFrame {
             jPanel_Invoicing_Search_Result.revalidate();
             jPanel_Invoicing_Search_Result.repaint();
 
-           List<Part> filter = PartsPredicates.filterParts(parts, PartsPredicates.refEquals(il.getPart().getReference()));
-            
+            List<Part> filter = PartsPredicates.filterParts(parts, PartsPredicates.refEquals(il.getPart().getReference()));
             Stream<InvoiceLine> ils = selectedInvoiceLines.stream().filter(p -> p.getPart().getReference().equals(il.getPart().getReference()));
+            List<InvoiceLine> list = ils.collect(Collectors.toCollection(ArrayList::new));
             
-            List<InvoiceLine> list;
-            
-
-           
-            
-            selectedInvoiceLines.add(il);
+            Optional<InvoiceLine> findFirst = list.stream().findFirst();
+           if(findFirst.isPresent()){
+                int index = selectedInvoiceLines.indexOf(findFirst.get());
+                int quantity2 = findFirst.get().getQuantity();
+                int quantity = selectedInvoiceLines.get(index).getQuantity();
+                quantity += quantity2;
+                selectedInvoiceLines.get(index).setQuantity(quantity);
+                
+           }
+           else{
+                selectedInvoiceLines.add(il);
+           }
 
             jPanel_Invoice_Lines.removeAll();
             selectedInvoiceLines.forEach(l -> {
@@ -1302,6 +1309,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
 
         return panel;
     }
+
+    
     
     
 }
