@@ -104,7 +104,8 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel_InvoiceLines = new javax.swing.JPanel();
         jPanel_InvoiceLines1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jButton_Invoice_Delete = new javax.swing.JButton();
+        jButton_Invoice_Payment = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -437,7 +438,9 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
 
         jScrollPane1.setViewportView(jPanel_InvoiceLines);
 
-        jButton1.setText("jButton1");
+        jButton_Invoice_Delete.setText("jButton1");
+
+        jButton_Invoice_Payment.setText("jButton1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -450,11 +453,17 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
                         .addComponent(jPanel_Client, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jButton1))
                     .addComponent(jScrollPane1))
                 .addGap(26, 26, 26))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton_Invoice_Delete)
+                .addGap(164, 164, 164))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(860, Short.MAX_VALUE)
+                    .addComponent(jButton_Invoice_Payment)
+                    .addGap(74, 74, 74)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -465,9 +474,14 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
                     .addComponent(jPanel_Client, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton_Invoice_Delete)
+                .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(599, Short.MAX_VALUE)
+                    .addComponent(jButton_Invoice_Payment)
+                    .addGap(19, 19, 19)))
         );
 
         pack();
@@ -476,7 +490,8 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private fr.sysdev.softcpa.utils.Converter.ClientStatusConverter clientStatusConverter1;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton_Invoice_Delete;
+    private javax.swing.JButton jButton_Invoice_Payment;
     private javax.swing.JLabel jLabel_CLient_Address;
     private javax.swing.JLabel jLabel_Client_Address_City;
     private javax.swing.JLabel jLabel_Client_Address_City_Value;
@@ -558,21 +573,37 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         jLabel_Client_Address_City_Value.setText(this.invoice.getClient().getAddress().getCity());
         jLabel_Plate_Number_Value.setText(this.invoice.getPlatenumber());
         jLabel_Vehicle_Type_Value.setText(this.invoice.getVehicleType());
-        jLabel_Invoice_Date_Value.setText(this.invoice.getInvoiceDate().toString());
+
+        int dayOfMonth = this.invoice.getInvoiceDate().getDayOfMonth();
+        int monthValue = this.invoice.getInvoiceDate().getMonthValue();
+        int year = this.invoice.getInvoiceDate().getYear();
+        
+        jLabel_Invoice_Date_Value.setText(dayOfMonth+"-"+monthValue+"-"+year);
         jLabel_Invoice_Number_Value.setText(this.invoice.getInvoiceNumber());
-        jLabel_Invoice_Status_Value.setText(this.invoice.getInvoiceStatus().getInvoiceStatus());
+        jLabel_Invoice_Status_Value.setText(this.invoice.getInvoiceStatus().getName());
         
-        Payment payment = invoice.getPayment();
+        List<Payment> payments = invoice.getPayments();
         
-        if(this.invoice.getInvoiceStatus().getInvoiceStatus().equals(Constants.Labels.UNPAID))     
+        if(this.invoice.getPayments()== null)     
         { 
             jPanel_Invoice_Payment.setVisible(false);
         }
         else{
         
         jPanel_Invoice_Payment.setVisible(true);
-        jLabel_Invoice_PaymentDate_Value.setText(payment.getDateOfPayment()+"");
-        jLabel_Invoice_Payment_Amount_Value.setText(payment.getValue()+"");
+         JLabel paymentLabel = new JLabel();
+         JLabel paymentLabelValue = new JLabel();
+         JPanel paymentLine = new JPanel();
+        payments.forEach(p-> {
+            paymentLabel.setText(Constants.Labels.PAYMENT+" "+payments.indexOf(p));
+            paymentLabelValue.setText(p.getAmount()+"");
+            paymentLine.add(paymentLabel);
+            paymentLine.add(paymentLabelValue);
+            jPanel_Invoice_Payment.add(paymentLine);
+        }
+        
+        );
+        
         }
         
         invoiceLines.forEach(il -> {

@@ -23,16 +23,15 @@ public class Invoice implements Serializable {
     @Column(name = "id_invoice") 
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_invoice_status")
-    private InvoiceStatus invoiceStatus;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 18)
+    private InvoiceStatusEnum invoiceStatus;
     
     @JoinColumn(name = "invoceNumber")
     private String invoiceNumber;
     
-    @ManyToOne
-    @JoinColumn(name = "id_payment")
-    private Payment payment;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoice", orphanRemoval = true)
+    private List <Payment> payments;
 
     @OneToOne
     @JoinColumn(name = "id_client")
@@ -51,7 +50,7 @@ public class Invoice implements Serializable {
     private LocalDate invoiceDate;
 
     @Column(name = "amount")
-    private long amount;
+    private Double amount;
 
     public long getId() {
         return id;
@@ -61,12 +60,12 @@ public class Invoice implements Serializable {
         this.id = id;
     }
 
-    public Payment getPayment() {
-        return payment;
+    public List<Payment> getPayments() {
+        return payments;
     }
 
-    public void setPayment(Payment payment) {
-        this.payment = payment;
+    public void setPayment(List<Payment>  payments) {
+        this.payments = payments;
     }
 
     public Client getClient() {
@@ -77,11 +76,11 @@ public class Invoice implements Serializable {
         this.client = client;
     }
 
-    public InvoiceStatus getInvoiceStatus() {
+    public InvoiceStatusEnum getInvoiceStatus() {
         return invoiceStatus;
     }
 
-    public void setInvoiceStatus(InvoiceStatus invoiceStatus) {
+    public void setInvoiceStatus(InvoiceStatusEnum invoiceStatus) {
         this.invoiceStatus = invoiceStatus;
     }
 
@@ -94,11 +93,11 @@ public class Invoice implements Serializable {
     }
   
 
-    public long getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(long amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -138,4 +137,6 @@ public class Invoice implements Serializable {
     public void setInvoiceNumber(String invoiceNumber) {
         this.invoiceNumber = invoiceNumber;
     }
+
+    
 }

@@ -157,9 +157,9 @@ public class PartController {
                                 part.setEanCode(strPart[0]);
                                 part.setReference(strPart[1]);
                                 part.setDesignation(strPart[4]);
-                                part.setPurchasingPrice(new Double(strPart[11]));
-                                part.setSellingPrice(new Double(strPart[11]));
-                                part.setProfessionalSellingPrice(new Double(strPart[11]));
+                                part.setPurchasingPrice(0.0);//new Double(strPart[11])
+                                part.setSellingPrice(0.0);//new Double(strPart[11])
+                                part.setProfessionalSellingPrice(0.0);//new Double(strPart[11])
                                 part.setStock(0);
                                 part.setBrand(strPart[38]);
                                 part.setProvider(provider);
@@ -198,7 +198,6 @@ public class PartController {
                         
 
                     } catch (IOException e) {
-                        e.printStackTrace();
                     }
                 } else {//provider null;
 

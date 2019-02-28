@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
+  <Properties>
+    <Property name="closable" type="boolean" value="true"/>
+    <Property name="iconifiable" type="boolean" value="true"/>
+    <Property name="maximizable" type="boolean" value="true"/>
+    <Property name="resizable" type="boolean" value="true"/>
+  </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
@@ -24,7 +30,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                      <Component id="jLabel_Part_Search" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel_Invoice_Search" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jTextField_Invoice_Search" min="-2" pref="465" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -44,7 +50,7 @@
               <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jTextField_Invoice_Search" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel_Part_Search" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Invoice_Search" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton_Refresh" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel_Part_Count" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -102,13 +108,13 @@
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
               </Subbinding>
               <Subbinding sourcePath="${amount}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Long.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Double.class"/>
               </Subbinding>
               <Subbinding sourcePath="${invoiceDate}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.util.Date.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="java.time.LocalDate.class"/>
               </Subbinding>
               <Subbinding sourcePath="${invoiceStatus}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="fr.sysdev.softcpa.entity.InvoiceStatus.class"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="fr.sysdev.softcpa.entity.InvoiceStatusEnum.class"/>
               </Subbinding>
             </BindingProperty>
             <BindingProperty name="selectedElement" source="Form" sourcePath="${invoice}" target="jTable_Invoice" targetPath="selectedElement" updateStrategy="0" immediately="false">
@@ -134,7 +140,7 @@
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel_Part_Search">
+    <Component class="javax.swing.JLabel" name="jLabel_Invoice_Search">
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>

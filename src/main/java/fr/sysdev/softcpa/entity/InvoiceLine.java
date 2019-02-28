@@ -6,6 +6,7 @@
 package fr.sysdev.softcpa.entity;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,6 +33,7 @@ public class InvoiceLine implements Serializable {
     @OneToOne
     @JoinColumn(name = "id_part")
     private Part part;
+    
     private int quantity;
 
     public Long getId() {

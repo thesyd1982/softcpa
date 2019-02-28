@@ -642,6 +642,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         getCsvFilePath();
         jButton_Part_Import.setEnabled(true);
         jButton_Part_Import.setVisible(true);
+        jProgressBar_Part_Importing.setVisible(true);
         jComboBox_Part_ProviderToImport.setEnabled(true);
     }//GEN-LAST:event_jButton_Part_Open_CsvActionPerformed
 
@@ -750,12 +751,14 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
 
     private void prepareForm() {
         loadProviders();
+        jButton_Part_Import.setVisible(false);
+        jProgressBar_Part_Importing.setVisible(false);
+        
         if (providers.isEmpty()) {
-            jButton_Part_Import.setVisible(false);
-            jProgressBar_Part_Importing.setVisible(false);
+            jComboBox_Part_ProviderToImport.setVisible(false);
+            
         } else {
-            jButton_Part_Import.setVisible(true);
-            jProgressBar_Part_Importing.setVisible(true);
+            jComboBox_Part_ProviderToImport.setVisible(true);
         }
 
         jLabel_Part_Count.setText(parts.size() + " " + Constants.Labels.PARTS);
@@ -1059,7 +1062,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
             bindingPartTable();
             searchInterface();
         } else {
-            List<Part> filter = PartsPredicates.filterParts(parts, PartsPredicates.refOrEanOrDesignationOrBrandContains(s));
+            List<Part> filter = PartsPredicates.filterParts(allParts, PartsPredicates.refOrEanOrDesignationOrBrandContains(s));
             parts.clear();
             parts.addAll(removingDuplicatesAndSortPartList(filter));
 

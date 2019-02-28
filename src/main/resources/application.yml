@@ -14,7 +14,7 @@
        level:
          org.hibernate.stat: DEBUG
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    database: mysql
+#    database: mysql
     show-sql: true
     
  

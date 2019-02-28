@@ -95,7 +95,7 @@ public class InvoiceService extends Observable implements IInvoiceService {
             
             Connection conn = getConnection();
             Statement smt = conn.createStatement() ;
-            ResultSet resultSet = smt.executeQuery("SELECT AUTO_INCREMENT as id FROM information_schema.tables WHERE table_name = 'part' AND table_schema = DATABASE()") ;
+            ResultSet resultSet = smt.executeQuery("SELECT AUTO_INCREMENT as id FROM information_schema.tables WHERE table_name = 'invoice' AND table_schema = DATABASE()") ;
            
             if(resultSet.next()){
              id = resultSet.getInt("id") ;

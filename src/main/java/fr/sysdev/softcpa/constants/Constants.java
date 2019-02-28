@@ -157,6 +157,13 @@ public abstract class Constants {
     public static String INVOICE_NUMBER = "Invoice Number";
     public static String PAYMENT_DATE ="Payment Date";
     public static String PAYED="Payed";
+    public static String PAYMENT_DETAILS="Payment Details";
+    public static String PAYMENT_NUMBER="Payment Number";
+    public static String BANKCARD ="Bankcard";
+    public static String CASH ="Cash";
+    public static String CHEQUE="Cheque";
+    public static String PENDING = "Pending";
+  
     }
 //</editor-fold>
     

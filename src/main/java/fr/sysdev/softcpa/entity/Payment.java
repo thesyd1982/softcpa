@@ -6,16 +6,18 @@
 package fr.sysdev.softcpa.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
+
 
 /**
  *
@@ -32,16 +34,19 @@ public class Payment implements Serializable {
     @Column(name = "id_payment")
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_payment_method")
-    private PaymentMethod paymentMethod;
+    @OneToOne
+    @JoinColumn(name = "id_invoice")
+    private Invoice invoice;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(length = 18)
+    private PaymentMethodEnum paymentMethod;
 
     @Column(name = "amount")
     private long amount;
 
     @Column(name = "date_of_payment")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dateOfPayment;
+    private LocalDate dateOfPayment;
 
     public long getId() {
         return id;
@@ -51,27 +56,21 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public PaymentMethod getPaymentMethod() {
+    public PaymentMethodEnum getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
+    public void setPaymentMethod(PaymentMethodEnum paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
-    public long getValue() {
-        return amount;
-    }
+    
 
-    public void setValue(long amount) {
-        this.amount = amount;
-    }
-
-    public Date getDateOfPayment() {
+    public LocalDate getDateOfPayment() {
         return dateOfPayment;
     }
 
-    public void setDateOfPayment(Date dateOfPayment) {
+    public void setDateOfPayment(LocalDate dateOfPayment) {
         this.dateOfPayment = dateOfPayment;
     }
 
@@ -79,4 +78,20 @@ public class Payment implements Serializable {
     public String toString() {
         return paymentMethod + "";
     }   
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
+    public long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(long amount) {
+        this.amount = amount;
+    }
 }

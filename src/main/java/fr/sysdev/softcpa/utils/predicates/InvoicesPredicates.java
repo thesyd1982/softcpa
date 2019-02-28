@@ -49,5 +49,22 @@ public class InvoicesPredicates {
         return p -> p.getVehicleType().toUpperCase().contains(s.toUpperCase());
     }
     
-  
+    
+     public static Predicate<Invoice> numberOrNameOrSurnameOrPlatenumberOrVehicleTypeContains(String s) {
+        return p -> p.getInvoiceNumber().toUpperCase().contains(s.toUpperCase())
+                || p.getClient().getName().toUpperCase().contains(s.toUpperCase())
+                || p.getClient().getSurname().toUpperCase().contains(s.toUpperCase())
+                || p.getPlatenumber().toUpperCase().contains(s.toUpperCase())
+                || p.getVehicleType().toUpperCase().contains(s.toUpperCase());
+    }
+    
+     public static Predicate<Invoice> oneOfAllContains(String s) {
+        return p -> p.getInvoiceNumber().toUpperCase().contains(s.toUpperCase())
+                    || p.getClient().getName().toUpperCase().contains(s.toUpperCase())
+                    || p.getClient().getSurname().toUpperCase().contains(s.toUpperCase())
+                    || p.getPlatenumber().toUpperCase().contains(s.toUpperCase())
+                    || p.getAmount().toString().toUpperCase().contains(s.toUpperCase())
+                    || p.getInvoiceDate().toString().toUpperCase().contains(s.toUpperCase())
+                    || p.getVehicleType().toUpperCase().contains(s.toUpperCase());
+    }
 }
