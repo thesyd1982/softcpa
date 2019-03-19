@@ -50,7 +50,8 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
     private List<InvoiceLine> invoiceLines;
 
     public InvoiceDetailsView() {
-        initComponents();
+           initComponents();
+        
     }
 
     public InvoiceDetailsView(Invoice invoice) {
@@ -59,7 +60,7 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         this.invoice = invoice;
         this.invoiceLines = invoice.getInvocesLines();
         this.payment = new Payment();
-        
+        this.title = Constants.Labels.INVOICE_DETAILS+" "+invoice.getInvoiceNumber();
         prepareForm();
     }
 
@@ -609,8 +610,9 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_Invoice_PaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Invoice_PaymentActionPerformed
-              addPayment();
-        
+              
+   addPayment();
+     
     }//GEN-LAST:event_jButton_Invoice_PaymentActionPerformed
 
 
@@ -989,10 +991,11 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
      public void editPayment(Payment p) throws PropertyVetoException {
             
         PaymentEditView paymentEditView = new PaymentEditView(p);
-        paymentEditView.setVisible(true);
+        this.getParent().add(paymentEditView);
         paymentEditView.setSelected(true);
         paymentEditView.toFront();
         paymentEditView.setFocusable(true);
+        paymentEditView.setVisible(true);
 
     }
     

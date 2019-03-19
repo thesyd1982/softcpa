@@ -30,10 +30,7 @@ private Payment payment;
         this.payment = payment;
         initComponents();
         this.title = Constants.Labels.PAYMENT_DETAILS;
-       prepareForm(payment);
-        System.out.println("paaaaaaaaaaaaaaaaaaaaaa"+payment);
-       
-       
+        prepareForm(payment); 
     }
     
     /**
@@ -134,13 +131,13 @@ private Payment payment;
                         .addComponent(jTextField_Payment_Amount_Value, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jComboBox_Payment_Method_Value, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_Cancel)
-                    .addComponent(jButton_Add))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton_Add)
+                    .addComponent(jButton_Cancel))
                 .addGap(36, 36, 36))
         );
 
-        pack();
+        setBounds(0, 0, 309, 190);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CancelActionPerformed
@@ -180,6 +177,8 @@ private Payment payment;
         jLabel_Payment_Date_Value.setText(payment.getPaymentMethod().getName());
         jButton_Add.setText(Constants.Labels.ADD_BTN);
         jButton_Cancel.setText(Constants.Labels.CANCEL_BTN);
+        
+        jComboBox_Payment_Method_Value.removeAllItems();
         PaymentMethodEnum[] values = PaymentMethodEnum.values();
         List<PaymentMethodEnum> pmsList = Arrays.asList(values);
         pmsList.forEach(pm->jComboBox_Payment_Method_Value.addItem(pm.getName()) );
