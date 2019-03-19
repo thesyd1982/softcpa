@@ -5,23 +5,28 @@
  */
 package fr.sysdev.softcpa.View.Invoice;
 
+import fr.sysdev.softcpa.Controller.Invoice.InvoiceController;
+import fr.sysdev.softcpa.View.Payment.PaymentEditView;
 import fr.sysdev.softcpa.constants.Constants;
 import fr.sysdev.softcpa.entity.Invoice;
 import fr.sysdev.softcpa.entity.InvoiceLine;
 import fr.sysdev.softcpa.entity.Payment;
+import fr.sysdev.softcpa.entity.PaymentMethodEnum;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
+import java.beans.PropertyVetoException;
+import java.time.LocalDate;
+
 import java.util.List;
-import javax.swing.BorderFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
+
 import javax.swing.border.MatteBorder;
 import org.springframework.stereotype.Component;
 
@@ -36,21 +41,28 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
      * Creates new form InvoiceDetailsView
      */
     private Invoice invoice;
-    private List<InvoiceLine>invoiceLines;
     
+    private Payment payment;
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+    private List<InvoiceLine> invoiceLines;
+
     public InvoiceDetailsView() {
         initComponents();
     }
-    
-     public InvoiceDetailsView(Invoice invoice) {
-       
+
+    public InvoiceDetailsView(Invoice invoice) {
+
         initComponents();
-         this.invoice = invoice;
-         this.invoiceLines = invoice.getInvocesLines();
-         prepareForm();
+        this.invoice = invoice;
+        this.invoiceLines = invoice.getInvocesLines();
+        this.payment = new Payment();
+        
+        prepareForm();
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,26 +74,18 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
 
         clientStatusConverter1 = new fr.sysdev.softcpa.utils.Converter.ClientStatusConverter();
         jPanel_Client = new javax.swing.JPanel();
-        jLabel_Client_Name = new javax.swing.JLabel();
-        jLabel_Client_Name_Value = new javax.swing.JLabel();
-        jLabel_Client_Surname = new javax.swing.JLabel();
-        jLabel_Client_Surname_Value = new javax.swing.JLabel();
-        jLabel_Phone_Number_Value = new javax.swing.JLabel();
-        jLabel_Phone_Number = new javax.swing.JLabel();
-        jLabel_Email = new javax.swing.JLabel();
-        jLabel_Email_Value = new javax.swing.JLabel();
-        jLabel_Client_Company_Name = new javax.swing.JLabel();
-        jLabel_Client_Company_Name_Value = new javax.swing.JLabel();
-        jLabel_Client_Status_Value = new javax.swing.JLabel();
-        jLabel_Client_Status = new javax.swing.JLabel();
-        jLabel_CLient_Address = new javax.swing.JLabel();
-        jPanel_Address = new javax.swing.JPanel();
-        jLabel_Client_Address_Street = new javax.swing.JLabel();
-        jLabel_Client_Address_Street_Value = new javax.swing.JLabel();
-        jLabel_Client_Address_House_Number_Value = new javax.swing.JLabel();
-        jLabel_Client_Address_House_Number = new javax.swing.JLabel();
-        jLabel_Client_Address_City = new javax.swing.JLabel();
-        jLabel_Client_Address_City_Value = new javax.swing.JLabel();
+        jLabel_Invoice_SubTotal = new javax.swing.JLabel();
+        jLabel_Invoice_SubTotal_Value = new javax.swing.JLabel();
+        jLabel_Invoice_Discount = new javax.swing.JLabel();
+        jLabel_Invoice_Discount_Value = new javax.swing.JLabel();
+        jLabel_Invoice_SBT_Less_Discount_Value = new javax.swing.JLabel();
+        jLabel_Invoice_SBT_Less_Discount = new javax.swing.JLabel();
+        jLabel_Tax_Rate = new javax.swing.JLabel();
+        jLabel_Tax_Rate_Value = new javax.swing.JLabel();
+        jLabel_Invoice_Total = new javax.swing.JLabel();
+        jLabel_Invoice_Total_Value = new javax.swing.JLabel();
+        jLabel_Total_Tax_Value = new javax.swing.JLabel();
+        jLabel_Total_Tax = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel_Plate_Number_Value = new javax.swing.JLabel();
         jLabel_Plate_Number = new javax.swing.JLabel();
@@ -101,9 +105,32 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         jLabel_Invoice_Payment_Amount = new javax.swing.JLabel();
         jLabel_Invoice_Payment_Method = new javax.swing.JLabel();
         jLabel_Invoice_Payment_Method_Value = new javax.swing.JLabel();
+        jLabel_Invoice_Amount = new javax.swing.JLabel();
+        jLabel_Invoice_Amount_Value = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel_InvoiceLines = new javax.swing.JPanel();
         jPanel_InvoiceLines1 = new javax.swing.JPanel();
+        jPanel_Client1 = new javax.swing.JPanel();
+        jLabel_Client_Name = new javax.swing.JLabel();
+        jLabel_Client_Name_Value = new javax.swing.JLabel();
+        jLabel_Client_Surname = new javax.swing.JLabel();
+        jLabel_Client_Surname_Value = new javax.swing.JLabel();
+        jLabel_Phone_Number_Value = new javax.swing.JLabel();
+        jLabel_Phone_Number = new javax.swing.JLabel();
+        jLabel_Email = new javax.swing.JLabel();
+        jLabel_Email_Value = new javax.swing.JLabel();
+        jLabel_Client_Company_Name = new javax.swing.JLabel();
+        jLabel_Client_Company_Name_Value = new javax.swing.JLabel();
+        jLabel_Client_Status_Value = new javax.swing.JLabel();
+        jLabel_Client_Status = new javax.swing.JLabel();
+        jLabel_CLient_Address = new javax.swing.JLabel();
+        jPanel_Address1 = new javax.swing.JPanel();
+        jLabel_Client_Address_Street = new javax.swing.JLabel();
+        jLabel_Client_Address_Street_Value = new javax.swing.JLabel();
+        jLabel_Client_Address_House_Number_Value = new javax.swing.JLabel();
+        jLabel_Client_Address_House_Number = new javax.swing.JLabel();
+        jLabel_Client_Address_City = new javax.swing.JLabel();
+        jLabel_Client_Address_City_Value = new javax.swing.JLabel();
         jButton_Invoice_Delete = new javax.swing.JButton();
         jButton_Invoice_Payment = new javax.swing.JButton();
 
@@ -119,87 +146,29 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
 
         jPanel_Client.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel_Client_Name.setText("jLabel1");
+        jLabel_Invoice_SubTotal.setText("jLabel1");
 
-        jLabel_Client_Name_Value.setText("jLabel1");
+        jLabel_Invoice_SubTotal_Value.setText("jLabel1");
 
-        jLabel_Client_Surname.setText("jLabel1");
+        jLabel_Invoice_Discount.setText("jLabel1");
 
-        jLabel_Client_Surname_Value.setText("jLabel1");
+        jLabel_Invoice_Discount_Value.setText("jLabel1");
 
-        jLabel_Phone_Number_Value.setText("jLabel1");
+        jLabel_Invoice_SBT_Less_Discount_Value.setText("jLabel1");
 
-        jLabel_Phone_Number.setText("jLabel1");
+        jLabel_Invoice_SBT_Less_Discount.setText("jLabel1");
 
-        jLabel_Email.setText("jLabel1");
+        jLabel_Tax_Rate.setText("jLabel1");
 
-        jLabel_Email_Value.setText("jLabel1");
+        jLabel_Tax_Rate_Value.setText("jLabel1");
 
-        jLabel_Client_Company_Name.setText("jLabel1");
+        jLabel_Invoice_Total.setText("jLabel1");
 
-        jLabel_Client_Company_Name_Value.setText("jLabel1");
+        jLabel_Invoice_Total_Value.setText("jLabel1");
 
-        jLabel_Client_Status_Value.setText("jLabel1");
+        jLabel_Total_Tax_Value.setText("jLabel1");
 
-        jLabel_Client_Status.setText("jLabel1");
-
-        jLabel_CLient_Address.setText("jLabel1");
-
-        jPanel_Address.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jLabel_Client_Address_Street.setText("jLabel1");
-
-        jLabel_Client_Address_Street_Value.setText("jLabel1");
-
-        jLabel_Client_Address_House_Number_Value.setText("jLabel1");
-
-        jLabel_Client_Address_House_Number.setText("jLabel1");
-
-        jLabel_Client_Address_City.setText("jLabel1");
-
-        jLabel_Client_Address_City_Value.setText("jLabel1");
-
-        javax.swing.GroupLayout jPanel_AddressLayout = new javax.swing.GroupLayout(jPanel_Address);
-        jPanel_Address.setLayout(jPanel_AddressLayout);
-        jPanel_AddressLayout.setHorizontalGroup(
-            jPanel_AddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_AddressLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel_AddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_AddressLayout.createSequentialGroup()
-                        .addComponent(jLabel_Client_Address_Street)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel_Client_Address_Street_Value))
-                    .addGroup(jPanel_AddressLayout.createSequentialGroup()
-                        .addComponent(jLabel_Client_Address_House_Number)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel_Client_Address_House_Number_Value))
-                    .addGroup(jPanel_AddressLayout.createSequentialGroup()
-                        .addComponent(jLabel_Client_Address_City)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel_Client_Address_City_Value)))
-                .addContainerGap(100, Short.MAX_VALUE))
-        );
-        jPanel_AddressLayout.setVerticalGroup(
-            jPanel_AddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_AddressLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel_AddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_AddressLayout.createSequentialGroup()
-                        .addGroup(jPanel_AddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_Client_Address_Street)
-                            .addComponent(jLabel_Client_Address_Street_Value))
-                        .addGap(50, 50, 50))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_AddressLayout.createSequentialGroup()
-                        .addGroup(jPanel_AddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_Client_Address_House_Number)
-                            .addComponent(jLabel_Client_Address_House_Number_Value))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel_AddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_Client_Address_City)
-                            .addComponent(jLabel_Client_Address_City_Value))))
-                .addGap(32, 32, 32))
-        );
+        jLabel_Total_Tax.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel_ClientLayout = new javax.swing.GroupLayout(jPanel_Client);
         jPanel_Client.setLayout(jPanel_ClientLayout);
@@ -209,66 +178,58 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel_ClientLayout.createSequentialGroup()
-                        .addComponent(jLabel_Client_Status)
+                        .addComponent(jLabel_Invoice_SBT_Less_Discount)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel_Client_Status_Value))
+                        .addComponent(jLabel_Invoice_SBT_Less_Discount_Value))
                     .addGroup(jPanel_ClientLayout.createSequentialGroup()
-                        .addComponent(jLabel_Client_Company_Name)
+                        .addComponent(jLabel_Total_Tax)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel_Client_Company_Name_Value))
+                        .addComponent(jLabel_Total_Tax_Value))
                     .addGroup(jPanel_ClientLayout.createSequentialGroup()
-                        .addComponent(jLabel_Phone_Number)
+                        .addComponent(jLabel_Invoice_Total)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel_Phone_Number_Value))
+                        .addComponent(jLabel_Invoice_Total_Value))
                     .addGroup(jPanel_ClientLayout.createSequentialGroup()
-                        .addComponent(jLabel_Email)
+                        .addComponent(jLabel_Tax_Rate)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel_Email_Value))
+                        .addComponent(jLabel_Tax_Rate_Value))
                     .addGroup(jPanel_ClientLayout.createSequentialGroup()
-                        .addComponent(jLabel_Client_Surname)
+                        .addComponent(jLabel_Invoice_Discount)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel_Client_Surname_Value))
+                        .addComponent(jLabel_Invoice_Discount_Value))
                     .addGroup(jPanel_ClientLayout.createSequentialGroup()
-                        .addComponent(jLabel_Client_Name)
+                        .addComponent(jLabel_Invoice_SubTotal)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel_Client_Name_Value)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel_Address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel_CLient_Address))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel_Invoice_SubTotal_Value)))
+                .addContainerGap(226, Short.MAX_VALUE))
         );
         jPanel_ClientLayout.setVerticalGroup(
             jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_ClientLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel_Client_Name)
-                    .addComponent(jLabel_Client_Name_Value)
-                    .addComponent(jLabel_CLient_Address))
+                    .addComponent(jLabel_Invoice_SubTotal)
+                    .addComponent(jLabel_Invoice_SubTotal_Value))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel_ClientLayout.createSequentialGroup()
-                        .addGroup(jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_Client_Surname)
-                            .addComponent(jLabel_Client_Surname_Value))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_Phone_Number)
-                            .addComponent(jLabel_Phone_Number_Value))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_Email)
-                            .addComponent(jLabel_Email_Value))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_Client_Status)
-                            .addComponent(jLabel_Client_Status_Value))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_Client_Company_Name)
-                            .addComponent(jLabel_Client_Company_Name_Value)))
-                    .addComponent(jPanel_Address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_Invoice_Discount)
+                    .addComponent(jLabel_Invoice_Discount_Value))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_Invoice_SBT_Less_Discount)
+                    .addComponent(jLabel_Invoice_SBT_Less_Discount_Value))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_Tax_Rate)
+                    .addComponent(jLabel_Tax_Rate_Value))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_Total_Tax)
+                    .addComponent(jLabel_Total_Tax_Value))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel_ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_Invoice_Total)
+                    .addComponent(jLabel_Invoice_Total_Value))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -316,20 +277,15 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
             jPanel_Invoice_PaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel_Invoice_PaymentLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(jPanel_Invoice_PaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel_Invoice_PaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel_Invoice_PaymentLayout.createSequentialGroup()
-                            .addComponent(jLabel_Invoice_PaymentDate)
-                            .addGap(18, 18, 18)
-                            .addComponent(jLabel_Invoice_PaymentDate_Value))
-                        .addGroup(jPanel_Invoice_PaymentLayout.createSequentialGroup()
-                            .addComponent(jLabel_Invoice_Payment_Amount)
-                            .addGap(18, 18, 18)
-                            .addComponent(jLabel_Invoice_Payment_Amount_Value)))
-                    .addGroup(jPanel_Invoice_PaymentLayout.createSequentialGroup()
-                        .addComponent(jLabel_Invoice_Payment_Method)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel_Invoice_Payment_Method_Value)))
+                .addGroup(jPanel_Invoice_PaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel_Invoice_PaymentDate)
+                    .addComponent(jLabel_Invoice_Payment_Amount)
+                    .addComponent(jLabel_Invoice_Payment_Method))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel_Invoice_PaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel_Invoice_PaymentDate_Value)
+                    .addComponent(jLabel_Invoice_Payment_Amount_Value)
+                    .addComponent(jLabel_Invoice_Payment_Method_Value))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         jPanel_Invoice_PaymentLayout.setVerticalGroup(
@@ -350,6 +306,10 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
+        jLabel_Invoice_Amount.setText("jLabel1");
+
+        jLabel_Invoice_Amount_Value.setText("jLabel1");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -357,18 +317,16 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel_Invoice_Date)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel_Invoice_Date_Value))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel_Invoice_Status)
-                            .addComponent(jLabel_Invoice_Number))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel_Invoice_Number_Value)
-                            .addComponent(jLabel_Invoice_Status_Value))))
+                    .addComponent(jLabel_Invoice_Date)
+                    .addComponent(jLabel_Invoice_Status)
+                    .addComponent(jLabel_Invoice_Amount)
+                    .addComponent(jLabel_Invoice_Number))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel_Invoice_Date_Value, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_Invoice_Status_Value, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_Invoice_Amount_Value, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_Invoice_Number_Value, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(110, 110, 110)
                 .addComponent(jPanel_Invoice_Payment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(53, 53, 53))
@@ -387,10 +345,14 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel_Invoice_Status_Value)
                             .addComponent(jLabel_Invoice_Status))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel_Invoice_Number_Value)
-                            .addComponent(jLabel_Invoice_Number))))
+                            .addComponent(jLabel_Invoice_Amount_Value)
+                            .addComponent(jLabel_Invoice_Amount))
+                        .addGap(13, 13, 13)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel_Invoice_Number)
+                            .addComponent(jLabel_Invoice_Number_Value))))
                 .addGap(27, 27, 27))
         );
 
@@ -399,19 +361,17 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel_Vehicle_Type)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel_Vehicle_Type_Value))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel_Plate_Number)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel_Plate_Number_Value)))
-                .addGap(53, 53, 53)
+                .addContainerGap(29, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel_Plate_Number)
+                    .addComponent(jLabel_Vehicle_Type))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel_Plate_Number_Value)
+                    .addComponent(jLabel_Vehicle_Type_Value))
+                .addGap(43, 43, 43)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -427,7 +387,7 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -438,54 +398,220 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
 
         jScrollPane1.setViewportView(jPanel_InvoiceLines);
 
+        jPanel_Client1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel_Client_Name.setText("jLabel1");
+
+        jLabel_Client_Name_Value.setText("jLabel1");
+
+        jLabel_Client_Surname.setText("jLabel1");
+
+        jLabel_Client_Surname_Value.setText("jLabel1");
+
+        jLabel_Phone_Number_Value.setText("jLabel1");
+
+        jLabel_Phone_Number.setText("jLabel1");
+
+        jLabel_Email.setText("jLabel1");
+
+        jLabel_Email_Value.setText("jLabel1");
+
+        jLabel_Client_Company_Name.setText("jLabel1");
+
+        jLabel_Client_Company_Name_Value.setText("jLabel1");
+
+        jLabel_Client_Status_Value.setText("jLabel1");
+
+        jLabel_Client_Status.setText("jLabel1");
+
+        jLabel_CLient_Address.setText("jLabel1");
+
+        jPanel_Address1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel_Client_Address_Street.setText("jLabel1");
+
+        jLabel_Client_Address_Street_Value.setText("jLabel1");
+
+        jLabel_Client_Address_House_Number_Value.setText("jLabel1");
+
+        jLabel_Client_Address_House_Number.setText("jLabel1");
+
+        jLabel_Client_Address_City.setText("jLabel1");
+
+        jLabel_Client_Address_City_Value.setText("jLabel1");
+
+        javax.swing.GroupLayout jPanel_Address1Layout = new javax.swing.GroupLayout(jPanel_Address1);
+        jPanel_Address1.setLayout(jPanel_Address1Layout);
+        jPanel_Address1Layout.setHorizontalGroup(
+            jPanel_Address1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_Address1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel_Address1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_Address1Layout.createSequentialGroup()
+                        .addComponent(jLabel_Client_Address_Street)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_Client_Address_Street_Value))
+                    .addGroup(jPanel_Address1Layout.createSequentialGroup()
+                        .addComponent(jLabel_Client_Address_House_Number)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_Client_Address_House_Number_Value))
+                    .addGroup(jPanel_Address1Layout.createSequentialGroup()
+                        .addComponent(jLabel_Client_Address_City)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_Client_Address_City_Value)))
+                .addContainerGap(100, Short.MAX_VALUE))
+        );
+        jPanel_Address1Layout.setVerticalGroup(
+            jPanel_Address1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_Address1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel_Address1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_Address1Layout.createSequentialGroup()
+                        .addGroup(jPanel_Address1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel_Client_Address_Street)
+                            .addComponent(jLabel_Client_Address_Street_Value))
+                        .addGap(50, 50, 50))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_Address1Layout.createSequentialGroup()
+                        .addGroup(jPanel_Address1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel_Client_Address_House_Number)
+                            .addComponent(jLabel_Client_Address_House_Number_Value))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel_Address1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel_Client_Address_City)
+                            .addComponent(jLabel_Client_Address_City_Value))))
+                .addGap(32, 32, 32))
+        );
+
+        javax.swing.GroupLayout jPanel_Client1Layout = new javax.swing.GroupLayout(jPanel_Client1);
+        jPanel_Client1.setLayout(jPanel_Client1Layout);
+        jPanel_Client1Layout.setHorizontalGroup(
+            jPanel_Client1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_Client1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel_Client1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_Client1Layout.createSequentialGroup()
+                        .addComponent(jLabel_Client_Status)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_Client_Status_Value))
+                    .addGroup(jPanel_Client1Layout.createSequentialGroup()
+                        .addComponent(jLabel_Client_Company_Name)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_Client_Company_Name_Value))
+                    .addGroup(jPanel_Client1Layout.createSequentialGroup()
+                        .addComponent(jLabel_Phone_Number)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_Phone_Number_Value))
+                    .addGroup(jPanel_Client1Layout.createSequentialGroup()
+                        .addComponent(jLabel_Email)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_Email_Value))
+                    .addGroup(jPanel_Client1Layout.createSequentialGroup()
+                        .addComponent(jLabel_Client_Surname)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_Client_Surname_Value))
+                    .addGroup(jPanel_Client1Layout.createSequentialGroup()
+                        .addComponent(jLabel_Client_Name)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_Client_Name_Value)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel_Client1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel_Address1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_CLient_Address))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel_Client1Layout.setVerticalGroup(
+            jPanel_Client1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_Client1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel_Client1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_Client_Name)
+                    .addComponent(jLabel_Client_Name_Value)
+                    .addComponent(jLabel_CLient_Address))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel_Client1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel_Client1Layout.createSequentialGroup()
+                        .addGroup(jPanel_Client1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel_Client_Surname)
+                            .addComponent(jLabel_Client_Surname_Value))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel_Client1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel_Phone_Number)
+                            .addComponent(jLabel_Phone_Number_Value))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel_Client1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel_Email)
+                            .addComponent(jLabel_Email_Value))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel_Client1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel_Client_Status)
+                            .addComponent(jLabel_Client_Status_Value))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel_Client1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel_Client_Company_Name)
+                            .addComponent(jLabel_Client_Company_Name_Value)))
+                    .addComponent(jPanel_Address1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         jButton_Invoice_Delete.setText("jButton1");
 
         jButton_Invoice_Payment.setText("jButton1");
+        jButton_Invoice_Payment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_Invoice_PaymentActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel_Client, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
-                .addGap(26, 26, 26))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(377, 377, 377)
+                .addComponent(jPanel_Client, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton_Invoice_Delete)
-                .addGap(164, 164, 164))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(860, Short.MAX_VALUE)
-                    .addComponent(jButton_Invoice_Payment)
-                    .addGap(74, 74, 74)))
+                .addGap(18, 18, 18)
+                .addComponent(jButton_Invoice_Payment)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(50, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel_Client1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(50, 50, 50))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel_Client, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel_Client1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton_Invoice_Delete)
-                .addContainerGap(17, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(599, Short.MAX_VALUE)
-                    .addComponent(jButton_Invoice_Payment)
-                    .addGap(19, 19, 19)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(jPanel_Client, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton_Invoice_Delete)
+                            .addComponent(jButton_Invoice_Payment))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton_Invoice_PaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Invoice_PaymentActionPerformed
+              addPayment();
+        
+    }//GEN-LAST:event_jButton_Invoice_PaymentActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -509,8 +635,12 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel_Client_Surname_Value;
     private javax.swing.JLabel jLabel_Email;
     private javax.swing.JLabel jLabel_Email_Value;
+    private javax.swing.JLabel jLabel_Invoice_Amount;
+    private javax.swing.JLabel jLabel_Invoice_Amount_Value;
     private javax.swing.JLabel jLabel_Invoice_Date;
     private javax.swing.JLabel jLabel_Invoice_Date_Value;
+    private javax.swing.JLabel jLabel_Invoice_Discount;
+    private javax.swing.JLabel jLabel_Invoice_Discount_Value;
     private javax.swing.JLabel jLabel_Invoice_Number;
     private javax.swing.JLabel jLabel_Invoice_Number_Value;
     private javax.swing.JLabel jLabel_Invoice_PaymentDate;
@@ -519,18 +649,29 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel_Invoice_Payment_Amount_Value;
     private javax.swing.JLabel jLabel_Invoice_Payment_Method;
     private javax.swing.JLabel jLabel_Invoice_Payment_Method_Value;
+    private javax.swing.JLabel jLabel_Invoice_SBT_Less_Discount;
+    private javax.swing.JLabel jLabel_Invoice_SBT_Less_Discount_Value;
     private javax.swing.JLabel jLabel_Invoice_Status;
     private javax.swing.JLabel jLabel_Invoice_Status_Value;
+    private javax.swing.JLabel jLabel_Invoice_SubTotal;
+    private javax.swing.JLabel jLabel_Invoice_SubTotal_Value;
+    private javax.swing.JLabel jLabel_Invoice_Total;
+    private javax.swing.JLabel jLabel_Invoice_Total_Value;
     private javax.swing.JLabel jLabel_Phone_Number;
     private javax.swing.JLabel jLabel_Phone_Number_Value;
     private javax.swing.JLabel jLabel_Plate_Number;
     private javax.swing.JLabel jLabel_Plate_Number_Value;
+    private javax.swing.JLabel jLabel_Tax_Rate;
+    private javax.swing.JLabel jLabel_Tax_Rate_Value;
+    private javax.swing.JLabel jLabel_Total_Tax;
+    private javax.swing.JLabel jLabel_Total_Tax_Value;
     private javax.swing.JLabel jLabel_Vehicle_Type;
     private javax.swing.JLabel jLabel_Vehicle_Type_Value;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel_Address;
+    private javax.swing.JPanel jPanel_Address1;
     private javax.swing.JPanel jPanel_Client;
+    private javax.swing.JPanel jPanel_Client1;
     private javax.swing.JPanel jPanel_InvoiceLines;
     private javax.swing.JPanel jPanel_InvoiceLines1;
     private javax.swing.JPanel jPanel_Invoice_Payment;
@@ -538,36 +679,55 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void prepareForm() {
-        
+
         jLabel_Client_Status.setText(Constants.Labels.CLIENT_STATUS);
         jLabel_Client_Company_Name.setText(Constants.Labels.COMPANY_NAME);
         jLabel_Client_Name.setText(Constants.Labels.NAME);
         jLabel_Client_Surname.setText(Constants.Labels.SURNAME);
         jLabel_Email.setText(Constants.Labels.EMAIL);
         jLabel_Phone_Number.setText(Constants.Labels.PHONE_NUMBER);
+        
         jLabel_CLient_Address.setText(Constants.Labels.ADDRESS);
         jLabel_Client_Address_Street.setText(Constants.Labels.HOUSE_NUMBER);
         jLabel_Client_Address_House_Number.setText(Constants.Labels.STREET);
         jLabel_Client_Address_City.setText(Constants.Labels.CITY);
-        
+
         jLabel_Plate_Number.setText(Constants.Labels.PLATENUMBER);
         jLabel_Vehicle_Type.setText(Constants.Labels.VEHICLE_TYPE);
-        
+
         jLabel_Invoice_Date.setText(Constants.Labels.INVOICE_DATE);
         jLabel_Invoice_Number.setText(Constants.Labels.INVOICE_NUMBER);
         jLabel_Invoice_Status.setText(Constants.Labels.INVOICE_STATUS);
-        
+        jLabel_Invoice_Amount.setText(Constants.Labels.AMOUNT);
+
         jLabel_Invoice_PaymentDate.setText(Constants.Labels.PAYMENT_DATE);
         jLabel_Invoice_Payment_Amount.setText(Constants.Labels.PAYED);
         jLabel_Invoice_Payment_Method.setText(Constants.Labels.PAYMENT_METHOD);
         
         
+        jLabel_Total_Tax.setText(Constants.Labels.TOTAL_TAX);
+        jLabel_Invoice_Total.setText(Constants.Labels.TOTAL);
+        jLabel_Invoice_SubTotal.setText(Constants.Labels.SUBTOTAL);
+        jLabel_Invoice_Discount.setText(Constants.Labels.DISCOUNT);
+        jLabel_Tax_Rate.setText(Constants.Labels.TAX_RATE);
+        jLabel_Invoice_SBT_Less_Discount.setText(Constants.Labels.SUBTOTAL_LESS_DISCOUNT);
+        
+
         jLabel_Client_Status_Value.setText(clientStatusConverter1.convertForward(this.invoice.getClient().getStatus()));
         jLabel_Client_Company_Name_Value.setText(this.invoice.getClient().getCompany().getName());
         jLabel_Client_Name_Value.setText(this.invoice.getClient().getName());
         jLabel_Client_Surname_Value.setText(this.invoice.getClient().getSurname());
         jLabel_Email_Value.setText(this.invoice.getClient().getEmail());
         jLabel_Phone_Number_Value.setText(this.invoice.getClient().getPhoneNumber());
+        
+        jLabel_Total_Tax_Value.setText(clientStatusConverter1.convertForward(this.invoice.getClient().getStatus()));
+        jLabel_Invoice_Total_Value.setText(this.invoice.getClient().getCompany().getName());
+        jLabel_Invoice_SubTotal_Value.setText(this.invoice.getClient().getName());
+        jLabel_Invoice_Discount_Value.setText(this.invoice.getClient().getSurname());
+        jLabel_Tax_Rate_Value.setText(this.invoice.getClient().getEmail());
+        jLabel_Invoice_SBT_Less_Discount_Value.setText(this.invoice.getClient().getPhoneNumber());
+        
+        
         jLabel_Client_Address_Street_Value.setText(this.invoice.getClient().getAddress().getHouseNumber());
         jLabel_Client_Address_House_Number_Value.setText(this.invoice.getClient().getAddress().getStreet());
         jLabel_Client_Address_City_Value.setText(this.invoice.getClient().getAddress().getCity());
@@ -577,54 +737,57 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         int dayOfMonth = this.invoice.getInvoiceDate().getDayOfMonth();
         int monthValue = this.invoice.getInvoiceDate().getMonthValue();
         int year = this.invoice.getInvoiceDate().getYear();
-        
-        jLabel_Invoice_Date_Value.setText(dayOfMonth+"-"+monthValue+"-"+year);
+
+        jLabel_Invoice_Date_Value.setText(dayOfMonth + "-" + monthValue + "-" + year);
         jLabel_Invoice_Number_Value.setText(this.invoice.getInvoiceNumber());
         jLabel_Invoice_Status_Value.setText(this.invoice.getInvoiceStatus().getName());
+        jLabel_Invoice_Amount_Value.setText(this.invoice.getAmount().toString());
+        
+        
+        jButton_Invoice_Payment.setText(Constants.Labels.PAY_THE_BILL);
+        jButton_Invoice_Delete.setText(Constants.Labels.CANCEL_BTN);
         
         List<Payment> payments = invoice.getPayments();
-        
-        if(this.invoice.getPayments()== null)     
-        { 
+        //System.out.println(""+this.invoice.getPayments());
+
+        if (payments != null) {
+            jPanel_Invoice_Payment.setVisible(true);
+            JLabel paymentLabel = new JLabel();
+            JLabel paymentLabelValue = new JLabel();
+            JPanel paymentLine = new JPanel();
+
+            if (!payments.isEmpty()) {
+
+                payments.forEach(p -> {
+                    paymentLabel.setText(Constants.Labels.PAYMENT + " " + payments.indexOf(p));
+                    paymentLabelValue.setText(p.getAmount() + "");
+                    paymentLine.add(paymentLabel);
+                    paymentLine.add(paymentLabelValue);
+                    jPanel_Invoice_Payment.add(paymentLine);
+                });
+
+            }
+        } else {
             jPanel_Invoice_Payment.setVisible(false);
         }
-        else{
-        
-        jPanel_Invoice_Payment.setVisible(true);
-         JLabel paymentLabel = new JLabel();
-         JLabel paymentLabelValue = new JLabel();
-         JPanel paymentLine = new JPanel();
-        payments.forEach(p-> {
-            paymentLabel.setText(Constants.Labels.PAYMENT+" "+payments.indexOf(p));
-            paymentLabelValue.setText(p.getAmount()+"");
-            paymentLine.add(paymentLabel);
-            paymentLine.add(paymentLabelValue);
-            jPanel_Invoice_Payment.add(paymentLine);
-        }
-        
-        );
-        
-        }
-        
+        jPanel_InvoiceLines.add(createHeadersPanel());
         invoiceLines.forEach(il -> {
-            JPanel p = createInvoiceLinePanel(il);
-            System.out.println(""+p);
+            JPanel p = createILPanel(il);
+            System.out.println("" + p);
             jPanel_InvoiceLines.add(p);
-            
-            }
-        );
-         jPanel_InvoiceLines.setVisible(true);
-         jPanel_InvoiceLines.revalidate();
-         jPanel_InvoiceLines.repaint();
-        
+        });
+
+        jPanel_InvoiceLines.setVisible(true);
+        jPanel_InvoiceLines.revalidate();
+        jPanel_InvoiceLines.repaint();
+
     }
 
-    private JPanel createInvoiceLinePanel(InvoiceLine il) {
-      
+    public JPanel createHeadersPanel() {
+
         JPanel panel;
         JLabel label;
 
-        Border border = BorderFactory.createLineBorder(Color.BLUE, 1);
         panel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
         panel.setLayout(gbl);
@@ -632,96 +795,207 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         int x = 0;
         int y = 0;
         int w = 1;
-        label = new JLabel(il.getPart().getReference());
-        label.setBorder(border);
-        label.setName("labelReference" + il.getPart().getId());
+
+        label = new JLabel(Constants.Labels.REF);
+        label.setName("labelHeaderReference");
+        centerLabel(label);
+
         gdbc.gridx = x;
         gdbc.gridy = y;
         gdbc.gridwidth = w;
-        gdbc.ipadx = 40;
-        gdbc.insets = new Insets(0, 0, 0, 12);
+        gdbc.ipadx = 80;
 
-        label.setBorder(border);
+        panel.setPreferredSize(new Dimension(50, 30));
         panel.add(label, gdbc);
-        label = new JLabel(il.getPart().getDesignation());
-        label.setName("labelDesignation" + il.getPart().getId());
+
+        label = new JLabel(Constants.Labels.DESCRIPTION.toUpperCase());
+        label.setName("labelHeaderDescription");
+        centerLabel(label);
         x = x + w;
         gdbc.gridx = x;
         gdbc.gridy = y;
-        w = 3;
-        gdbc.gridwidth = w;
-        gdbc.fill = GridBagConstraints.HORIZONTAL;
-        gdbc.ipadx = 250;
-        label.setPreferredSize(new Dimension(50, 20));
-        label.setMinimumSize(new Dimension(50, 20));
-        label.setMaximumSize(new Dimension(50, 20));
-        label.setBorder(border);
+        gdbc.ipadx = 180;
+
+        panel.setPreferredSize(new Dimension(100, 30));
         panel.add(label, gdbc);
-        label = new JLabel(il.getPart().getBrand());
-        label.setName("labelBrand" + il.getPart().getId());
+
+        label = new JLabel("     " + Constants.Labels.QUANTITY.toUpperCase());
+        label.setName("labelHeaderQuantity");
+        centerLabel(label);
         x = x + w;
         gdbc.gridx = x;
         gdbc.gridy = y;
         w = 1;
         gdbc.gridwidth = w;
-        gdbc.ipadx = 40;
-        label.setBorder(border);
-        label.setPreferredSize(new Dimension(50, 20));
-        label.setMinimumSize(new Dimension(50, 20));
-        label.setMaximumSize(new Dimension(50, 20));
-        panel.add(label, gdbc);
-        label = new JLabel(il.getPart().getProvider().getName() + "");
-        label.setName("labelProviderName" + il.getPart().getId());
-        x = x + w;
-        gdbc.gridx = x;
-        gdbc.gridy = y;
-        gdbc.gridwidth = w;
-        label.setBorder(border);
-        label.setPreferredSize(new Dimension(50, 20));
-        label.setMinimumSize(new Dimension(50, 20));
-        label.setMaximumSize(new Dimension(50, 20));
-        panel.add(label, gdbc);
-        label = new JLabel(il.getPart().getPurchasingPrice() + "");
-        label.setName("labelPurchasingPrice" + il.getPart().getId());
-        x = x + w;
-        gdbc.gridx = x;
-        gdbc.gridy = y;
-        gdbc.gridwidth = w;
-        gdbc.ipadx = 30;
-        label.setPreferredSize(new Dimension(30, 20));
-        label.setMinimumSize(new Dimension(30, 20));
-        label.setMaximumSize(new Dimension(30, 20));
-        label.setBorder(border);
-        panel.add(label, gdbc);
-        label = new JLabel(il.getPart().getSellingPrice() + "");
-        label.setName("labelSellingPrice" + il.getPart().getId());
-        x = x + w;
-        gdbc.gridx = x;
-        gdbc.gridy = y;
-        gdbc.gridwidth = w;
-        gdbc.ipadx = 30;
-        label.setPreferredSize(new Dimension(30, 20));
-        label.setMinimumSize(new Dimension(30, 20));
-        label.setMaximumSize(new Dimension(30, 20));
-        label.setBorder(border);
-        panel.add(label, gdbc);
-       
-        x = x + w;
-        gdbc.gridx = x;
-        gdbc.gridy = y;
-        w = 3;
-        gdbc.gridwidth = w;
-        
-        label = new JLabel(il.getQuantity()+"");
-        label.setName("labelQuantity" + il.getPart().getId());
-        panel.add(label, gdbc);
-        panel.setPreferredSize(new Dimension(500, 40));
-        panel.setBorder(new MatteBorder(0,0,1,0,Color.red));
-        panel.setName("panel" + il.getPart().getId());
+        gdbc.ipadx = 80;
 
+        panel.setPreferredSize(new Dimension(50, 30));
+        panel.add(label, gdbc);
+
+        if (invoice.getClient() == null || invoice.getClient().getStatus() != 1) {
+            label = new JLabel("     " + Constants.Labels.UNIT_PRICE.toUpperCase());
+            label.setName("labelHeaderSellingPrice");
+            centerLabel(label);
+        } else {
+            label = new JLabel("     " + Constants.Labels.UNIT_PRICE.toUpperCase());
+            label.setName("labelHeaderProSellingPrice");
+            centerLabel(label);
+        }
+
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        gdbc.gridwidth = w;
+        gdbc.ipadx = 80;
+
+        panel.setPreferredSize(new Dimension(50, 30));
+        panel.add(label, gdbc);
+
+        label = new JLabel("     " + Constants.Labels.TOTAL.toUpperCase());
+        label.setName("labelHeaderTotal");
+        centerLabel(label);
+
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        gdbc.gridwidth = w;
+        gdbc.ipadx = 80;
+
+        panel.setPreferredSize(new Dimension(50, 30));
+        panel.add(label, gdbc);
+
+        panel.setName("panelHeader");
+        panel.setPreferredSize(new Dimension(450, 30));
+        panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.red));
         return panel;
     }
-        
-        
-  
+
+    public JPanel createILPanel(InvoiceLine il) {
+
+        JPanel panel;
+        JLabel label;
+
+        panel = new JPanel();
+        GridBagLayout gbl = new GridBagLayout();
+        panel.setLayout(gbl);
+        GridBagConstraints gdbc = new GridBagConstraints();
+        int x = 0;
+        int y = 0;
+        int w = 1;
+
+        label = new JLabel(il.getReference());
+        centerLabel(label);
+        label.setName("labelReference" + il.getReference());
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        gdbc.gridwidth = w;
+        gdbc.ipadx = 80;
+
+        panel.setPreferredSize(new Dimension(50, 30));
+        panel.add(label, gdbc);
+
+        label = new JLabel(il.getDescription());
+        centerLabel(label);
+        label.setName("labelDescription" + il.getReference());
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        gdbc.ipadx = 180;
+
+        panel.setPreferredSize(new Dimension(100, 30));
+        panel.add(label, gdbc);
+
+        label = new JLabel(il.getQuantity() + "");
+        label.setName("labelQuantity" + il.getReference());
+        centerLabel(label);
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        gdbc.gridwidth = w;
+        gdbc.ipadx = 80;
+
+        panel.setPreferredSize(new Dimension(50, 30));
+        panel.add(label, gdbc);
+
+        if (invoice.getClient() == null || invoice.getClient().getStatus() != 1) {
+            label = new JLabel(il.getSellingPrice() + "");
+            centerLabel(label);
+            label.setName("labelSellingPrice" + il.getReference());
+        } else {
+            label = new JLabel(il.getSellingPrice() + "");
+            centerLabel(label);
+            label.setName("labelProSellingPrice" + il.getReference());
+        }
+
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        gdbc.gridwidth = w;
+        gdbc.ipadx = 80;
+
+        panel.setPreferredSize(new Dimension(50, 30));
+        panel.add(label, gdbc);
+
+        label = new JLabel(il.getSellingPrice() * il.getQuantity() + "");
+        label.setName("labelProTotal" + il.getReference());
+        centerLabel(label);
+
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        gdbc.gridwidth = w;
+        gdbc.ipadx = 80;
+
+        panel.setPreferredSize(new Dimension(50, 30));
+        panel.add(label, gdbc);
+
+        panel.setName("panelInvoiceLine" + il.getReference());
+        panel.setPreferredSize(new Dimension(450, 30));
+        panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.red));
+        return panel;
+    }
+
+    void centerLabel(JLabel label) {
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+    }
+
+    
+    public JButton getPayBtn(){
+    return jButton_Invoice_Payment;
+    
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+    
+    
+    public void addPayment(){
+     
+     payment.setAmount(0.0);
+     payment.setInvoice(invoice);
+     payment.setDateOfPayment(LocalDate.now());
+     payment.setPaymentMethod(PaymentMethodEnum.CASH);
+        try {
+            System.out.println("---------------------------------------------------------------"+payment);
+            editPayment(payment);
+            System.out.println("---------------------------------------------------------------"+payment);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(InvoiceController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     }
+    
+     public void editPayment(Payment p) throws PropertyVetoException {
+            
+        PaymentEditView paymentEditView = new PaymentEditView(p);
+        paymentEditView.setVisible(true);
+        paymentEditView.setSelected(true);
+        paymentEditView.toFront();
+        paymentEditView.setFocusable(true);
+
+    }
+    
+    
+    
 }

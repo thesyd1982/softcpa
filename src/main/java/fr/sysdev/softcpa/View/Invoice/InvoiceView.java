@@ -6,13 +6,17 @@
 package fr.sysdev.softcpa.View.Invoice;
 
 import fr.sysdev.softcpa.constants.Constants;
+import fr.sysdev.softcpa.entity.Client;
 import fr.sysdev.softcpa.entity.Invoice;
+import fr.sysdev.softcpa.entity.InvoiceStatusEnum;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import fr.sysdev.softcpa.utils.predicates.InvoicesPredicates;
+import java.beans.PropertyVetoException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
+import javax.swing.JButton;
 import javax.swing.table.TableColumnModel;
 import org.springframework.stereotype.Component;
 /**
@@ -27,6 +31,7 @@ public class InvoiceView extends javax.swing.JInternalFrame {
      */
     private List<Invoice> invoices;
     private List<Invoice> allInvoices;
+    private List<Invoice> selectedInvoices;
     private Invoice invoice;
     public InvoiceView() {
         initComponents();
@@ -58,6 +63,7 @@ public class InvoiceView extends javax.swing.JInternalFrame {
         jButton_Refresh = new javax.swing.JButton();
         jLabel_Part_Count = new javax.swing.JLabel();
         jLabel_Invoice_Search = new javax.swing.JLabel();
+        jButton_Invoice_Details = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -99,11 +105,11 @@ public class InvoiceView extends javax.swing.JInternalFrame {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${client}"));
         columnBinding.setColumnName("Client");
         columnBinding.setColumnClass(fr.sysdev.softcpa.entity.Client.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${vehicleType}"));
-        columnBinding.setColumnName("Vehicle Type");
-        columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${platenumber}"));
         columnBinding.setColumnName("Platenumber");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${vehicleType}"));
+        columnBinding.setColumnName("Vehicle Type");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${amount}"));
         columnBinding.setColumnName("Amount");
@@ -116,6 +122,8 @@ public class InvoiceView extends javax.swing.JInternalFrame {
         columnBinding.setColumnClass(fr.sysdev.softcpa.entity.InvoiceStatusEnum.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${invoice}"), jTable_Invoice, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${selectedInvoices}"), jTable_Invoice, org.jdesktop.beansbinding.BeanProperty.create("selectedElements"));
         bindingGroup.addBinding(binding);
 
         jTable_Invoice.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -136,6 +144,13 @@ public class InvoiceView extends javax.swing.JInternalFrame {
 
         jLabel_Invoice_Search.setText("jLabel1");
 
+        jButton_Invoice_Details.setText("jButton1");
+        jButton_Invoice_Details.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_Invoice_DetailsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -151,7 +166,9 @@ public class InvoiceView extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel_Part_Count)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton_Refresh, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton_Invoice_Details, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 926, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(150, Short.MAX_VALUE))
         );
@@ -163,7 +180,8 @@ public class InvoiceView extends javax.swing.JInternalFrame {
                     .addComponent(jTextField_Invoice_Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel_Invoice_Search)
                     .addComponent(jButton_Refresh)
-                    .addComponent(jLabel_Part_Count))
+                    .addComponent(jLabel_Part_Count)
+                    .addComponent(jButton_Invoice_Details))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -186,23 +204,36 @@ public class InvoiceView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextField_Invoice_SearchKeyReleased
 
     private void jTable_InvoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_InvoiceMouseClicked
-        getInvoiceFromSelectedTableRow();
-       // jComboBox_invoice_Provider.setSelectedItem(invoice.getProvider().getName());
+         getInvoiceFromSelectedTableRow();
         jTable_Invoice.setSelectionBackground(Color.blue);
         jTable_Invoice.setSelectionForeground(Color.white);
         if (evt.getClickCount() == 2) {
-            JOptionPane.showMessageDialog(null, invoice);
+            jButton_Invoice_Details.doClick();
+            
         } else {
             //updateInterface();
         }
     }//GEN-LAST:event_jTable_InvoiceMouseClicked
+public void displayInvoice(Invoice in) throws PropertyVetoException {
+        InvoiceDetailsView idv = new InvoiceDetailsView(in);
+        idv.setVisible(true);
+        this.getParent().add(idv);
+        idv.setSelected(true);
+        idv.toFront();
+        idv.setFocusable(true);
 
+    }
     private void jButton_RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RefreshActionPerformed
         prepareForm();
     }//GEN-LAST:event_jButton_RefreshActionPerformed
 
+    private void jButton_Invoice_DetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Invoice_DetailsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_Invoice_DetailsActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton_Invoice_Details;
     private javax.swing.JButton jButton_Refresh;
     private javax.swing.JLabel jLabel_Invoice_Search;
     private javax.swing.JLabel jLabel_Part_Count;
@@ -263,24 +294,29 @@ public class InvoiceView extends javax.swing.JInternalFrame {
         String iN = (String) (jTable_Invoice.getModel().getValueAt(rowt, 1));
         invoice.setInvoiceNumber(iN);
 
-//        String reference = (String) (jTable_Invoice.getModel().getValueAt(rowt, 2));
-//        invoice.(reference);
-//        String designation = (String) (jTable_Invoice.getModel().getValueAt(rowt, 3));
-//        invoice.setDesignation(designation);
-//        String brand = (String) (jTable_Invoice.getModel().getValueAt(rowt, 4));
-//        invoice.setBrand(brand);
-//        Provider provider = (Provider) (jTable_Invoice.getModel().getValueAt(rowt, 5));
-//        invoice.setProvider(provider);
-//        int stock = (int) (jTable_Invoice.getModel().getValueAt(rowt, 7));
-//        invoice.setStock(stock);
-//        Double sp = (Double) (jTable_Invoice.getModel().getValueAt(rowt, 8));
-//        invoice.setSellingPrice(sp);
-//        Double pp = (Double) (jTable_Invoice.getModel().getValueAt(rowt, 6));
-//        invoice.setPurchasingPrice(pp);
-//
-//        Double psp = (Double) (jTable_Invoice.getModel().getValueAt(rowt, 9));
-//        invoice.setProfessionalSellingPrice(psp);
+       Client client = (Client) (jTable_Invoice.getModel().getValueAt(rowt, 2));
+        invoice.setClient(client);
 
+         String platenumber =(String) (jTable_Invoice.getModel().getValueAt(rowt, 3));
+         invoice.setPlatenumber(platenumber);
+         
+         String vehicleType =(String) (jTable_Invoice.getModel().getValueAt(rowt, 4));
+         invoice.setVehicleType(vehicleType);
+         
+         Double amount=(Double) (jTable_Invoice.getModel().getValueAt(rowt, 5));
+         
+         invoice.setAmount(amount);
+
+         LocalDate invoiceDate= (LocalDate)(jTable_Invoice.getModel().getValueAt(rowt, 6));
+         invoice.setInvoiceDate(invoiceDate);
+         
+         InvoiceStatusEnum invoiceStatus  = (InvoiceStatusEnum)(jTable_Invoice.getModel().getValueAt(rowt, 7));
+         invoice.setInvoiceStatus(invoiceStatus);
+         
+         
+         System.out.println(""+invoice);
+         
+         
         return invoice;
     }
 
@@ -338,6 +374,7 @@ public class InvoiceView extends javax.swing.JInternalFrame {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable_InvoiceMouseClicked(evt);
+               
             }
         });
     }
@@ -357,7 +394,25 @@ public class InvoiceView extends javax.swing.JInternalFrame {
     }
 
     private void prepareForm() {
+        jButton_Invoice_Details.setText(Constants.Labels.INVOICE_DETAILS);
+        jButton_Refresh.setText(Constants.Labels.REFRESH_BTN);
         jLabel_Invoice_Search.setText(Constants.Labels.SEARCH);
         bindingInvoicesTable();
     }
+    
+    
+    public JButton getDetailsBtn(){
+    
+    return jButton_Invoice_Details;
+    }
+
+    public List<Invoice> getSelectedInvoices() {
+        return selectedInvoices;
+    }
+
+    public void setSelectedInvoices(List<Invoice> selectedInvoices) {
+        this.selectedInvoices = selectedInvoices;
+    }
+    
+    
 }

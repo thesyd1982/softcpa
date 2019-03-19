@@ -6,7 +6,6 @@
 package fr.sysdev.softcpa.entity;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,12 +26,17 @@ public class InvoiceLine implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_invoiceLine")
     private Long id;
+    
     @OneToOne
     @JoinColumn(name = "id_invoice")
     private Invoice invoice;
-    @OneToOne
-    @JoinColumn(name = "id_part")
-    private Part part;
+  
+    private String reference;
+    
+    private String description;
+    private String provider;
+    private Double purchasingPrice;
+    private Double sellingPrice;
     
     private int quantity;
 
@@ -52,14 +56,6 @@ public class InvoiceLine implements Serializable {
         this.invoice = invoice;
     }
 
-    public Part getPart() {
-        return part;
-    }
-
-    public void setPart(Part part) {
-        this.part = part;
-    }
-
     public int getQuantity() {
         return quantity;
     }
@@ -70,6 +66,59 @@ public class InvoiceLine implements Serializable {
 
     @Override
     public String toString() {
-        return "InvoiceLine{" + "id=" + id + ", invoice=" + invoice + ", part=" + part + ", quantity=" + quantity + '}';
+        String s="";
+                s+="InvoiceLine{" + "id=" + id ;
+                //s +=", invoice=" + invoice ;
+                s +=", reference=" + reference ;
+                s +=", description=" + description ;
+                s +=", provider=" + provider ;
+                s +=", purchasingPrice=" + purchasingPrice ;
+                s +=", sellingPrice=" + sellingPrice ;
+                s +=", quantity=" + quantity + '}';
+    return s;
+    }
+
+   
+
+   
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getPurchasingPrice() {
+        return purchasingPrice;
+    }
+
+    public void setPurchasingPrice(Double purchasingPrice) {
+        this.purchasingPrice = purchasingPrice;
+    }
+
+    public Double getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public void setSellingPrice(Double sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
     }
 }

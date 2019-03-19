@@ -6,6 +6,7 @@
 package fr.sysdev.softcpa.Service;
 
 import fr.sysdev.softcpa.entity.Invoice;
+import fr.sysdev.softcpa.entity.InvoiceLine;
 import java.util.List;
 import java.util.Observer;
 
@@ -14,17 +15,21 @@ import java.util.Observer;
  * @author sysdev
  */
 public interface IInvoiceService {
-    List<Invoice> getInvoices();
+     List<Invoice> getInvoices();
    
-     Invoice getInvoiceById(Long clientId);
+     Invoice getInvoiceById(Long invoiceId);
      
-     Invoice addInvoice(Invoice Invoice);
+     Invoice addInvoice(Invoice invoice);
      
-     Invoice updateInvoice(Invoice Invoice);
+     Invoice updateInvoice(Invoice invoice);
      
-     void deleteInvoice(Invoice Invoice);
+     void deleteInvoice(Invoice invoice);
      
-     void addInvoices(List<Invoice> Invoices);
+     void addInvoices(List<Invoice> invoices);
+     
+     InvoiceLine addInvoiceLine(Invoice invoice ,InvoiceLine InvoiceLine);
+     
+     InvoiceLine deleteInvoiceLine(Invoice invoice ,InvoiceLine InvoiceLine);
     
      Long key();
      

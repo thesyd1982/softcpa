@@ -22,13 +22,18 @@ private Payment payment;
      */
     public PaymentEditView() {
         initComponents();
+        this.title = Constants.Labels.PAYMENT_DETAILS;
+        prepareForm() ;
     }
 
     public PaymentEditView(Payment payment) {
         this.payment = payment;
         initComponents();
         this.title = Constants.Labels.PAYMENT_DETAILS;
-        prepareForm();
+       prepareForm(payment);
+        System.out.println("paaaaaaaaaaaaaaaaaaaaaa"+payment);
+       
+       
     }
     
     /**
@@ -51,6 +56,10 @@ private Payment payment;
         jTextField_Payment_Amount_Value = new javax.swing.JTextField();
         jComboBox_Payment_Method_Value = new javax.swing.JComboBox<>();
 
+        setClosable(true);
+        setIconifiable(true);
+        setResizable(true);
+
         jLabel_PaymentNumber.setText("jLabel1");
 
         jLabel_PaymentNumber_Value.setText("jLabel1");
@@ -66,6 +75,11 @@ private Payment payment;
         jButton_Add.setText("jButton1");
 
         jButton_Cancel.setText("jButton1");
+        jButton_Cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_CancelActionPerformed(evt);
+            }
+        });
 
         jComboBox_Payment_Method_Value.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -74,7 +88,7 @@ private Payment payment;
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,7 +100,7 @@ private Payment payment;
                                 .addComponent(jLabel_PaymentNumber)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel_PaymentNumber_Value)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel_Payment_Date)
@@ -95,13 +109,13 @@ private Payment payment;
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel_Payment_Amount)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField_Payment_Amount_Value, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(121, 121, 121)
+                                .addComponent(jTextField_Payment_Amount_Value, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(48, 48, 48))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton_Cancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_Add)))
-                .addContainerGap(34, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton_Add)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,15 +133,19 @@ private Payment payment;
                         .addComponent(jLabel_Payment_Amount)
                         .addComponent(jTextField_Payment_Amount_Value, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jComboBox_Payment_Method_Value, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_Cancel)
                     .addComponent(jButton_Add))
-                .addGap(28, 28, 28))
+                .addGap(36, 36, 36))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton_CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CancelActionPerformed
+    this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_CancelActionPerformed
 
     public Payment getPayment() {
         return payment;
@@ -151,7 +169,7 @@ private Payment payment;
     private javax.swing.JTextField jTextField_Payment_Amount_Value;
     // End of variables declaration//GEN-END:variables
 
-    private void prepareForm() {
+    private void prepareForm(Payment payment) {
         jLabel_PaymentNumber.setText(Constants.Labels.PAYMENT_NUMBER);
         jLabel_PaymentNumber_Value.setText(payment.getId()+"");
         jLabel_Payment_Amount.setText(Constants.Labels.AMOUNT);
@@ -166,4 +184,23 @@ private Payment payment;
         List<PaymentMethodEnum> pmsList = Arrays.asList(values);
         pmsList.forEach(pm->jComboBox_Payment_Method_Value.addItem(pm.getName()) );
     }
+    
+    
+     private void prepareForm() {
+        jLabel_PaymentNumber.setText(Constants.Labels.PAYMENT_NUMBER);
+        //jLabel_PaymentNumber_Value.setText(payment.getId()+"");
+        jLabel_Payment_Amount.setText(Constants.Labels.AMOUNT);
+        jTextField_Payment_Amount_Value.setText(0.0+"");
+        jLabel_Payment_Date.setText(Constants.Labels.PAYMENT_DATE);
+        //jLabel_Payment_Date_Value.setText(payment.getDateOfPayment().toString());
+        jLabel_Payment_Method.setText(Constants.Labels.PAYMENT_METHOD);
+        //jLabel_Payment_Date_Value.setText(payment.getPaymentMethod().getName());
+        jButton_Add.setText(Constants.Labels.ADD_BTN);
+        jButton_Cancel.setText(Constants.Labels.CANCEL_BTN);
+        PaymentMethodEnum[] values = PaymentMethodEnum.values();
+        List<PaymentMethodEnum> pmsList = Arrays.asList(values);
+        pmsList.forEach(pm->jComboBox_Payment_Method_Value.addItem(pm.getName()) );
+    }
+    
+    
 }

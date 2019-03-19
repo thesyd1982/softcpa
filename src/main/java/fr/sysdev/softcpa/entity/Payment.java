@@ -43,7 +43,7 @@ public class Payment implements Serializable {
     private PaymentMethodEnum paymentMethod;
 
     @Column(name = "amount")
-    private long amount;
+    private Double amount;
 
     @Column(name = "date_of_payment")
     private LocalDate dateOfPayment;
@@ -76,8 +76,10 @@ public class Payment implements Serializable {
 
     @Override
     public String toString() {
-        return paymentMethod + "";
-    }   
+        return "Payment{" + "id=" + id + ", invoice=" + invoice + ", paymentMethod=" + paymentMethod + ", amount=" + amount + ", dateOfPayment=" + dateOfPayment + '}';
+    }
+
+   
 
     public Invoice getInvoice() {
         return invoice;
@@ -87,11 +89,11 @@ public class Payment implements Serializable {
         this.invoice = invoice;
     }
 
-    public long getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(long amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 }

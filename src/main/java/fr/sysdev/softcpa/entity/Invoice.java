@@ -13,6 +13,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.*;
 import java.util.List; 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name = "invoice")
@@ -30,7 +32,9 @@ public class Invoice implements Serializable {
     @JoinColumn(name = "invoceNumber")
     private String invoiceNumber;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoice", orphanRemoval = true)
+    
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoice",  orphanRemoval = true)
     private List <Payment> payments;
 
     @OneToOne
@@ -64,7 +68,7 @@ public class Invoice implements Serializable {
         return payments;
     }
 
-    public void setPayment(List<Payment>  payments) {
+    public void setPayments(List<Payment>  payments) {
         this.payments = payments;
     }
 
@@ -103,8 +107,23 @@ public class Invoice implements Serializable {
 
     @Override
     public String toString() {
-        return client.toString();
+        String s ="";
+                s+="Invoice{" + "id=" + id ;
+        
+               s+= ", invoiceStatus=" + invoiceStatus ;
+               s+=  ", invoiceNumber=" + invoiceNumber ;
+               s+=  ", payments=" + payments ;
+               s+=  ", client=" + client ;
+               s+=  ", invocesLines=" + invocesLines ;
+               s+=  ", platenumber=" + platenumber ;
+               s+=  ", vehicleType=" + vehicleType ;
+               s+=  ", invoiceDate=" + invoiceDate ;
+               s+=  ", amount=" + amount + '}';
+        return s;
+        
     }
+
+    
 
     public List <InvoiceLine> getInvocesLines() {
         return invocesLines;

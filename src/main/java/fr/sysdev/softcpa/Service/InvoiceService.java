@@ -6,6 +6,7 @@
 package fr.sysdev.softcpa.Service;
 import fr.sysdev.softcpa.Repository.IInvoiceRepository;
 import fr.sysdev.softcpa.entity.Invoice;
+import fr.sysdev.softcpa.entity.InvoiceLine;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ import java.util.Observer;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -37,8 +39,9 @@ public class InvoiceService extends Observable implements IInvoiceService {
     public List<Invoice> getInvoices() {
         return (List<Invoice>) invoiceRepository.findAll();
     }
-
+    
     @Override
+    @Transactional
     public Invoice getInvoiceById(Long invoiceId) {
         Optional<Invoice> partOptional = invoiceRepository.findById(invoiceId);
 
@@ -49,6 +52,7 @@ public class InvoiceService extends Observable implements IInvoiceService {
     }
 
     @Override
+    @Transactional
     public Invoice addInvoice(Invoice invoice) {
         Invoice i = invoiceRepository.save(invoice);
         this.setChanged();
@@ -57,6 +61,7 @@ public class InvoiceService extends Observable implements IInvoiceService {
     }
 
     @Override
+    @Transactional
     public Invoice updateInvoice(Invoice invoice) {
         Invoice i = invoiceRepository.save(invoice);
         this.setChanged();
@@ -65,6 +70,7 @@ public class InvoiceService extends Observable implements IInvoiceService {
     }
 
     @Override
+    @Transactional
     public void deleteInvoice(Invoice invoice) {
         invoiceRepository.delete(invoice);
         this.setChanged();
@@ -72,6 +78,7 @@ public class InvoiceService extends Observable implements IInvoiceService {
     }
 
     @Override
+    @Transactional
     public void addInvoices(List<Invoice> Invoices) {
        invoiceRepository.saveAll(Invoices);
     }
@@ -117,6 +124,20 @@ public class InvoiceService extends Observable implements IInvoiceService {
     @Override
     public void removeInvoicesObserver(Observer obsrvr) {
         this.deleteObserver(obsrvr);
+    }
+
+    @Override
+    public InvoiceLine addInvoiceLine(Invoice invoice ,InvoiceLine invoiceLine) {
+        invoice.getInvocesLines().add(invoiceLine);
+        updateInvoice(invoice);
+        return invoiceLine;
+    }
+
+    @Override
+    public InvoiceLine deleteInvoiceLine(Invoice invoice ,InvoiceLine invoiceLine) {
+        invoice.getInvocesLines().remove(invoiceLine);
+        updateInvoice(invoice);
+        return invoiceLine;
     }
     
 }

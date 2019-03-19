@@ -13,7 +13,6 @@ import fr.sysdev.softcpa.entity.Invoice;
 import java.awt.event.ActionListener;
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -29,8 +28,10 @@ public class InvoicingController {
     private final IPartService iPartService;
     @Autowired
     private final IInvoiceService invoiceService;
+
     @Autowired
     private final InvoicingView view;
+    
     
     
    @PostConstruct
@@ -74,8 +75,12 @@ public class InvoicingController {
 
         this.getView().addInvoice(this.invoiceService.key());
         Invoice invoice = this.getView().getInvoice();
-        JOptionPane.showMessageDialog(null, invoice);
-        this.invoiceService.addInvoice(invoice);    
+        this.invoiceService.addInvoice(invoice);
+//        invoice.getInvocesLines().forEach((InvoiceLine il) -> {
+//            InvoiceLine addInvoiceLine = this.invoiceService.addInvoiceLine(invoice, (InvoiceLine) il);
+//            System.out.println("addInvoiceLine "+addInvoiceLine);
+//        });
+            
     }
 
     private void chooseAction() {

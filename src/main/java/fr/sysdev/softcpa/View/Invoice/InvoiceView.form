@@ -37,6 +37,8 @@
                       <Component id="jLabel_Part_Count" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jButton_Refresh" min="-2" pref="131" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jButton_Invoice_Details" min="-2" pref="119" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane2" alignment="0" min="-2" pref="926" max="-2" attributes="0"/>
               </Group>
@@ -53,6 +55,7 @@
                   <Component id="jLabel_Invoice_Search" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton_Refresh" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel_Part_Count" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButton_Invoice_Details" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="311" max="-2" attributes="0"/>
@@ -101,10 +104,10 @@
               <Subbinding sourcePath="${client}">
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="fr.sysdev.softcpa.entity.Client.class"/>
               </Subbinding>
-              <Subbinding sourcePath="${vehicleType}">
+              <Subbinding sourcePath="${platenumber}">
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
               </Subbinding>
-              <Subbinding sourcePath="${platenumber}">
+              <Subbinding sourcePath="${vehicleType}">
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
               </Subbinding>
               <Subbinding sourcePath="${amount}">
@@ -118,6 +121,9 @@
               </Subbinding>
             </BindingProperty>
             <BindingProperty name="selectedElement" source="Form" sourcePath="${invoice}" target="jTable_Invoice" targetPath="selectedElement" updateStrategy="0" immediately="false">
+              <BindingParameter name="IGNORE_ADJUSTING" value="N"/>
+            </BindingProperty>
+            <BindingProperty name="selectedElements" source="Form" sourcePath="${selectedInvoices}" target="jTable_Invoice" targetPath="selectedElements" updateStrategy="0" immediately="false">
               <BindingParameter name="IGNORE_ADJUSTING" value="N"/>
             </BindingProperty>
           </BindingProperties>
@@ -144,6 +150,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton_Invoice_Details">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jButton1"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_Invoice_DetailsActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

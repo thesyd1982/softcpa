@@ -34,6 +34,8 @@ public abstract class Constants {
  public interface Messages {
 
         public static String CHOOSE_CLIENT = "Choose the client to invoice.";
+        public static Object SELECT_CLIENT = "Please select the client.";
+        public static Object SELECT_PARTS = "Please select a parts.";
 
         String CLICK_A_BUTTON = "Click a button";
 
@@ -163,7 +165,16 @@ public abstract class Constants {
     public static String CASH ="Cash";
     public static String CHEQUE="Cheque";
     public static String PENDING = "Pending";
-  
+    public static String DESCRIPTION = "Description";
+    public static String INVOICE_DETAILS = "Invoice Details";
+    public static String UNIT_PRICE = "Unit Price";
+    public static String TOTAL = "Total";
+    public static String TOTAL_TAX = "Total Tax";
+    public static String SUBTOTAL = "Subtotal";
+    public static String DISCOUNT = "Discount";
+    public static String TAX_RATE = "Tax Rate";
+    public static String SUBTOTAL_LESS_DISCOUNT ="Subtotal Less Discount";
+    public static String PAY_THE_BILL = "Pay The Bill";
     }
 //</editor-fold>
     
