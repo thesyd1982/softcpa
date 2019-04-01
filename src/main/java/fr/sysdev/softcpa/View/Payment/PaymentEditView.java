@@ -8,8 +8,10 @@ package fr.sysdev.softcpa.View.Payment;
 import fr.sysdev.softcpa.constants.Constants;
 import fr.sysdev.softcpa.entity.Payment;
 import fr.sysdev.softcpa.entity.PaymentMethodEnum;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JButton;
 
 /**
  *
@@ -70,6 +72,11 @@ private Payment payment;
         jLabel_Payment_Method.setText("jLabel1");
 
         jButton_Add.setText("jButton1");
+        jButton_Add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_AddActionPerformed(evt);
+            }
+        });
 
         jButton_Cancel.setText("jButton1");
         jButton_Cancel.addActionListener(new java.awt.event.ActionListener() {
@@ -144,6 +151,10 @@ private Payment payment;
     this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton_CancelActionPerformed
 
+    private void jButton_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AddActionPerformed
+    addPayment();
+    }//GEN-LAST:event_jButton_AddActionPerformed
+
     public Payment getPayment() {
         return payment;
     }
@@ -168,13 +179,13 @@ private Payment payment;
 
     private void prepareForm(Payment payment) {
         jLabel_PaymentNumber.setText(Constants.Labels.PAYMENT_NUMBER);
-        jLabel_PaymentNumber_Value.setText(payment.getId()+"");
+        jLabel_PaymentNumber_Value.setText((payment.getInvoice().getPayments().size()+1)+"");
         jLabel_Payment_Amount.setText(Constants.Labels.AMOUNT);
         jTextField_Payment_Amount_Value.setText(payment.getAmount()+"");
         jLabel_Payment_Date.setText(Constants.Labels.PAYMENT_DATE);
         jLabel_Payment_Date_Value.setText(payment.getDateOfPayment().toString());
         jLabel_Payment_Method.setText(Constants.Labels.PAYMENT_METHOD);
-        jLabel_Payment_Date_Value.setText(payment.getPaymentMethod().getName());
+        jLabel_Payment_Date_Value.setText(payment.getDateOfPayment().toString());
         jButton_Add.setText(Constants.Labels.ADD_BTN);
         jButton_Cancel.setText(Constants.Labels.CANCEL_BTN);
         
@@ -201,5 +212,17 @@ private Payment payment;
         pmsList.forEach(pm->jComboBox_Payment_Method_Value.addItem(pm.getName()) );
     }
     
+     
+     
     
+     public JButton getAddBtn(){
+     return jButton_Add;
+     }
+
+    public void addPayment() {
+       payment.setAmount(new Double(jTextField_Payment_Amount_Value.getText()));
+       payment.setPaymentMethod((PaymentMethodEnum) jComboBox_Payment_Method_Value.getSelectedItem());
+       payment.setDateOfPayment(LocalDate.now());
+       
+    }
 }

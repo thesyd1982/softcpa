@@ -20,7 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -35,55 +34,81 @@ public class InvoiceController {
     private final IInvoiceService invoiceService;
     @Autowired
     private final InvoiceView view;
-    
+
     InvoiceDetailsView detailsView;
     PaymentEditView paymentEditView;
-    
-   @PostConstruct
+
+    @PostConstruct
     private void prepareListeners() {
-        
+
         registerAction(view.getDetailsBtn(), (e) -> invoiceDetails());
-       // registerAction(detailsView.getPayBtn(), (e) -> addPayment());
-    } 
-    
+
+    }
 
     public InvoiceController(IInvoiceService invoiceService) {
         this.invoiceService = invoiceService;
-        this.view = new InvoiceView(invoiceService.getInvoices()); 
+        this.view = new InvoiceView(invoiceService.getInvoices());
         detailsView = new InvoiceDetailsView();
-         prepareListeners() ;
+        prepareListeners();
     }
 
     public InvoiceView getView() {
         return view;
     }
 
-    public void loadingInvoices(){
-    this.view.setInvoices(invoiceService.getInvoices());
-    this.view.loadInvoices() ;
+    public void loadingInvoices() {
+        this.view.setInvoices(invoiceService.getInvoices());
+        this.view.loadInvoices();
     }
- 
-    
-    
+
     protected void registerAction(JButton button, ActionListener listener) {
         button.addActionListener(listener);
     }
 
-    public void invoiceDetails(){
-    ArrayList<Invoice> slist =(ArrayList<Invoice>) this.view.getSelectedInvoices();
-    slist.forEach((Invoice i)->
-            
-           {
+    public void invoiceDetails() {
+        ArrayList<Invoice> slist = (ArrayList<Invoice>) this.view.getSelectedInvoices();
+
+        /*        if (slist.size() > 1) {
+        slist.forEach((Invoice i)
+        -> {
         try {
-            this.view.displayInvoice (invoiceService.getInvoiceById(i.getId()));
+        detailsView = this.view.displayInvoice(invoiceService.getInvoiceById(i.getId()));
+        registerAction(detailsView.getPayBtn(), (e) -> addPayment());
+        } catch (PropertyVetoException ex) {
+        Logger.getLogger(InvoiceController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        });
+        } else {*/
+            try {
+                detailsView = this.view.displayInvoice(invoiceService.getInvoiceById(slist.get(0).getId()));
+                registerAction(detailsView.getPayBtn(), (e) -> addPayment());
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(InvoiceController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+//        }
+    }
+
+    public void addPayment() {
+
+        Payment payment = new Payment();
+        Invoice invoice = detailsView.getInvoice();
+        payment.setAmount(0.0);
+        payment.setInvoice(invoice);
+        payment.setDateOfPayment(LocalDate.now());
+        payment.setPaymentMethod(PaymentMethodEnum.CASH);
+
+        try {
+            paymentEditView = detailsView.editPayment(payment);
+            registerAction(paymentEditView.getAddBtn(), (e) -> savePayment());
         } catch (PropertyVetoException ex) {
             Logger.getLogger(InvoiceController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    });
     }
-    
 
-     
-     
-  
+    private void savePayment() {
+        paymentEditView.addPayment();
+        Payment payment = paymentEditView.getPayment();
+        payment.getInvoice().getPayments().add(payment);
+    }
+
 }

@@ -44,19 +44,29 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButton_Avoirs" linkSize="1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jButton_Stock" linkSize="1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jButton_Clients" linkSize="1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jButton_Providers" linkSize="1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jButton_Devis" linkSize="1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jButton_Facturation" linkSize="1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jButton_Invoices" linkSize="1" alignment="0" min="-2" pref="93" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jButton_Avoirs" linkSize="1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButton_Stock" linkSize="1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButton_Clients" linkSize="1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButton_Providers" linkSize="1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButton_Devis" linkSize="1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButton_Facturation" linkSize="1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButton_Invoices" linkSize="1" alignment="0" min="-2" pref="93" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jDesktopPane" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jLabel_Sales_Revenues" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jLabel_Sales_Revenues_value" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jDesktopPane" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -64,17 +74,21 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel_Sales_Revenues" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Sales_Revenues_value" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jButton_Facturation" linkSize="2" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButton_Devis" linkSize="2" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButton_Invoices" linkSize="2" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButton_Avoirs" linkSize="2" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
                       <Component id="jButton_Stock" linkSize="2" min="-2" pref="38" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jButton_Clients" linkSize="2" min="-2" pref="38" max="-2" attributes="0"/>
@@ -153,6 +167,16 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_InvoicesActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Sales_Revenues">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel_Sales_Revenues_value">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

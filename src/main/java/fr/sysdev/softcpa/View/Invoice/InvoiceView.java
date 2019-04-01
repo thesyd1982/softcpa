@@ -44,6 +44,7 @@ public class InvoiceView extends javax.swing.JInternalFrame {
         
         initComponents();
         prepareForm();
+
     }
 
  
@@ -93,6 +94,7 @@ public class InvoiceView extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable_Invoice.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${invoices}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable_Invoice);
@@ -207,22 +209,27 @@ public class InvoiceView extends javax.swing.JInternalFrame {
          getInvoiceFromSelectedTableRow();
         jTable_Invoice.setSelectionBackground(Color.blue);
         jTable_Invoice.setSelectionForeground(Color.white);
+      
         if (evt.getClickCount() == 2) {
+             
+             
             jButton_Invoice_Details.doClick();
             
         } else {
             //updateInterface();
         }
     }//GEN-LAST:event_jTable_InvoiceMouseClicked
-public void displayInvoice(Invoice in) throws PropertyVetoException {
+public InvoiceDetailsView displayInvoice(Invoice in) throws PropertyVetoException {
         InvoiceDetailsView idv = new InvoiceDetailsView(in);
+        
         idv.setVisible(true);
         this.getParent().add(idv);
         idv.setSelected(true);
         idv.toFront();
         idv.setFocusable(true);
-
+       return idv;
     }
+
     private void jButton_RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RefreshActionPerformed
         prepareForm();
     }//GEN-LAST:event_jButton_RefreshActionPerformed
@@ -366,17 +373,19 @@ public void displayInvoice(Invoice in) throws PropertyVetoException {
         cm.getColumn(2).setCellRenderer(new ClientCellRender());
         cm.getColumn(5).setCellRenderer(new AmountCellRender());
         cm.getColumn(7).setCellRenderer(new InvoiceStatusCellRender());
-        
-        
-        
-         
+  
         jTable_Invoice.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (jTable_Invoice.isEditing())
+     jTable_Invoice.getCellEditor().stopCellEditing();
+                
                 jTable_InvoiceMouseClicked(evt);
                
             }
         });
+        
+
     }
 
     public Invoice getInvoice() {

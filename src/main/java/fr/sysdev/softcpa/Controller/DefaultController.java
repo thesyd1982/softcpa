@@ -142,10 +142,15 @@ public class DefaultController implements Observer {
         
         if (o instanceof InvoiceService) {
             invoiceController.loadingInvoices();
-            
+            this.loadingSalesRevenues();
         }
         
         
+    }
+
+    private void loadingSalesRevenues() {
+        Double salesRevenues = invoiceService.salesRevenues();
+        System.out.println("salesRevenues "+salesRevenues+" €");
     }
 
 }

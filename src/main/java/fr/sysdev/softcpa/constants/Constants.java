@@ -5,6 +5,7 @@
  */
 package fr.sysdev.softcpa.constants;
 
+import javax.swing.JLabel;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
@@ -175,6 +176,7 @@ public abstract class Constants {
     public static String TAX_RATE = "Tax Rate";
     public static String SUBTOTAL_LESS_DISCOUNT ="Subtotal Less Discount";
     public static String PAY_THE_BILL = "Pay The Bill";
+    public static String SALES_REVENUES =  "Sales Revenues";
     }
 //</editor-fold>
     

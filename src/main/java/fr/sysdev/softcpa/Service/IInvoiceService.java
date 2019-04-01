@@ -36,5 +36,7 @@ public interface IInvoiceService {
     public void addInvoicesObserver(Observer obsrvr);
     
     public void removeInvoicesObserver(Observer obsrvr);
+
+    public Double salesRevenues();
      
 }

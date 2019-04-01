@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -138,6 +139,21 @@ public class InvoiceService extends Observable implements IInvoiceService {
         invoice.getInvocesLines().remove(invoiceLine);
         updateInvoice(invoice);
         return invoiceLine;
+    }
+
+    @Override
+    public Double salesRevenues() {
+        List invoices = getInvoices();
+        Stream <Invoice> is = invoices.stream();
+        Double sR = 0.0;
+        
+       Optional sum = is.map((t) -> {
+            return t.getAmount();
+        }).reduce(Double::sum);
+       
+       if(sum.isPresent())
+           sR =  (Double) sum.get();
+        return sR;
     }
     
 }

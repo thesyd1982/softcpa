@@ -593,7 +593,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         
             getVehicleFromForm();
             updateInvoiceSelectedLines(selectedInvoiceLines, jPanel_Invoice_Lines);
-            getInvoiceFromForm(invoiceKey, amount(), client, selectedInvoiceLines, vehicle);
+            getInvoiceFromForm(invoiceKey, amount(20.0), client, selectedInvoiceLines, vehicle);
        
 
     }
@@ -616,6 +616,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         };
         choice = JOptionPane.showOptionDialog(null, "Question ?", Constants.Labels.CONFIRMATION,
                 JOptionPane.WARNING_MESSAGE, 0, null, buttons, buttons[2]);
+        
         }
         else if(!isSelectedClient()){
         JOptionPane.showMessageDialog(this, Constants.Messages.SELECT_CLIENT);
@@ -623,7 +624,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         else{
         JOptionPane.showMessageDialog(this, Constants.Messages.SELECT_PARTS);
         }
-
+        
     }
 
     public void getInvoiceFromForm(Long key, Double amount, Client client, List<InvoiceLine> ils, Vehicle vehicle) {
@@ -1027,7 +1028,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
             });
 
             jLabel_SelectionCount_Value.setText(selectedInvoiceLines.size() + "");
-            jLabel_Amount_Value.setText(amount() + " €");
+            jLabel_Amount_Value.setText(amount(20.0) + " €");
             jPanel_Invoice_Lines.setVisible(true);
             jPanel_Invoice_Lines.revalidate();
             jPanel_Invoice_Lines.repaint();
@@ -1058,13 +1059,16 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         return panel;
     }
 
-    public double amount() {
+    public double amount(Double taxeRate) {
         if (client == null || client.getStatus() != 0) {
 
-            //return selectedInvoiceLines.stream().mapToDouble(i -> i.getQuantity() * i.getPart().getProfessionalSellingPrice()).sum();
-            return selectedInvoiceLines.stream().mapToDouble(i -> i.getQuantity() * i.getSellingPrice()).sum();
+            double total = selectedInvoiceLines.stream().mapToDouble(i -> i.getQuantity() * i.getSellingPrice()).sum();
+            
+            return total+(total*taxeRate)/100;
         } else {
-            return selectedInvoiceLines.stream().mapToDouble(i -> i.getQuantity() * i.getSellingPrice()).sum();
+            double total = selectedInvoiceLines.stream().mapToDouble(i -> i.getQuantity() * i.getSellingPrice()).sum();
+            
+            return total+(total*taxeRate)/100;
         }
     }
 
@@ -1150,7 +1154,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
             selectedInvoiceLines.remove(il);
 
             jLabel_SelectionCount_Value.setText(selectedInvoiceLines.size() + "");
-            jLabel_Amount_Value.setText(amount() + " €");
+            jLabel_Amount_Value.setText(amount(20.0) + " €");
 
             jPanel_Invoice_Lines.remove(panel);
             jPanel_Invoice_Lines.revalidate();
@@ -1378,6 +1382,24 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     private boolean isSelectedInvoiceLines() {
 
         return  !selectedInvoiceLines.isEmpty();
+    }
+
+    public void resetView() {
+        prepareForm();
+        jTextField_Invoicing_Numberplate.setText("");
+        jTextField_Invoicing_Vehicle_Type.setText("");
+        jTextField_Search_Part.setText("");
+        
+        jPanel_Invoice_Lines.removeAll();
+        jPanel_Invoice_Lines.invalidate();
+        jPanel_Invoice_Lines.repaint();
+        
+        jPanel_Invoicing_Search_Result.removeAll();
+        jPanel_Invoicing_Search_Result.invalidate();
+        jPanel_Invoicing_Search_Result.repaint();
+        
+        selectedInvoiceLines.clear();
+        
     }
     
 }

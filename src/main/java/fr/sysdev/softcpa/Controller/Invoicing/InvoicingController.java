@@ -91,6 +91,7 @@ public class InvoicingController {
             case 0:{
                 addInvoice();
                 this.getView().displayInvoice();
+                this.getView().resetView();
             break;
             }
             default: {;}

@@ -611,7 +611,7 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
 
     private void jButton_Invoice_PaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Invoice_PaymentActionPerformed
               
-   addPayment();
+   //addPayment();
      
     }//GEN-LAST:event_jButton_Invoice_PaymentActionPerformed
 
@@ -980,23 +980,27 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
      payment.setDateOfPayment(LocalDate.now());
      payment.setPaymentMethod(PaymentMethodEnum.CASH);
         try {
-            System.out.println("---------------------------------------------------------------"+payment);
             editPayment(payment);
-            System.out.println("---------------------------------------------------------------"+payment);
         } catch (PropertyVetoException ex) {
             Logger.getLogger(InvoiceController.class.getName()).log(Level.SEVERE, null, ex);
         }
      }
     
-     public void editPayment(Payment p) throws PropertyVetoException {
+     public PaymentEditView editPayment(Payment p) throws PropertyVetoException {
             
         PaymentEditView paymentEditView = new PaymentEditView(p);
+        paymentEditView.setTitle(paymentEditView.getTitle()+" "+p.getInvoice().getInvoiceNumber());
         this.getParent().add(paymentEditView);
         paymentEditView.setSelected(true);
         paymentEditView.toFront();
         paymentEditView.setFocusable(true);
         paymentEditView.setVisible(true);
 
+        return paymentEditView;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
     }
     
     
