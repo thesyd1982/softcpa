@@ -5,18 +5,13 @@
  */
 package fr.sysdev.softcpa.View;
 
-import fr.sysdev.softcpa.View.Part.PartView;
-import fr.sysdev.softcpa.View.Client.ClientView;
-import fr.sysdev.softcpa.Controller.DefaultController;
-import fr.sysdev.softcpa.View.Invoice.InvoiceView;
-import fr.sysdev.softcpa.View.Invoicing.InvoicingView;
-import fr.sysdev.softcpa.View.Provider.ProviderView;
+
 import fr.sysdev.softcpa.constants.Constants;
 import java.beans.PropertyVetoException;
 import java.util.HashMap;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
@@ -27,28 +22,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultView extends javax.swing.JFrame {
 
-    @Autowired
-    private DefaultController defaultController;
-    @Autowired
-    private ClientView clientView;
-    @Autowired
-    private PartView pieceView;
-    @Autowired
-    private InvoicingView invoicingView;
-    @Autowired
-    private ProviderView providerView;
-    @Autowired
-    private InvoiceView invoiceView;
 
-    private HashMap<String, JInternalFrame> viewsMap;
+    
 
-    private Double salesRevenues =0.0;
+    private Double salesRevenues;
     /**
      * Creates new form App
      */
     public DefaultView() {
-        viewsMap = new HashMap<>();
+        this.salesRevenues = 0.0;
         initComponents();
+        this.setTitle("SoftCPA");
         jLabel_Sales_Revenues.setText(Constants.Labels.SALES_REVENUES);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
@@ -65,7 +49,7 @@ public class DefaultView extends javax.swing.JFrame {
 
         jDesktopPane = new javax.swing.JDesktopPane();
         jButton_Clients = new javax.swing.JButton();
-        jButton_Facturation = new javax.swing.JButton();
+        jButton_Invoicing = new javax.swing.JButton();
         jButton_Devis = new javax.swing.JButton();
         jButton_Providers = new javax.swing.JButton();
         jButton_Stock = new javax.swing.JButton();
@@ -92,43 +76,18 @@ public class DefaultView extends javax.swing.JFrame {
         );
 
         jButton_Clients.setText("Clients");
-        jButton_Clients.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_ClientsActionPerformed(evt);
-            }
-        });
 
-        jButton_Facturation.setText("Facturation");
-        jButton_Facturation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_FacturationActionPerformed(evt);
-            }
-        });
+        jButton_Invoicing.setText("Facturation");
 
         jButton_Devis.setText("Devis");
 
         jButton_Providers.setText("Fournisseurs");
-        jButton_Providers.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_ProvidersActionPerformed(evt);
-            }
-        });
 
         jButton_Stock.setText("Stock");
-        jButton_Stock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_StockActionPerformed(evt);
-            }
-        });
 
         jButton_Avoirs.setText("Avoirs");
 
         jButton_Invoices.setText("Invoices");
-        jButton_Invoices.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_InvoicesActionPerformed(evt);
-            }
-        });
 
         jLabel_Sales_Revenues.setText("jLabel1");
 
@@ -161,7 +120,7 @@ public class DefaultView extends javax.swing.JFrame {
                             .addComponent(jButton_Clients, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton_Providers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton_Devis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton_Facturation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton_Invoicing, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton_Invoices, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jDesktopPane))
@@ -173,7 +132,7 @@ public class DefaultView extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton_Avoirs, jButton_Clients, jButton_Devis, jButton_Facturation, jButton_Invoices, jButton_Providers, jButton_Stock});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton_Avoirs, jButton_Clients, jButton_Devis, jButton_Invoices, jButton_Invoicing, jButton_Providers, jButton_Stock});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,7 +143,7 @@ public class DefaultView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton_Facturation, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton_Invoicing, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_Devis, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -201,7 +160,7 @@ public class DefaultView extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton_Avoirs, jButton_Clients, jButton_Devis, jButton_Facturation, jButton_Invoices, jButton_Providers, jButton_Stock});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton_Avoirs, jButton_Clients, jButton_Devis, jButton_Invoices, jButton_Invoicing, jButton_Providers, jButton_Stock});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -211,52 +170,13 @@ public class DefaultView extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenu_ClientsActionPerformed
 
-    private void jButton_ClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ClientsActionPerformed
-        clientView = defaultController.gestionClients();
-        try {
-            addFrame(clientView);
-        } catch (Exception e) {
-        }
-    }//GEN-LAST:event_jButton_ClientsActionPerformed
-
-    private void jButton_StockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_StockActionPerformed
-        pieceView = defaultController.gestionStock();
-        try {
-            addFrame(pieceView);
-        } catch (Exception e) {
-        }
-    }//GEN-LAST:event_jButton_StockActionPerformed
-
-    private void jButton_FacturationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_FacturationActionPerformed
-        invoicingView = defaultController.invoicing();
-        try {
-            addFrame(invoicingView);
-        } catch (Exception e) {
-        }
-    }//GEN-LAST:event_jButton_FacturationActionPerformed
-
-    private void jButton_ProvidersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ProvidersActionPerformed
-        providerView = defaultController.managingProviders();
-        try {
-            addFrame(providerView);
-        } catch (Exception e) {
-        }
-    }//GEN-LAST:event_jButton_ProvidersActionPerformed
-
-    private void jButton_InvoicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_InvoicesActionPerformed
-        invoiceView = defaultController.managingInvoices();
-        try {
-            addFrame(invoiceView);
-        } catch (Exception e) {
-        }
-    }//GEN-LAST:event_jButton_InvoicesActionPerformed
-
     public void addFrame(JInternalFrame view) throws PropertyVetoException {
         boolean open = false;
 
         for (Object frame : jDesktopPane.getAllFrames()) {
             if (frame.equals(view)) {
                 view.setSelected(true);
+                view.toFront();
                 open = true;
                 break;
             }
@@ -265,6 +185,8 @@ public class DefaultView extends javax.swing.JFrame {
             view.setVisible(true);
             jDesktopPane.add(view);
             view.setSelected(true);
+            view.toFront();
+            
         }
 
     }
@@ -274,8 +196,8 @@ public class DefaultView extends javax.swing.JFrame {
     private javax.swing.JButton jButton_Avoirs;
     private javax.swing.JButton jButton_Clients;
     private javax.swing.JButton jButton_Devis;
-    private javax.swing.JButton jButton_Facturation;
     private javax.swing.JButton jButton_Invoices;
+    private javax.swing.JButton jButton_Invoicing;
     private javax.swing.JButton jButton_Providers;
     private javax.swing.JButton jButton_Stock;
     private javax.swing.JDesktopPane jDesktopPane;
@@ -285,4 +207,32 @@ public class DefaultView extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu_Clients;
     private javax.swing.JMenu jMenu_Stock;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getClientsBtn()
+    {return jButton_Clients;
+    }
+    public JButton getStockBtn()
+    {return jButton_Stock;
+    }
+    public JButton getProvidersBtn()
+    {return jButton_Providers;
+    }
+    public JButton getInvoicingBtn()
+    {return jButton_Invoicing;
+    }
+    public JButton getInvoicesBtn()
+    {return jButton_Invoices;
+    }
+
+    public Double getSalesRevenues() {
+        return salesRevenues;
+    }
+
+    public void setSalesRevenues(Double salesRevenues) {
+        this.salesRevenues = salesRevenues;
+    }
+    
+    public void displaySalesRevenues(){
+        jLabel_Sales_Revenues_value.setText(this.salesRevenues+ " €");
+    }
 }

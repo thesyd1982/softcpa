@@ -51,6 +51,18 @@ public class PartsPredicates {
         return p -> p.getReference().toUpperCase().equals(s.toUpperCase());
     }
 
+    
+    public static Predicate<Part> eanCodeEquals(String s) {
+        return p -> p.getEanCode().equals(s.toUpperCase());
+    }
+    
+     public static Predicate<Part> refOrEanCodeEquals(String s) {
+        return p ->p.getEanCode().equals(s.toUpperCase())|| p.getEanCode().equals(s.toUpperCase());
+    }
+    
+    
+    
+    
     public static void sortPartsById(List<Part> providers) {
         Comparator<Part> idComparator;
         idComparator = Comparator.comparingInt((p) -> (int) (long) p.getId());

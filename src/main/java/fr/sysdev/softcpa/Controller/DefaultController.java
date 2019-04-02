@@ -22,15 +22,17 @@ import fr.sysdev.softcpa.Service.IProviderService;
 import fr.sysdev.softcpa.Service.InvoiceService;
 import fr.sysdev.softcpa.Service.PartService;
 import fr.sysdev.softcpa.Service.ProviderService;
+import fr.sysdev.softcpa.View.DefaultView;
 
-import fr.sysdev.softcpa.View.Client.ClientView;
-import fr.sysdev.softcpa.View.Invoice.InvoiceView;
-import fr.sysdev.softcpa.View.Invoicing.InvoicingView;
-import fr.sysdev.softcpa.View.Part.PartView;
-import fr.sysdev.softcpa.View.Provider.ProviderView;
+import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
 
 import java.util.Observable;
 import java.util.Observer;
+import javax.annotation.PostConstruct;
+import javax.swing.JButton;
+import javax.swing.JInternalFrame;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -40,7 +42,9 @@ import org.springframework.stereotype.Controller;
 @Controller
 
 public class DefaultController implements Observer {
-
+    @Autowired
+    private  DefaultView defaultView;
+    
     private final ClientController clientController;
     private final PartController partController; 
     private final ProviderController providerController;
@@ -55,6 +59,19 @@ public class DefaultController implements Observer {
     private final IProviderService iProviderService;
     private final IInvoiceService invoiceService;
 
+     @PostConstruct
+    private void prepareListeners() {
+        
+        registerAction(defaultView.getClientsBtn(), (e) -> managingClients());
+        registerAction(defaultView.getStockBtn(), (e) -> managingStock());
+        registerAction(defaultView.getProvidersBtn(), (e) -> managingProviders());
+        registerAction(defaultView.getInvoicingBtn(), (e) -> invoicing());
+        registerAction(defaultView.getInvoicesBtn(), (e) -> managingInvoices());
+        loadingSalesRevenues();
+    }
+    
+    
+    
     public DefaultController(IClientService iClientService,
             IAdrressService iAdrressService,
             IPartService iPartService,
@@ -79,37 +96,36 @@ public class DefaultController implements Observer {
         this.invoicingController = new InvoicingController(this.iClientService, this.iPartService , this.invoiceService);
 
         this.invoiceController = new InvoiceController(this.invoiceService);
-
+        
         System.out.println("DefaultController");
-
+       
+        
     }
 
-    public ClientView gestionClients() {
-        System.out.println("gestionClients");
-        return clientController.getView();
-
+    
+    public void managingClients() {
+        System.out.println("managingClients");
+        addJInternalFrame(clientController.getView());
     }
 
-    public PartView gestionStock() {
-
-        System.out.println("gestionStock");
-        return partController.getView();
+    public void managingStock() {
+         System.out.println("managingStock");
+         addJInternalFrame(partController.getView());
     }
-
-    public InvoicingView invoicing() {
-        System.out.println("invoicing");
-        return invoicingController.getView();
-    }
-
-    public ProviderView managingProviders() {
+    
+     public void managingProviders() {
         System.out.println("managingProviders");
-        return providerController.getView();
-
+        addJInternalFrame(providerController.getView());
     }
 
-    public InvoiceView managingInvoices() {
+    public void invoicing() {
+        System.out.println("invoicing");
+        addJInternalFrame(invoicingController.getView());      
+    }
+
+    public void managingInvoices() {
         System.out.println("managingInvoices");
-        return invoiceController.getView();
+        addJInternalFrame(invoiceController.getView());    
     }
 
     public void gestionDevis() {
@@ -120,6 +136,9 @@ public class DefaultController implements Observer {
         System.out.println("gestionAvoirs");
     }
 
+
+    
+    
     @Override
     public void update(Observable o, Object o1) {
         if (o instanceof ProviderService) {
@@ -147,10 +166,25 @@ public class DefaultController implements Observer {
         
         
     }
-
+    
+    public void addJInternalFrame(JInternalFrame view) {
+        try {
+            defaultView.addFrame(view);
+        } catch (PropertyVetoException e) {
+        }
+    }
+    
+    
     private void loadingSalesRevenues() {
         Double salesRevenues = invoiceService.salesRevenues();
-        System.out.println("salesRevenues "+salesRevenues+" €");
+        defaultView.setSalesRevenues(salesRevenues);
+        defaultView.displaySalesRevenues();
+        
     }
 
+    
+    
+    protected void registerAction(JButton button, ActionListener listener) {
+    button.addActionListener(listener);
 }
+}  
