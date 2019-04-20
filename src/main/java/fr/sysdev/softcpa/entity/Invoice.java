@@ -107,9 +107,9 @@ public class Invoice implements Serializable {
 
     @Override
     public String toString() {
-        String s ="";
-                s+="Invoice{" + "id=" + id ;
         
+        String s ="";
+               s+="Invoice{" + "id=" + id ;
                s+= ", invoiceStatus=" + invoiceStatus ;
                s+=  ", invoiceNumber=" + invoiceNumber ;
                s+=  ", payments=" + payments ;

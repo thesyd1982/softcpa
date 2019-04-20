@@ -11,17 +11,22 @@ import fr.sysdev.softcpa.constants.FR.*;
  *
  * @author f
  */
-public enum InvoiceStatusEnum { 
-    UNPAID(Constants.Labels.UNPAID),PAYED(Constants.Labels.PAYED),PENDING(Constants.Labels.PENDING);
+public enum ClientStatusEnum {
+    
+  INDIVIDUAL(Constants.Labels.INDIVIDUAL),PROFESSIONAL(Constants.Labels.PROFESSIONAL);
     
     private final String name;
 
-    private InvoiceStatusEnum(String name) {
+    private ClientStatusEnum(String name) {
         this.name = name;
     }
 
     public String getName() {
         return name;
     }
- 
+    
+    @Override 
+        public String toString(){ 
+            return name; 
+        } 
 }

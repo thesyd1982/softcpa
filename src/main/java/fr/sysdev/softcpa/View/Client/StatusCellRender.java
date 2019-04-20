@@ -5,7 +5,8 @@
  */
 package fr.sysdev.softcpa.View.Client;
 
-import fr.sysdev.softcpa.constants.Constants;
+import fr.sysdev.softcpa.constants.FR.*;
+import fr.sysdev.softcpa.entity.ClientStatusEnum;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -22,8 +23,8 @@ public class StatusCellRender  extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
            
-            String status = (String)value;
-            if("1".equals(status))
+            ClientStatusEnum status = (ClientStatusEnum)value;
+            if(status == ClientStatusEnum.PROFESSIONAL)
             {
              
              setFont(getFont().deriveFont(Font.BOLD));
@@ -32,10 +33,11 @@ public class StatusCellRender  extends DefaultTableCellRenderer {
              setText(Constants.Labels.CLIENT_STATUS_PRO);
             }
             else{
+            
                 setFont(getFont().deriveFont(Font.BOLD));
-             setBackground(Color.red);
-             setForeground(Color.white);
-            setText(Constants.Labels.CLIENT_STATUS_INDIVIDUAL);
+                setBackground(Color.red);
+                setForeground(Color.white);
+                setText(Constants.Labels.CLIENT_STATUS_INDIVIDUAL);
             
             }
             this.setHorizontalAlignment( JLabel.CENTER );

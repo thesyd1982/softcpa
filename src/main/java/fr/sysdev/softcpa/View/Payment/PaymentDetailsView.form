@@ -56,12 +56,14 @@
                   <Component id="jLabel_Payment_Date_Value" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel_Payment_Amount" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel_Payment_Amount_Value" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="jLabel_Payment_Method" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel_Payment_Method_Value" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel_Payment_Amount" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel_Payment_Amount_Value" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="72" max="32767" attributes="0"/>

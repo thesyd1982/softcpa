@@ -5,8 +5,7 @@
  */
 package fr.sysdev.softcpa.View.Invoice;
 
-import fr.sysdev.softcpa.View.Client.*;
-import fr.sysdev.softcpa.constants.Constants;
+
 import fr.sysdev.softcpa.entity.InvoiceStatusEnum;
 import java.awt.Color;
 import java.awt.Component;

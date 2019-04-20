@@ -6,12 +6,14 @@
 package fr.sysdev.softcpa.View;
 
 
-import fr.sysdev.softcpa.constants.Constants;
+import fr.sysdev.softcpa.constants.FR.*;
 import java.beans.PropertyVetoException;
-import java.util.HashMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.UIManager;
+import javax.swing.plaf.DesktopPaneUI;
 import org.springframework.stereotype.Component;
 
 
@@ -33,9 +35,22 @@ public class DefaultView extends javax.swing.JFrame {
         this.salesRevenues = 0.0;
         initComponents();
         this.setTitle("SoftCPA");
+//        jDesktopPane.setUI(new DesktopPaneUI() {
+//    @Override
+//        public void installUI(JComponent c) {
+////             TODO Auto-generated method stub
+//            try {
+//                UIManager.setLookAndFeel( "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            super.installUI(c);
+//        }   
+//    });
         jLabel_Sales_Revenues.setText(Constants.Labels.SALES_REVENUES);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
+        prepareForm();
     }
 
     /**
@@ -177,11 +192,16 @@ public class DefaultView extends javax.swing.JFrame {
             if (frame.equals(view)) {
                 view.setSelected(true);
                 view.toFront();
+                view.setIcon(!view.isIcon());
+                     //view.setMaximum(true);
+ 
                 open = true;
                 break;
             }
         }
         if (!open) {
+            
+            view.setIcon(false);
             view.setVisible(true);
             jDesktopPane.add(view);
             view.setSelected(true);
@@ -234,5 +254,15 @@ public class DefaultView extends javax.swing.JFrame {
     
     public void displaySalesRevenues(){
         jLabel_Sales_Revenues_value.setText(this.salesRevenues+ " €");
+    }
+
+    private void prepareForm() {
+       jButton_Invoicing.setText(Constants.Labels.INVOICING);
+       jButton_Avoirs.setText(Constants.Labels.CREDIT_NOTE);
+       jButton_Clients.setText(Constants.Labels.BTN_CLIENTS);
+       jButton_Stock.setText(Constants.Labels.BTN_STOCK);
+       jButton_Devis.setText(Constants.Labels.QUOTES);
+       jButton_Providers.setText(Constants.Labels.BTN_PROVIDERS);
+       jButton_Invoices.setText(Constants.Labels.INVOICES);
     }
 }

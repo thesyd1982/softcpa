@@ -8,6 +8,7 @@ package fr.sysdev.softcpa.View.Invoice;
 import fr.sysdev.softcpa.View.Client.*;
 import fr.sysdev.softcpa.constants.Constants;
 import fr.sysdev.softcpa.entity.Client;
+import fr.sysdev.softcpa.entity.ClientStatusEnum;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -24,19 +25,20 @@ public class ClientCellRender  extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
            Client client = (Client)value;
-            int status = client.getStatus();
-            if(status ==1 )
+            ClientStatusEnum status = client.getClientStatus();
+            if(status ==ClientStatusEnum.INDIVIDUAL )
             {
-             
-             setFont(getFont().deriveFont(Font.BOLD));
-             setBackground(Color.green);
-             setForeground(Color.white);
+                
+                setFont(getFont().deriveFont(Font.BOLD));
+                setBackground(Color.green);
+                setForeground(Color.white);
 
             }
             else{
+                
                 setFont(getFont().deriveFont(Font.BOLD));
-             setBackground(Color.red);
-             setForeground(Color.white);
+                setBackground(Color.red);
+                setForeground(Color.white);
             
             
             }

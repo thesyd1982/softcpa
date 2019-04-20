@@ -6,8 +6,9 @@
 package fr.sysdev.softcpa.View.Invoicing;
 
 import fr.sysdev.softcpa.View.Invoice.InvoiceDetailsView;
-import fr.sysdev.softcpa.constants.Constants;
+import fr.sysdev.softcpa.constants.FR.*;
 import fr.sysdev.softcpa.entity.Client;
+import fr.sysdev.softcpa.entity.ClientStatusEnum;
 import fr.sysdev.softcpa.entity.Invoice;
 import fr.sysdev.softcpa.entity.InvoiceLine;
 import fr.sysdev.softcpa.entity.InvoiceStatusEnum;
@@ -74,11 +75,12 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     private int choice = -1;
 
     public InvoicingView() {
+        this.setTitle(Constants.Labels.INVOICING);
         initComponents();
     }
 
     public InvoicingView(List<Client> clients, List<Part> parts) {
-
+        this.setTitle(Constants.Labels.INVOICING);
         this.clients = clients;
         this.parts = parts;
         initComponents();
@@ -96,8 +98,6 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        idConvertor1 = new fr.sysdev.softcpa.utils.Converter.IdConvertor();
-        clientStatusConverter1 = new fr.sysdev.softcpa.utils.Converter.ClientStatusConverter();
         jComboBox_Client = new javax.swing.JComboBox<>();
         jTextField_Search_Part = new javax.swing.JTextField();
         jButton_Refresh = new javax.swing.JButton();
@@ -147,6 +147,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/009-dollar.png"))); // NOI18N
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -199,7 +200,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         jLabel_Client_Id_Value.setPreferredSize(new java.awt.Dimension(150, 14));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${client.id}"), jLabel_Client_Id_Value, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setConverter(idConvertor1);
+        binding.setConverter(null);
         bindingGroup.addBinding(binding);
 
         jLabel_Client_Status.setText("jLabel1");
@@ -272,7 +273,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         jLabel_Client_Status_Value.setPreferredSize(new java.awt.Dimension(150, 14));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${client.status}"), jLabel_Client_Status_Value, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setConverter(clientStatusConverter1);
+        binding.setConverter(null);
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout jPanel_Invoicing_ClientLayout = new javax.swing.GroupLayout(jPanel_Invoicing_Client);
@@ -527,7 +528,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
 
             if (clientOptional.isPresent()) {
                 client = clientOptional.get();
-                if (client.getStatus() == 0) {
+                if (client.getClientStatus() == ClientStatusEnum.INDIVIDUAL) {
                     showClientPanel();
                     hideCompanyPanel();
                 } else {
@@ -674,8 +675,6 @@ public class InvoicingView extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private fr.sysdev.softcpa.utils.Converter.ClientStatusConverter clientStatusConverter1;
-    private fr.sysdev.softcpa.utils.Converter.IdConvertor idConvertor1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_Refresh;
     private javax.swing.JButton jButton_Validate;
@@ -756,6 +755,8 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     }
 
     private void prepareForm() {
+//        ImageIcon img = new ImageIcon("E:\\Salah\\projects\\softcpa\\src\\main\\resources\\Icons\\invoicing.png");
+//                this.setFrameIcon(img);
         jLabel_Client_Id.setText(Constants.Labels.CLIENT_ID);
         jLabel_Address_City.setText(Constants.Labels.CITY);
         jLabel_Address_HouseNumber.setText(Constants.Labels.HOUSE_NUMBER);
@@ -822,7 +823,6 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${client.status}"), jLabel_Client_Status_Value, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setConverter(clientStatusConverter1);
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${client.name}"), jLabel_Client_Name_Value, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -917,6 +917,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         JPanel panel;
         JLabel label;
         JButton addBtn;
+        JTextField jtp;
         Border border = BorderFactory.createLineBorder(Color.BLUE, 1);
         panel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
@@ -977,12 +978,28 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         label.setBorder(border);
         panel.add(label, gdbc);
 
-        if (client == null || client.getStatus() != 1) {
-            label = new JLabel(il.getSellingPrice() + "");
-            label.setName("labelSellingPrice" + il.getId());
+        jtp = new JTextField("" + il.getPurchasingPrice(), 5);
+        jtp.setName("jTFPurchasingPrice" + il.getReference());
+        x = x + w;
+        gdbc.gridx = x;
+        gdbc.gridy = y;
+        gdbc.gridwidth = w;
+        gdbc.ipadx = 30;
+
+        jtp.setBorder(border);
+        panel.add(jtp, gdbc);
+
+        if (client == null || client.getClientStatus() != ClientStatusEnum.INDIVIDUAL) {
+
+            jtp = new JTextField("" + il.getSellingPrice(), 5);
+            jtp.setName("jTFSellingPrice" + il.getReference());
         } else {
-            label = new JLabel(il.getSellingPrice() + "");//getProfessionalSellingPrice() + "");
-            label.setName("labelProSellingPrice" + il.getId());
+
+            jtp = new JTextField("" + il.getSellingPrice(), 5);
+            jtp.setName("jTFSellingPrice" + il.getReference());
+            
+//            label = new JLabel(il.getPart().getProfessionalSellingPrice() + "");
+
         }
 
         x = x + w;
@@ -990,11 +1007,10 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         gdbc.gridy = y;
         gdbc.gridwidth = w;
         gdbc.ipadx = 30;
-        label.setPreferredSize(new Dimension(30, 20));
-        label.setMinimumSize(new Dimension(30, 20));
-        label.setMaximumSize(new Dimension(30, 20));
-        label.setBorder(border);
-        panel.add(label, gdbc);
+
+        jtp.setBorder(border);
+        panel.add(jtp, gdbc);
+        
         addBtn = new JButton("[ + ]");
         addBtn.setName("add" + il.getId());
         final JTextField qt = new JTextField("" + il.getQuantity(), 5);
@@ -1060,7 +1076,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
     }
 
     public double amount(Double taxeRate) {
-        if (client == null || client.getStatus() != 0) {
+        if (client == null || client.getClientStatus() != ClientStatusEnum.INDIVIDUAL) {
 
             double total = selectedInvoiceLines.stream().mapToDouble(i -> i.getQuantity() * i.getSellingPrice()).sum();
             
@@ -1124,7 +1140,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         jtp.setBorder(border);
         panel.add(jtp, gdbc);
 
-        if (client == null || client.getStatus() != 1) {
+        if (client == null || client.getClientStatus() != ClientStatusEnum.INDIVIDUAL) {
 
             jtp = new JTextField("" + il.getSellingPrice(), 5);
             jtp.setName("jTFSellingPrice" + il.getReference());
@@ -1270,7 +1286,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         label.setBorder(border);
         panel.add(label, gdbc);
 
-        if (client == null || client.getStatus() != 1) {
+        if (client == null || client.getClientStatus() != ClientStatusEnum.INDIVIDUAL) {
             label = new JLabel(Constants.Labels.SELLING_PRICE_HEADER);
             label.setName("labelHeaderSellingPrice");
         } else {

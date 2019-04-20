@@ -67,6 +67,7 @@ public class DefaultController implements Observer {
         registerAction(defaultView.getProvidersBtn(), (e) -> managingProviders());
         registerAction(defaultView.getInvoicingBtn(), (e) -> invoicing());
         registerAction(defaultView.getInvoicesBtn(), (e) -> managingInvoices());
+         registerAction(invoiceController.getDisplayDetailsBtn(), (e) -> displayingInvoiceDetails());
         loadingSalesRevenues();
     }
     
@@ -127,7 +128,14 @@ public class DefaultController implements Observer {
         System.out.println("managingInvoices");
         addJInternalFrame(invoiceController.getView());    
     }
-
+    
+    public void displayingInvoiceDetails() {
+        System.out.println("dislaying invoice");
+        invoiceController.invoiceDetails();
+        addJInternalFrame(invoiceController.getDetailsView());    
+    }
+    
+    
     public void gestionDevis() {
         System.out.println("gestionDevis");
     }
@@ -182,8 +190,6 @@ public class DefaultController implements Observer {
         
     }
 
-    
-    
     protected void registerAction(JButton button, ActionListener listener) {
     button.addActionListener(listener);
 }

@@ -34,6 +34,11 @@ public class SoftcpaApplication {
         String username = "scpa_dev_user";
         String password = "Pq4s67Xa";
         
+//        String  jdbcUrl = "jdbc:mysql://192.168.0.40:3306/scpa_dev?useSSL=false";
+//        String username = "adminmysql";
+//        String password = "1234";
+        
+        
         try{
             System.out.println("Connecting to DataBase");
             Connection conn = DriverManager.getConnection(jdbcUrl, username, password);

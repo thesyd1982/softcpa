@@ -5,7 +5,6 @@
  */
 package fr.sysdev.softcpa.constants;
 
-import javax.swing.JLabel;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
@@ -37,6 +36,7 @@ public abstract class Constants {
         public static String CHOOSE_CLIENT = "Choose the client to invoice.";
         public static Object SELECT_CLIENT = "Please select the client.";
         public static Object SELECT_PARTS = "Please select a parts.";
+        public static Object CLIENT_HAS_INVOICES="Can't delete this client has invoices!";
 
         String CLICK_A_BUTTON = "Click a button";
 
@@ -56,6 +56,12 @@ public abstract class Constants {
     public interface JFrameTitles {
 
         public static String INVOICES ="Invoices";
+        public static String STOCK ="Stock";
+        public static String INVOICING ="Invoicing";
+        public static String CLIENTS ="Cliens";
+        public static String CREDIT_NOTES ="Credit Notes";
+        public static String QUOTATIONS ="Quotations";
+        public static String PROVIDERS ="Providers";
     }
     
     //<editor-fold defaultstate="collapsed" desc="Labels">
@@ -177,6 +183,11 @@ public abstract class Constants {
     public static String SUBTOTAL_LESS_DISCOUNT ="Subtotal Less Discount";
     public static String PAY_THE_BILL = "Pay The Bill";
     public static String SALES_REVENUES =  "Sales Revenues";
+    public static String BTN_CLIENTS ="Clients";
+    public static String BTN_STOCK = "Stock";
+    public static String QUOTES ="Quotes";
+    public static String BTN_PROVIDERS="Providers";
+    public static String INVOICES ="Invoices";
     }
 //</editor-fold>
     

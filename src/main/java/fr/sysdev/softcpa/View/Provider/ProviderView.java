@@ -56,7 +56,7 @@ public class ProviderView extends javax.swing.JInternalFrame {
 
         this.providers = new ArrayList<>(providers);
         this.allProviders = new ArrayList<>(this.providers);
-
+        
         initComponents();
         prepareForm();
         resetInterface();
@@ -109,6 +109,7 @@ public class ProviderView extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Gestion Stock");
         setFocusTraversalPolicyProvider(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/005-box.png"))); // NOI18N
         setPreferredSize(new java.awt.Dimension(1160, 527));
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -231,7 +232,8 @@ public class ProviderView extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField_Provider_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Provider_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTextField_Provider_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton_Update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -243,17 +245,16 @@ public class ProviderView extends javax.swing.JInternalFrame {
                         .addGap(34, 34, 34)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addComponent(jLabel_Provider_Search)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField_Provider_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel_Provider_Count)
-                        .addContainerGap(193, Short.MAX_VALUE))))
+                        .addContainerGap(191, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,7 +360,7 @@ public class ProviderView extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void prepareForm() {
-
+        this.setTitle(Constants.JFrameTitles.PROVIDERS);
         jLabel_Provider_Count.setText(providers.size() + " " + Constants.Labels.RROVIDERS);
         jLabel_Provider_Name_Id.setText(Constants.Labels.PART_ID);
         jLabel_Provider_Name.setText(Constants.Labels.NAME);

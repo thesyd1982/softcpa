@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
  *
  * @author sysdev
  */
+@Slf4j
 @Service
 public class PartService extends Observable implements IPartService{
      @Autowired
@@ -33,7 +35,7 @@ public class PartService extends Observable implements IPartService{
     private String message ="";
     
     public PartService(IPartRepository partRepository) {
-        System.out.println("Part Service ");
+       log.debug("Part Service --> Started ...");
         this.partRepository = partRepository ;
     }
      

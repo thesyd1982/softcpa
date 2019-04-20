@@ -5,7 +5,7 @@
  */
 package fr.sysdev.softcpa.View.Payment;
 
-import fr.sysdev.softcpa.constants.Constants;
+import fr.sysdev.softcpa.constants.FR.*;
 import fr.sysdev.softcpa.entity.Payment;
 import fr.sysdev.softcpa.entity.PaymentMethodEnum;
 import java.time.LocalDate;

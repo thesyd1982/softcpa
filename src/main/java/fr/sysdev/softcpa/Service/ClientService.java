@@ -35,8 +35,9 @@ public class ClientService extends Observable implements IClientService {
 
     @Autowired
     public ClientService(IClientRepository clientRepository) {
-        System.out.println("Client Service ");
+        
         this.clientRepository = clientRepository;
+        log.debug("CLient Service --> Started ...");
     }
 
     @Override

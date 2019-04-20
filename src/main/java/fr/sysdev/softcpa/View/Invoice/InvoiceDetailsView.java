@@ -7,7 +7,8 @@ package fr.sysdev.softcpa.View.Invoice;
 
 import fr.sysdev.softcpa.Controller.Invoice.InvoiceController;
 import fr.sysdev.softcpa.View.Payment.PaymentEditView;
-import fr.sysdev.softcpa.constants.Constants;
+import fr.sysdev.softcpa.constants.FR.*;
+import fr.sysdev.softcpa.entity.ClientStatusEnum;
 import fr.sysdev.softcpa.entity.Invoice;
 import fr.sysdev.softcpa.entity.InvoiceLine;
 import fr.sysdev.softcpa.entity.Payment;
@@ -73,7 +74,6 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        clientStatusConverter1 = new fr.sysdev.softcpa.utils.Converter.ClientStatusConverter();
         jPanel_Client = new javax.swing.JPanel();
         jLabel_Invoice_SubTotal = new javax.swing.JLabel();
         jLabel_Invoice_SubTotal_Value = new javax.swing.JLabel();
@@ -617,7 +617,6 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private fr.sysdev.softcpa.utils.Converter.ClientStatusConverter clientStatusConverter1;
     private javax.swing.JButton jButton_Invoice_Delete;
     private javax.swing.JButton jButton_Invoice_Payment;
     private javax.swing.JLabel jLabel_CLient_Address;
@@ -715,14 +714,14 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         jLabel_Invoice_SBT_Less_Discount.setText(Constants.Labels.SUBTOTAL_LESS_DISCOUNT);
         
 
-        jLabel_Client_Status_Value.setText(clientStatusConverter1.convertForward(this.invoice.getClient().getStatus()));
+        jLabel_Client_Status_Value.setText(this.invoice.getClient().getClientStatus().getName());
         jLabel_Client_Company_Name_Value.setText(this.invoice.getClient().getCompany().getName());
         jLabel_Client_Name_Value.setText(this.invoice.getClient().getName());
         jLabel_Client_Surname_Value.setText(this.invoice.getClient().getSurname());
         jLabel_Email_Value.setText(this.invoice.getClient().getEmail());
         jLabel_Phone_Number_Value.setText(this.invoice.getClient().getPhoneNumber());
         
-        jLabel_Total_Tax_Value.setText(clientStatusConverter1.convertForward(this.invoice.getClient().getStatus()));
+        jLabel_Total_Tax_Value.setText("Total_Tax_Value");
         jLabel_Invoice_Total_Value.setText(this.invoice.getClient().getCompany().getName());
         jLabel_Invoice_SubTotal_Value.setText(this.invoice.getClient().getName());
         jLabel_Invoice_Discount_Value.setText(this.invoice.getClient().getSurname());
@@ -834,7 +833,7 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         panel.setPreferredSize(new Dimension(50, 30));
         panel.add(label, gdbc);
 
-        if (invoice.getClient() == null || invoice.getClient().getStatus() != 1) {
+        if (invoice.getClient() == null || invoice.getClient().getClientStatus() != ClientStatusEnum.INDIVIDUAL) {
             label = new JLabel("     " + Constants.Labels.UNIT_PRICE.toUpperCase());
             label.setName("labelHeaderSellingPrice");
             centerLabel(label);
@@ -919,7 +918,7 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         panel.setPreferredSize(new Dimension(50, 30));
         panel.add(label, gdbc);
 
-        if (invoice.getClient() == null || invoice.getClient().getStatus() != 1) {
+        if (invoice.getClient() == null || invoice.getClient().getClientStatus() != ClientStatusEnum.INDIVIDUAL) {
             label = new JLabel(il.getSellingPrice() + "");
             centerLabel(label);
             label.setName("labelSellingPrice" + il.getReference());

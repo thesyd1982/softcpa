@@ -17,6 +17,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
 import java.util.stream.Stream;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,13 +27,15 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author sysdev
  */
+@Slf4j
 @Service
 public class InvoiceService extends Observable implements IInvoiceService {
     @Autowired
     private final IInvoiceRepository invoiceRepository;
 
     public InvoiceService(IInvoiceRepository invoiceRepository) {
-        System.out.println("Invoice Service");
+
+        log.debug("\"Invoice Service\" --> Started ...");
         this.invoiceRepository = invoiceRepository;
     }
 

@@ -4,8 +4,6 @@
   <NonVisualComponents>
     <Component class="fr.sysdev.softcpa.utils.Converter.IdConvertor" name="idConvertor1">
     </Component>
-    <Component class="fr.sysdev.softcpa.utils.Converter.ClientStatusConverter" name="clientStatusConverter1">
-    </Component>
     <Component class="fr.sysdev.softcpa.utils.Validator.NameValidator" name="nameValidator1">
     </Component>
     <Component class="fr.sysdev.softcpa.utils.Validator.PhoneNumberValidator" name="phoneNumberValidator1">
@@ -25,10 +23,16 @@
     <Property name="maximizable" type="boolean" value="true"/>
     <Property name="resizable" type="boolean" value="true"/>
     <Property name="title" type="java.lang.String" value="Gestion des clients"/>
+    <Property name="frameIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+      <Image iconType="3" name="/Icons/010-group.png"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="internalFrameClosing" listener="javax.swing.event.InternalFrameListener" parameters="javax.swing.event.InternalFrameEvent" handler="formInternalFrameClosing"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -45,41 +49,36 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel_Client_Id" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel_Client_Status" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel_Client_Name" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel_Client_Surname" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel_Client_CompanyName" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel_Client_Email" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel_Client_PhoneNumber" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel_Address_HouseNumber" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel_Address_Street" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel_Address_PostCode" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel_Address_City" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel_Client_CompanyID" alignment="1" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jTextField_Client_Id" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
-                          <Component id="jComboBox_Client_Status" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
-                          <Component id="jTextField_Client_Name" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Client_Surname" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Client_CompanyName" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Client_Email" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Client_PhoneNumber" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Address_HouseNumber" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Address_Street" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Address_PostCode" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Address_City" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
-                          <Component id="jTextField_Client_CompanyIDNumber" linkSize="1" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
+                  <Component id="jLabel_Client_Id" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Client_Status" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Client_Name" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Client_Surname" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Client_CompanyName" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Client_Email" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Client_PhoneNumber" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Address_HouseNumber" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Address_Street" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Address_PostCode" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Address_City" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel_Client_CompanyID" alignment="1" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jTextField_Client_Id" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
+                  <Component id="jComboBox_Client_Status" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
+                  <Component id="jTextField_Client_Name" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                  <Component id="jTextField_Client_Surname" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                  <Component id="jTextField_Client_CompanyName" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                  <Component id="jTextField_Client_Email" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                  <Component id="jTextField_Client_PhoneNumber" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                  <Component id="jTextField_Address_HouseNumber" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                  <Component id="jTextField_Address_Street" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                  <Component id="jTextField_Address_PostCode" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                  <Component id="jTextField_Address_City" linkSize="1" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
+                  <Component id="jTextField_Client_CompanyIDNumber" linkSize="1" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="jButton_Cancel" linkSize="2" max="32767" attributes="0"/>
                           <Component id="jButton_Update" linkSize="2" min="-2" pref="101" max="-2" attributes="0"/>
@@ -91,16 +90,16 @@
                       </Group>
                   </Group>
               </Group>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="230" max="-2" attributes="0"/>
                       <Component id="jLabel_Client_Search" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jTextField_Client_Search" min="-2" pref="423" max="-2" attributes="0"/>
-                      <EmptySpace pref="117" max="32767" attributes="0"/>
+                      <EmptySpace pref="157" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane1" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
@@ -136,6 +135,11 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="jScrollPane1" pref="302" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="jButton_Invoicing" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jTextField_Client_Name" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -186,23 +190,21 @@
                           <Component id="jTextField_Client_CompanyIDNumber" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel_Client_CompanyID" alignment="3" min="-2" pref="12" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButton_Remove" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButton_Update" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jButton_Add" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButton_Cancel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton_Add" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton_Cancel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton_Invoicing" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jLabel_Error" min="-2" pref="26" max="-2" attributes="0"/>
-              <EmptySpace pref="29" max="32767" attributes="0"/>
+              <EmptySpace pref="35" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -283,6 +285,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_Add">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Icons/Icons16X16/011-add.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Add"/>
       </Properties>
       <Events>
@@ -291,6 +296,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_Remove">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Icons/Icons16X16/013-user-1.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Delete"/>
       </Properties>
       <Events>
@@ -299,6 +307,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_Cancel">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Icons/Icons16X16/017-back.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
       <Events>
@@ -307,6 +318,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_Update">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Icons/Icons16X16/012-user.png"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Modify"/>
       </Properties>
       <Events>
@@ -339,6 +353,7 @@
               <Color id="Curseur en forme de main"/>
             </Property>
             <Property name="doubleBuffered" type="boolean" value="true"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
             <BindingProperty name="elements" source="Form" sourcePath="${clients}" target="jTable_client" targetPath="elements" updateStrategy="0" immediately="true">
@@ -360,8 +375,8 @@
               <Subbinding sourcePath="${address}">
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="fr.sysdev.softcpa.entity.Address.class"/>
               </Subbinding>
-              <Subbinding sourcePath="${status}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+              <Subbinding sourcePath="${clientStatus}">
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="fr.sysdev.softcpa.entity.ClientStatusEnum.class"/>
               </Subbinding>
               <Subbinding sourcePath="${company}">
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="fr.sysdev.softcpa.entity.Company.class"/>
@@ -460,11 +475,7 @@
         </Property>
       </Properties>
       <BindingProperties>
-        <BindingProperty name="selectedItem" source="jTable_client" sourcePath="${selectedElement.status}" target="jComboBox_Client_Status" targetPath="selectedItem" updateStrategy="0" immediately="false">
-          <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
-            <ComponentRef name="clientStatusConverter1"/>
-          </Property>
-        </BindingProperty>
+        <BindingProperty name="selectedItem" source="jTable_client" sourcePath="${selectedElement.clientStatus.name}" target="jComboBox_Client_Status" targetPath="selectedItem" updateStrategy="2" immediately="false"/>
       </BindingProperties>
       <Events>
         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBox_Client_StatusItemStateChanged"/>

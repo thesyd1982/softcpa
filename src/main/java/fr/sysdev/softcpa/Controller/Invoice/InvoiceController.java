@@ -35,14 +35,14 @@ public class InvoiceController {
     @Autowired
     private final InvoiceView view;
 
-    InvoiceDetailsView detailsView;
-    PaymentEditView paymentEditView;
+    private InvoiceDetailsView detailsView;
+    private PaymentEditView paymentEditView;
 
     @PostConstruct
     private void prepareListeners() {
 
-        registerAction(view.getDetailsBtn(), (e) -> invoiceDetails());
-
+        //registerAction(view.getDetailsBtn(), (e) -> invoiceDetails());
+        registerAction(view.getDetailsBtn(), (e) -> getDisplayDetailsBtn());
     }
 
     public InvoiceController(IInvoiceService invoiceService) {
@@ -110,5 +110,27 @@ public class InvoiceController {
         Payment payment = paymentEditView.getPayment();
         payment.getInvoice().getPayments().add(payment);
     }
+    
+    
+    public JButton getDisplayDetailsBtn(){
+        
+    return view.getDetailsBtn();
+    }
 
+    public InvoiceDetailsView getDetailsView() {
+        return detailsView;
+    }
+
+    public void setDetailsView(InvoiceDetailsView detailsView) {
+        this.detailsView = detailsView;
+    }
+
+    public PaymentEditView getPaymentEditView() {
+        return paymentEditView;
+    }
+
+    public void setPaymentEditView(PaymentEditView paymentEditView) {
+        this.paymentEditView = paymentEditView;
+    }
+    
 }

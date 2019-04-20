@@ -5,7 +5,7 @@
  */
 package fr.sysdev.softcpa.View.Part;
 
-import fr.sysdev.softcpa.constants.Constants;
+import fr.sysdev.softcpa.constants.FR.*;
 import fr.sysdev.softcpa.entity.Part;
 import fr.sysdev.softcpa.entity.Provider;
 import fr.sysdev.softcpa.utils.predicates.PartsPredicates;
@@ -70,13 +70,14 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     private List<Integer> sortOrderList;
 
     public PartView(List<Part> parts, List<Provider> providers) {
-
+        
         this.partsNumberAdded = 0;
         part = new Part();
         this.parts = new ArrayList<>(parts);
         this.allParts = parts;
         this.providers = new ArrayList<>(providers);
         this.sortOrderList = new ArrayList<>();
+        
         initComponents();
 
         prepareForm();
@@ -157,8 +158,9 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("Gestion Stock");
+        setTitle("Stock");
         setFocusTraversalPolicyProvider(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/008-warehouse.png"))); // NOI18N
         setPreferredSize(new java.awt.Dimension(1280, 527));
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -750,6 +752,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     // End of variables declaration//GEN-END:variables
 
     private void prepareForm() {
+        this.setTitle(Constants.JFrameTitles.STOCK);
         loadProviders();
         jButton_Part_Import.setVisible(false);
         jProgressBar_Part_Importing.setVisible(false);
@@ -1125,9 +1128,12 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
     }
 
     public void loadParts() {
-        System.out.println("Maj des parts");
+        int selectedRow = getPartRow();
         allParts = parts;
         prepareForm();
+        if( selectedRow>-1)
+        selectPartRow(selectedRow);
+        
     }
 
     public void setProviders(List<Provider> providers) {
@@ -1362,5 +1368,20 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
             table.getTableHeader().getColumnModel().getColumn(list.indexOf(so)).setHeaderRenderer(new IconHeaderRenderer());
             table.getColumnModel().getColumn(list.indexOf(so)).setHeaderValue(new TextAndIcon(table.getColumnName(list.indexOf(so)), null));});
     }
+    private int getPartRow() {
+        int rowt =-1;
+        if(jTable_Part.getSelectedRowCount()>0)
+        {int row = jTable_Part.getSelectedRow();
+            rowt = jTable_Part.getRowSorter().convertRowIndexToModel(row);
+        }
+        return rowt;
+    }
 
+    private void selectPartRow(int rowt) {
+            if(rowt>-1){
+            jTable_Part.setRowSelectionInterval(rowt, rowt);
+            jTable_Part.setSelectionBackground(Color.blue);
+            jTable_Part.setSelectionForeground(Color.white);}
+        
+    }
 }

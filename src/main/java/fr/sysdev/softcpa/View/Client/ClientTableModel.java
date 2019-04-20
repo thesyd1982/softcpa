@@ -61,7 +61,7 @@ public class ClientTableModel extends AbstractTableModel {
             case 5:
                 return clients.get(rowIndex).getAddress();
              case 6:
-                return clients.get(rowIndex).getStatus();   
+                return clients.get(rowIndex).getClientStatus();   
             default:
                 return null; //Ne devrait jamais arriver
         }

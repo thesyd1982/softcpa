@@ -10,7 +10,6 @@ package fr.sysdev.softcpa.entity;
  * @author f
  */
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -46,9 +45,10 @@ public class Client implements Serializable {
     @Column(name = "mail")
     private String email;
 
-    @Column(name = "status")
-    private int status;
-
+    @Enumerated(EnumType.STRING)
+    @Column(length = 18)
+    private ClientStatusEnum clientStatus;
+    
     public Long getId() {
         return id;
     }
@@ -97,19 +97,20 @@ public class Client implements Serializable {
         this.email = email;
     }
 
-    @Override
+
+        @Override
     public String toString() {
-        String strClient = "{ id : " + id + " name : " + name + ", surname:" + surname + ", email:" + email + ", phone :" + phoneNumber + "}";
-        return strClient;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
+        String s ="Client{";
+                s+="id=" + id ;
+                s+=", clientStatus=" + clientStatus ;
+                s+=", name="+name ;
+                s+=", surname="+ surname ;
+                s+=", phoneNumber=" + phoneNumber ;
+                s+=", email=" + email ;
+                s+='}';
+        return s;
+            }
+    
 
     public Company getCompany() {
         return company;
@@ -127,6 +128,22 @@ public class Client implements Serializable {
     public void setInvoices(List<Invoice> invoicies) {
 
         this.invoicies = invoicies;
+    }
+
+    public List<Invoice> getInvoicies() {
+        return invoicies;
+    }
+
+    public void setInvoicies(List<Invoice> invoicies) {
+        this.invoicies = invoicies;
+    }
+
+    public ClientStatusEnum getClientStatus() {
+        return clientStatus;
+    }
+
+    public void setClientStatus(ClientStatusEnum clientStatus) {
+        this.clientStatus = clientStatus;
     }
 
 }

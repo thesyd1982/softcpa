@@ -10,7 +10,6 @@ import fr.sysdev.softcpa.Service.IAdrressService;
 import fr.sysdev.softcpa.Service.IClientService;
 import fr.sysdev.softcpa.View.Client.ClientView;
 import fr.sysdev.softcpa.entity.Client;
-import fr.sysdev.softcpa.entity.Invoice;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +53,16 @@ public class ClientController {
 
     public void removeClient(){
        
-        this.getView().removeClient();
+        
         Client client = this.getView().getClient();
-        this.iClientService.deleteClient(client);
+         Client ctd =  this.iClientService.getClientById(client.getId());
+        if(ctd.getInvoices().size()>0){
+        this.getView().alertClientHasInvoices();
+        }
+        else {
+            this.getView().removeClient();
+            this.iClientService.deleteClient(ctd);
+        }
         
     }
     
@@ -66,8 +72,6 @@ public class ClientController {
         Client client = this.getView().getClient();
         this.iClientService.addClient(client); 
 
-
-        
     }
     
     

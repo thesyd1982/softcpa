@@ -31,10 +31,10 @@ public class CompanyCellRender extends DefaultTableCellRenderer {
                  setText("");
              }
              else{
-                 setBackground(Color.green);
-             setFont(getFont().deriveFont(Font.BOLD));
-             setForeground(Color.white);
-             setText(company.getName());
+                    setBackground(Color.green);
+                    setFont(getFont().deriveFont(Font.BOLD));
+                    setForeground(Color.white);
+                    setText(company.getName());
              }
              this.setHorizontalAlignment( JLabel.CENTER );
             

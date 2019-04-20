@@ -5,7 +5,7 @@
  */
 package fr.sysdev.softcpa.View.Payment;
 
-import fr.sysdev.softcpa.constants.Constants;
+import fr.sysdev.softcpa.constants.FR.*;
 import fr.sysdev.softcpa.entity.Payment;
 
 /**
@@ -97,12 +97,13 @@ private Payment payment;
                     .addComponent(jLabel_Payment_Date)
                     .addComponent(jLabel_Payment_Date_Value))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel_Payment_Amount)
-                    .addComponent(jLabel_Payment_Amount_Value)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel_Payment_Method)
-                        .addComponent(jLabel_Payment_Method_Value)))
+                        .addComponent(jLabel_Payment_Method_Value))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel_Payment_Amount)
+                        .addComponent(jLabel_Payment_Amount_Value)))
                 .addContainerGap(72, Short.MAX_VALUE))
         );
 

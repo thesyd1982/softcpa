@@ -5,16 +5,16 @@
  */
 package fr.sysdev.softcpa.View.Client;
 
-import fr.sysdev.softcpa.constants.Constants;
+import fr.sysdev.softcpa.constants.FR.*;
 import fr.sysdev.softcpa.entity.Address;
 import fr.sysdev.softcpa.entity.Client;
+import fr.sysdev.softcpa.entity.ClientStatusEnum;
 import fr.sysdev.softcpa.entity.Company;
-import fr.sysdev.softcpa.entity.Invoice;
 import fr.sysdev.softcpa.utils.LoggingBindingListener;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator; 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import javax.swing.JButton;
@@ -38,34 +38,33 @@ import org.springframework.stereotype.Component;
 public class ClientView extends javax.swing.JInternalFrame {
 //    @Autowired
 //    ClientController clientController ;
+
     /**
      * Creates new form ClientView
      */
-    public List<Client> clients ;
-    public Client client ;
-    
+    public List<Client> clients;
+    public Client client;
 
- 
     private TableRowSorter<TableModel> sorterClient;
     private Client clientToInvoice;
-    
-    
-    
+
     public ClientView() {
         client = new Client();
         initComponents();
-  
+
     }
-    
-    public ClientView(List<Client> clients ) {
+
+    public ClientView(List<Client> clients) {
+        
         client = new Client();
-        this.clients = new ArrayList<>(clients); 
+        this.clients = new ArrayList<>(clients);
         initComponents();
-        bindingGroup.addBindingListener(new LoggingBindingListener(jLabel_Error));
+        
         prepareForm();
         resetInterface();
-        
+        bindingGroup.addBindingListener(new LoggingBindingListener(jLabel_Error));
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -77,7 +76,6 @@ public class ClientView extends javax.swing.JInternalFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         idConvertor1 = new fr.sysdev.softcpa.utils.Converter.IdConvertor();
-        clientStatusConverter1 = new fr.sysdev.softcpa.utils.Converter.ClientStatusConverter();
         nameValidator1 = new fr.sysdev.softcpa.utils.Validator.NameValidator();
         phoneNumberValidator1 = new fr.sysdev.softcpa.utils.Validator.PhoneNumberValidator();
         surnameValidator1 = new fr.sysdev.softcpa.utils.Validator.SurnameValidator();
@@ -124,6 +122,24 @@ public class ClientView extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("Gestion des clients");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/010-group.png"))); // NOI18N
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_client, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.surname}"), jTextField_Client_Surname, org.jdesktop.beansbinding.BeanProperty.create("text"), "Surname");
         binding.setValidator(surnameValidator1);
@@ -152,6 +168,7 @@ public class ClientView extends javax.swing.JInternalFrame {
         binding.setValidator(postalCodelValidator1);
         bindingGroup.addBinding(binding);
 
+        jButton_Add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Icons16X16/011-add.png"))); // NOI18N
         jButton_Add.setText("Add");
         jButton_Add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,6 +176,7 @@ public class ClientView extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton_Remove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Icons16X16/013-user-1.png"))); // NOI18N
         jButton_Remove.setText("Delete");
         jButton_Remove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,6 +184,7 @@ public class ClientView extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton_Cancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Icons16X16/017-back.png"))); // NOI18N
         jButton_Cancel.setText("Cancel");
         jButton_Cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,6 +192,7 @@ public class ClientView extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton_Update.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Icons16X16/012-user.png"))); // NOI18N
         jButton_Update.setText("Modify");
         jButton_Update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,6 +214,7 @@ public class ClientView extends javax.swing.JInternalFrame {
         ));
         jTable_client.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jTable_client.setDoubleBuffered(true);
+        jTable_client.setFocusable(false);
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${clients}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable_client);
@@ -215,9 +236,9 @@ public class ClientView extends javax.swing.JInternalFrame {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${address}"));
         columnBinding.setColumnName("Address");
         columnBinding.setColumnClass(fr.sysdev.softcpa.entity.Address.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${status}"));
-        columnBinding.setColumnName("Status");
-        columnBinding.setColumnClass(Integer.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${clientStatus}"));
+        columnBinding.setColumnName("Client Status");
+        columnBinding.setColumnClass(fr.sysdev.softcpa.entity.ClientStatusEnum.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${company}"));
         columnBinding.setColumnName("Company");
         columnBinding.setColumnClass(fr.sysdev.softcpa.entity.Company.class);
@@ -267,8 +288,7 @@ public class ClientView extends javax.swing.JInternalFrame {
 
         jComboBox_Client_Status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Individual", "Professional", " ", " ", " " }));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable_client, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.status}"), jComboBox_Client_Status, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
-        binding.setConverter(clientStatusConverter1);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE, jTable_client, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.clientStatus.name}"), jComboBox_Client_Status, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         jComboBox_Client_Status.addItemListener(new java.awt.event.ItemListener() {
@@ -301,38 +321,35 @@ public class ClientView extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel_Client_Id, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_Client_Status, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_Client_Name, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_Client_Surname, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_Client_CompanyName, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_Client_Email, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_Client_PhoneNumber, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_Address_HouseNumber, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_Address_Street, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_Address_PostCode, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_Address_City, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_Client_CompanyID, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField_Client_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox_Client_Status, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_Client_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_Client_Surname, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_Client_CompanyName, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_Client_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_Client_PhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_Address_HouseNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_Address_Street, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_Address_PostCode, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_Address_City, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_Client_CompanyIDNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel_Client_Id, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel_Client_Status, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel_Client_Name, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel_Client_Surname, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel_Client_CompanyName, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel_Client_Email, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel_Client_PhoneNumber, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel_Address_HouseNumber, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel_Address_Street, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel_Address_PostCode, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel_Address_City, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel_Client_CompanyID, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField_Client_Id, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox_Client_Status, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Client_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Client_Surname, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Client_CompanyName, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Client_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Client_PhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Address_HouseNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Address_Street, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Address_PostCode, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Address_City, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField_Client_CompanyIDNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton_Cancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton_Update, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -340,15 +357,15 @@ public class ClientView extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton_Remove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton_Add, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(230, 230, 230)
                         .addComponent(jLabel_Client_Search)
                         .addGap(18, 18, 18)
                         .addComponent(jTextField_Client_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(117, Short.MAX_VALUE))
+                        .addContainerGap(157, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
@@ -380,6 +397,10 @@ public class ClientView extends javax.swing.JInternalFrame {
                     .addComponent(jLabel_Client_Status))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton_Invoicing))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField_Client_Name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -420,19 +441,17 @@ public class ClientView extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField_Client_CompanyIDNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel_Client_CompanyID, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton_Remove)
-                            .addComponent(jButton_Update)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_Add)
-                    .addComponent(jButton_Cancel)
-                    .addComponent(jButton_Invoicing))
+                            .addComponent(jButton_Update))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton_Add)
+                            .addComponent(jButton_Cancel))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel_Error, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -441,9 +460,9 @@ public class ClientView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_UpdateActionPerformed
-      //  JOptionPane.showMessageDialog(null, " upd View");
-      //  updateClient();
-        
+        //  JOptionPane.showMessageDialog(null, " upd View");
+        //  updateClient();
+
     }//GEN-LAST:event_jButton_UpdateActionPerformed
 
     public void updateClient() throws NumberFormatException {
@@ -451,63 +470,68 @@ public class ClientView extends javax.swing.JInternalFrame {
         int rowt = jTable_client.getRowSorter().convertRowIndexToModel(row);
         setClientFromForm(new Long(jTextField_Client_Id.getText()));
         bindingClientTable();
-        
+
         jTable_client.setRowSelectionInterval(rowt, rowt);
         jTable_client.setSelectionBackground(Color.blue);
         jTable_client.setSelectionForeground(Color.white);
         client = getClientFromSelectedTableRow();
+        selectClientRow(rowt);
+        
         //client.setInvoices(new ArrayList<Invoice>());
         //clientToUpdate.setStatus(rowt);
         //setClient(clientToUpdate) ;
     }
-     public void sortClientList() {
-        
+
+    public void sortClientList() {
+
         Comparator<Client> sizeComparator;
         sizeComparator = Comparator.comparingLong((c) -> c.getId());
         Collections.sort(clients, sizeComparator);
     }
     private void jButton_RemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RemoveActionPerformed
-        
+
 
     }//GEN-LAST:event_jButton_RemoveActionPerformed
 
- 
+
     private void jTable_clientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_clientMouseClicked
-        
+
         setClient(getClientFromSelectedTableRow());
+        jComboBox_Client_Status.setSelectedItem(client.getClientStatus().toString());
         jTable_client.setSelectionBackground(Color.blue);
         jTable_client.setSelectionForeground(Color.white);
+        
         if (evt.getClickCount() == 2) {
-            
-            String detailMessage = Constants.Labels.CLIENT_ID+" : "+client.getId()+"\n"+
-                    Constants.Labels.NAME+" : "+client.getName()+"\n"+
-                    Constants.Labels.SURNAME+" : "+client.getSurname()+"\n"+
-                    Constants.Labels.EMAIL+" : "+client.getEmail()+"\n"+
-                    Constants.Labels.PHONE_NUMBER+" : "+client.getPhoneNumber()+"\n"+
-                    Constants.Labels.HOUSE_NUMBER+" : "+client.getAddress().getHouseNumber()+"\n"+
-                    Constants.Labels.STREET+" : "+client.getAddress().getStreet()+"\n"+
-                    Constants.Labels.POSTAL_CODE+" : "+client.getAddress().getPostCode()+"\n"+
-                    Constants.Labels.CITY+" : "+client.getAddress().getCity()+"\n";
-          String infoPro =
-                    Constants.Labels.CLIENT_STATUS+" : "+clientStatusConverter1.convertForward(client.getStatus())+"\n"+
-                    Constants.Labels.COMPANY_NAME+" : "+client.getCompany().getName()+"\n"+
-                    Constants.Labels.COMPANY_ID+" : "+client.getCompany().getCin()+"\n";
-                    
-          if(client.getStatus() == 1) detailMessage = detailMessage+ infoPro;
-        String[] options = {Constants.Labels.OK, Constants.Labels.INVOICING};
 
-        int x = JOptionPane.showOptionDialog(null, detailMessage,
-                Constants.Messages.CLICK_A_BUTTON,
-                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-        
-            if(x==1) {
-                    clientToInvoice = client;
+            String detailMessage = Constants.Labels.CLIENT_ID + " : " + client.getId() + "\n"
+                    + Constants.Labels.NAME + " : " + client.getName() + "\n"
+                    + Constants.Labels.SURNAME + " : " + client.getSurname() + "\n"
+                    + Constants.Labels.EMAIL + " : " + client.getEmail() + "\n"
+                    + Constants.Labels.PHONE_NUMBER + " : " + client.getPhoneNumber() + "\n"
+                    + Constants.Labels.HOUSE_NUMBER + " : " + client.getAddress().getHouseNumber() + "\n"
+                    + Constants.Labels.STREET + " : " + client.getAddress().getStreet() + "\n"
+                    + Constants.Labels.POSTAL_CODE + " : " + client.getAddress().getPostCode() + "\n"
+                    + Constants.Labels.CITY + " : " + client.getAddress().getCity() + "\n";
+            String infoPro
+                    = Constants.Labels.CLIENT_STATUS + " : " + client.getClientStatus() + "\n"
+                    + Constants.Labels.COMPANY_NAME + " : " + client.getCompany().getName() + "\n"
+                    + Constants.Labels.COMPANY_ID + " : " + client.getCompany().getCin() + "\n";
+
+            if (client.getClientStatus() == ClientStatusEnum.PROFESSIONAL) {
+                detailMessage = detailMessage + infoPro;
             }
-        
-        }
-        
-        else{
-             updateInterface();
+            String[] options = {Constants.Labels.OK, Constants.Labels.INVOICING};
+
+            int x = JOptionPane.showOptionDialog(null, detailMessage,
+                    Constants.Messages.CLICK_A_BUTTON,
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+
+            if (x == 1) {
+                clientToInvoice = client;
+            }
+
+        } else {
+            updateInterface();
         }
     }//GEN-LAST:event_jTable_clientMouseClicked
 
@@ -516,25 +540,29 @@ public class ClientView extends javax.swing.JInternalFrame {
         Company company = new Company();
         company.setName(formatName(jTextField_Client_CompanyName.getText()));
         company.setCin(jTextField_Client_CompanyIDNumber.getText());
-        
+
         Address address = new Address();
-        address.setCity(jTextField_Address_City.getText());
+        address.setCity(formatCity(jTextField_Address_City.getText()));
         address.setHouseNumber(jTextField_Address_HouseNumber.getText());
         address.setPostCode(jTextField_Address_PostCode.getText());
         address.setStreet(jTextField_Address_Street.getText());
-        
-        
-        
-        
+
         String name = formatName(jTextField_Client_Name.getText());
         String surname = formatSurname(jTextField_Client_Surname.getText());
         String phone = jTextField_Client_PhoneNumber.getText();
         String email = jTextField_Client_Email.getText();
-       
-        int status = jComboBox_Client_Status.getSelectedIndex();
+
+        
+        String strStatus = (String) jComboBox_Client_Status.getSelectedItem();
         
         
-        
+        //JOptionPane.showMessageDialog(null,"item combo :"+strStatus);
+        ClientStatusEnum status;
+        if(strStatus.equals(ClientStatusEnum.INDIVIDUAL.getName()))
+            status = ClientStatusEnum.INDIVIDUAL;
+        else 
+            status = ClientStatusEnum.PROFESSIONAL;
+            
         c.setId(id);
         c.setCompany(company);
         c.setAddress(address);
@@ -542,22 +570,16 @@ public class ClientView extends javax.swing.JInternalFrame {
         c.setSurname(surname);
         c.setPhoneNumber(phone);
         c.setEmail(email);
-        c.setStatus(status);
-       
-        
-        
+        c.setClientStatus(status);
+
         this.setClient(c);
-    
+
     }
 
-    
-    
-    
+
     private void jButton_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AddActionPerformed
-     
-        
-       
-       
+
+
     }//GEN-LAST:event_jButton_AddActionPerformed
 
     private void jButton_CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CancelActionPerformed
@@ -566,22 +588,31 @@ public class ClientView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton_CancelActionPerformed
 
     private void jTextField_Client_SearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_Client_SearchKeyReleased
-        search();    
+        search();
     }//GEN-LAST:event_jTextField_Client_SearchKeyReleased
 
     private void jComboBox_Client_StatusItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_Client_StatusItemStateChanged
-      if (jComboBox_Client_Status.getSelectedIndex() == 0)hideCompanyInfo();
-      else showCompanyInfo();
-          
+        if (jComboBox_Client_Status.getSelectedIndex()!=-1  && jComboBox_Client_Status.getSelectedItem().equals(ClientStatusEnum.PROFESSIONAL.toString())) {
+           showCompanyInfo();
+        } else {
+             hideCompanyInfo();
+            
+        }
+
     }//GEN-LAST:event_jComboBox_Client_StatusItemStateChanged
 
     private void jButton_InvoicingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_InvoicingActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton_InvoicingActionPerformed
 
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        jTable_client.clearSelection();
+        resetInterface();
+        loadClients();
+    }//GEN-LAST:event_formInternalFrameClosing
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private fr.sysdev.softcpa.utils.Converter.ClientStatusConverter clientStatusConverter1;
     private fr.sysdev.softcpa.utils.Validator.EmailValidator emailValidator1;
     private fr.sysdev.softcpa.utils.Validator.HouseNumberValidator houseNumberValidator1;
     private fr.sysdev.softcpa.utils.Converter.IdConvertor idConvertor1;
@@ -634,45 +665,47 @@ public class ClientView extends javax.swing.JInternalFrame {
         this.clients = clients;
     }
 
-    private void bindingClientTable (){
+    private void bindingClientTable() {
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${clients}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable_client);
+
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
         columnBinding.setColumnName(Constants.Labels.CLIENT_ID);
         columnBinding.setColumnClass(Long.class);
-      
+
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
         columnBinding.setColumnName(Constants.Labels.NAME);
-        
         columnBinding.setColumnClass(String.class);
+        
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${surname}"));
         columnBinding.setColumnName(Constants.Labels.SURNAME);
-        
         columnBinding.setColumnClass(String.class);
+        
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${email}"));
         columnBinding.setColumnName(Constants.Labels.EMAIL);
-        
         columnBinding.setColumnClass(String.class);
+        
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${phoneNumber}"));
         columnBinding.setColumnName(Constants.Labels.PHONE_NUMBER);
-        
         columnBinding.setColumnClass(String.class);
+        
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${address}"));
         columnBinding.setColumnName(Constants.Labels.ADDRESS);
         columnBinding.setColumnClass(fr.sysdev.softcpa.entity.Address.class);
-        
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${status}"));
+
+
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${clientStatus}"));
         columnBinding.setColumnName(Constants.Labels.CLIENT_STATUS);
-        columnBinding.setColumnClass(Integer.class);
-        
-        columnBinding.setColumnClass(String.class);
+        columnBinding.setColumnClass(fr.sysdev.softcpa.entity.ClientStatusEnum.class);
+
+
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${company}"));
         columnBinding.setColumnName(Constants.Labels.COMPANY);
         columnBinding.setColumnClass(fr.sysdev.softcpa.entity.Company.class);
-        
+
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
-        
+
         TableColumnModel cm = jTable_client.getColumnModel();
         cm.getColumn(0).setPreferredWidth(20);
         cm.getColumn(1).setPreferredWidth(50);
@@ -683,36 +716,33 @@ public class ClientView extends javax.swing.JInternalFrame {
         cm.getColumn(6).setPreferredWidth(40);
         cm.getColumn(6).setCellRenderer(new StatusCellRender());
         cm.getColumn(7).setCellRenderer(new CompanyCellRender());
-        
-  
-}
-    
-    
-    
+
+    }
+
     public JButton getRemoveBtn() {
         return jButton_Remove;
     }
-    
-     public JButton getAddBtn() {
+
+    public JButton getAddBtn() {
         return jButton_Add;
     }
 
-     public JButton getUpdateBtn() {
+    public JButton getUpdateBtn() {
         return jButton_Update;
-    } 
-    
-     public JButton getInvoicingBtn() {
+    }
+
+    public JButton getInvoicingBtn() {
         return jButton_Invoicing;
-    } 
-     
+    }
+
     private void prepareForm() {
-       
-        bindingClientTable();
         
+        this.setTitle(Constants.JFrameTitles.CLIENTS);
+        bindingClientTable();
+
         this.sorterClient = new TableRowSorter<>(this.jTable_client.getModel());
         this.jTable_client.setRowSorter(sorterClient);
-       
-        
+
         jLabel_Client_Id.setText(Constants.Labels.CLIENT_ID);
         jLabel_Address_City.setText(Constants.Labels.CITY);
         jLabel_Address_HouseNumber.setText(Constants.Labels.HOUSE_NUMBER);
@@ -729,16 +759,25 @@ public class ClientView extends javax.swing.JInternalFrame {
         jButton_Add.setText(Constants.Labels.ADD_BTN);
         jButton_Remove.setText(Constants.Labels.REMOVE_BTN);
         jButton_Update.setText(Constants.Labels.UPDATE_BTN);
-    }
-    
-    private void resetInterface() {
+        
+        
+        jComboBox_Client_Status.removeAllItems();
+        for (ClientStatusEnum s : ClientStatusEnum.values()) {
+             jComboBox_Client_Status.addItem(s.toString());
+        }
+
        
+        
+    }
+
+    private void resetInterface() {
+
         searchInterface();
         jComboBox_Client_Status.setSelectedIndex(0);
         hideCompanyInfo();
         jLabel_Error.setText("");
         jTextField_Client_Search.setText("");
-       
+
     }
 
     public void hideCompanyInfo() {
@@ -747,126 +786,111 @@ public class ClientView extends javax.swing.JInternalFrame {
         jTextField_Client_CompanyIDNumber.setVisible(false);
         jTextField_Client_CompanyName.setVisible(false);
     }
-    
+
     public void showCompanyInfo() {
         jLabel_Client_CompanyName.setVisible(true);
         jLabel_Client_CompanyID.setVisible(true);
         jTextField_Client_CompanyIDNumber.setVisible(true);
         jTextField_Client_CompanyName.setVisible(true);
     }
-    
-    
-    
-    
+
     private void searchInterface() {
-        
-       jTextField_Address_City.setText("");
-       jTextField_Address_HouseNumber.setText("");
-       jTextField_Address_PostCode.setText("");
-       jTextField_Address_Street.setText("");
-       jTextField_Client_Email.setText("");
-       jTextField_Client_Name.setText("");
-       jTextField_Client_PhoneNumber.setText("");
-       jTextField_Client_Surname.setText("");
-       jTextField_Client_Id.setText("");
-       jTextField_Client_CompanyIDNumber.setText("");
-       jTextField_Client_CompanyName.setText("");
-       
-       jButton_Add.setVisible(true);
-       jButton_Remove.setVisible(false);
-       jButton_Update.setVisible(false);
-       jButton_Cancel.setVisible(true);
-       jButton_Cancel.setText(Constants.Labels.CANCEL_BTN);
-       
+
+        jTextField_Address_City.setText("");
+        jTextField_Address_HouseNumber.setText("");
+        jTextField_Address_PostCode.setText("");
+        jTextField_Address_Street.setText("");
+        jTextField_Client_Email.setText("");
+        jTextField_Client_Name.setText("");
+        jTextField_Client_PhoneNumber.setText("");
+        jTextField_Client_Surname.setText("");
+        jTextField_Client_Id.setText("");
+        jTextField_Client_CompanyIDNumber.setText("");
+        jTextField_Client_CompanyName.setText("");
+
+        jButton_Add.setVisible(true);
+        jButton_Remove.setVisible(false);
+        jButton_Update.setVisible(false);
+        jButton_Cancel.setVisible(true);
+        jButton_Cancel.setText(Constants.Labels.CANCEL_BTN);
+
     }
-    
-    
-      private void updateInterface() { 
-       
-       jButton_Add.setVisible(false);
-       jButton_Remove.setVisible(true);
-       jButton_Update.setVisible(true);
-       jButton_Cancel.setVisible(true);
-       jButton_Cancel.setText(Constants.Labels.CREATE);
+
+    private void updateInterface() {
+
+        jButton_Add.setVisible(false);
+        jButton_Remove.setVisible(true);
+        jButton_Update.setVisible(true);
+        jButton_Cancel.setVisible(true);
+        jButton_Cancel.setText(Constants.Labels.CREATE);
     }
-    
-    
-    
+
     public Client getClient() {
-        return this.client ;
+        return this.client;
     }
 
     public void setClient(Client client) {
         this.client = client;
     }
 
-        
     private void search() {
-        
+
         rechercherParTouTLesCriters();
     }
 
-   
-
     private void rechercherParTouTLesCriters() {
-            String search = jTextField_Client_Search.getText().replaceAll("\\s+", " ").trim();
-                updateFilter(search);
-                if(jTable_client.getRowCount()!=0 && !search.equals("") )
-                    {
-                        jTable_client.setRowSelectionInterval(0, 0);
-                        jTable_client.setSelectionBackground(Color.blue);
-                        jTable_client.setSelectionForeground(Color.white);
-                        getClientFromSelectedTableRow();
-                        updateInterface();
-                    }
-                else{ 
-                        searchInterface();
-                        jTable_client.clearSelection();
-                }
-               
-         
+        String search = jTextField_Client_Search.getText().replaceAll("\\s+", " ").trim();
+        updateFilter(search);
+        if (jTable_client.getRowCount() != 0 && !search.equals("")) {
+            jTable_client.setRowSelectionInterval(0, 0);
+            jTable_client.setSelectionBackground(Color.blue);
+            jTable_client.setSelectionForeground(Color.white);
+            getClientFromSelectedTableRow();
+            updateInterface();
+        } else {
+            searchInterface();
+            jTable_client.clearSelection();
+        }
+
     }
-    
-        private void updateFilter(String filterText) 
-{
-	filterText = "(?i)" + filterText;
-	TableRowSorter sorter = (TableRowSorter) jTable_client.getRowSorter();
-        
-        
-        
-	if (filterText.length() == 0) {
-		sorter.setRowFilter(null);
-	} else {
-		try {
-                    RowFilter<Object, Object> rf = RowFilter.regexFilter(filterText,0,1,2,3,4,5);
-			sorter.setRowFilter(rf);
-		} catch (java.util.regex.PatternSyntaxException e) {
-			sorter.setRowFilter(null);
-		}
-	}
 
-	
-}
+    private void updateFilter(String filterText) {
+        filterText = "(?i)" + filterText;
+        TableRowSorter sorter = (TableRowSorter) jTable_client.getRowSorter();
 
-    private Client  getClientFromSelectedTableRow() {
-        
+        if (filterText.length() == 0) {
+            sorter.setRowFilter(null);
+        } else {
+            try {
+                RowFilter<Object, Object> rf = RowFilter.regexFilter(filterText, 0, 1, 2, 3, 4, 5);
+                sorter.setRowFilter(rf);
+            } catch (java.util.regex.PatternSyntaxException e) {
+                sorter.setRowFilter(null);
+            }
+        }
+
+    }
+
+    private Client getClientFromSelectedTableRow() {
+
         Client c = new Client();
         int row = jTable_client.getSelectedRow();
         int rowt = jTable_client.getRowSorter().convertRowIndexToModel(row);
-        
+
         Long id = (Long) (jTable_client.getModel().getValueAt(rowt, 0));
-        
-        
+
         String name = (String) (jTable_client.getModel().getValueAt(rowt, 1));
         String surname = (String) (jTable_client.getModel().getValueAt(rowt, 2));
         String email = (String) (jTable_client.getModel().getValueAt(rowt, 3));
         String phone = (String) (jTable_client.getModel().getValueAt(rowt, 4));
-        
+
         Address address = (Address) (jTable_client.getModel().getValueAt(rowt, 5));
-        String status = (String) (jTable_client.getModel().getValueAt(rowt, 6));
-        
-        Company company = (Company)(jTable_client.getModel().getValueAt(rowt, 7));
-        
+        ///////////////////
+        address.setCity(formatCity(address.getCity()));
+        ClientStatusEnum status = (ClientStatusEnum) (jTable_client.getModel().getValueAt(rowt, 6));
+
+        Company company = (Company) (jTable_client.getModel().getValueAt(rowt, 7));
+
         c.setId(id);
         c.setAddress(address);
         c.setCompany(company);
@@ -875,45 +899,44 @@ public class ClientView extends javax.swing.JInternalFrame {
         c.setPhoneNumber(phone);
         c.setEmail(email);
         
-        if("0".equals(status))
-        { c.setStatus(0);
-          c.getCompany().setName("");
+        JOptionPane.showMessageDialog(null, status.toString());
+        
+        if (status.equals(ClientStatusEnum.INDIVIDUAL)) {
+            c.setClientStatus(ClientStatusEnum.INDIVIDUAL);
+            c.getCompany().setName("");
+        } else {
+            c.setClientStatus(ClientStatusEnum.PROFESSIONAL);
         }
-        else c.setStatus(1);
         return c;
-    
-    
+
     }
 
     public void addClient(Long id) {
-        
+
         setClientFromForm(id);
-        clients.add(client); 
+        clients.add(client);
         bindingClientTable();
 
         resetInterface();
     }
 
     public void removeClient() {
-         int result;
+        int result;
         result = JOptionPane.showConfirmDialog(null, Constants.Messages.DELETE_CLIENT_ALERT,
                 "alert", JOptionPane.OK_CANCEL_OPTION);
-    if(result==0){
-        client = getClientFromSelectedTableRow();
-        clients.removeIf(c -> {
-            return Objects.equals(c.getId(), client.getId());
-        });
-       
-       bindingClientTable();
-       
-       resetInterface();
+        if (result == 0) {
+            client = getClientFromSelectedTableRow();
+            clients.removeIf(c -> {
+                return Objects.equals(c.getId(), client.getId());
+            });
+
+            bindingClientTable();
+
+            resetInterface();
+        }
     }
-    }
 
-
-
-
-  private String formatName(String nom) {
+    private String formatName(String nom) {
         if (nom.length() != 0) {
             nom = nom.toUpperCase().replaceAll("\\s+", " ").trim();
         }
@@ -927,6 +950,14 @@ public class ClientView extends javax.swing.JInternalFrame {
         return prenom;
     }
 
+    private String formatCity(String city) {
+        if (city.length() != 0) {
+
+            city = city.substring(0, 1).toUpperCase() + city.substring(1).replaceAll("\\s+", " ").trim();
+        }
+        return city;
+    }
+
     public Client getClientToInvoice() {
         return clientToInvoice;
     }
@@ -934,11 +965,33 @@ public class ClientView extends javax.swing.JInternalFrame {
     public void setClientToInvoicing(Client clientToInvoice) {
         this.clientToInvoice = clientToInvoice;
     }
-    
-    
-    public void loadClients(){
+
+    public void loadClients() {
+        int selectedRow = getClientRow();
         bindingClientTable();
-    
+        if( selectedRow>-1)
+        selectClientRow(selectedRow);
     }
-    
+
+    private int getClientRow() {
+        int rowt =-1;
+        if(jTable_client.getSelectedRowCount()>0)
+        {int row = jTable_client.getSelectedRow();
+            rowt = jTable_client.getRowSorter().convertRowIndexToModel(row);
+        }
+        return rowt;
+    }
+
+    private void selectClientRow(int rowt) {
+            if(rowt>-1){
+            jTable_client.setRowSelectionInterval(rowt, rowt);
+            jTable_client.setSelectionBackground(Color.blue);
+            jTable_client.setSelectionForeground(Color.white);}
+        
+    }
+
+    public void alertClientHasInvoices() {
+        JOptionPane.showMessageDialog(this,Constants.Messages.CLIENT_HAS_INVOICES);
+    }
+
 }

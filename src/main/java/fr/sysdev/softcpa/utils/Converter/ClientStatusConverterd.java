@@ -12,7 +12,7 @@ import org.jdesktop.beansbinding.Converter;
  *
  * @author f
  */
-public class ClientStatusConverter extends Converter<Integer, String>{
+public class ClientStatusConverterd extends Converter<Integer, String>{
      @Override
     public String convertForward(Integer arg) {
         String value ="" ;

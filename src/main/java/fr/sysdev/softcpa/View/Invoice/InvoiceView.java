@@ -5,7 +5,7 @@
  */
 package fr.sysdev.softcpa.View.Invoice;
 
-import fr.sysdev.softcpa.constants.Constants;
+import fr.sysdev.softcpa.constants.FR.*;
 import fr.sysdev.softcpa.entity.Client;
 import fr.sysdev.softcpa.entity.Invoice;
 import fr.sysdev.softcpa.entity.InvoiceStatusEnum;
@@ -39,6 +39,7 @@ public class InvoiceView extends javax.swing.JInternalFrame {
 
     public InvoiceView(List<Invoice> invoices) {
         this.setTitle(Constants.JFrameTitles.INVOICES);
+
         this.invoices = new ArrayList<>(invoices);
         this.allInvoices = new ArrayList<>(invoices);
         
@@ -70,6 +71,7 @@ public class InvoiceView extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/001-bill.png"))); // NOI18N
 
         jTextField_Invoice_Search.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -94,6 +96,7 @@ public class InvoiceView extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable_Invoice.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jTable_Invoice.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${invoices}");
@@ -267,16 +270,13 @@ public InvoiceDetailsView displayInvoice(Invoice in) throws PropertyVetoExceptio
             bindingInvoicesTable();
           
         } else {
-            
-            
-            
             List<Invoice> filter = InvoicesPredicates.filterInvoices(allInvoices, InvoicesPredicates.oneOfAllContains(s));
             invoices.clear();
             invoices.addAll(filter);
             
             if (invoices.size() > 0) {
 
-               // updateInterface();
+
                 bindingInvoicesTable();
                 jTable_Invoice.setRowSelectionInterval(0, 0);
                 jTable_Invoice.setSelectionBackground(Color.blue);
@@ -286,7 +286,6 @@ public InvoiceDetailsView displayInvoice(Invoice in) throws PropertyVetoExceptio
 
                 invoices.clear();
                 bindingInvoicesTable();
-              //  searchInterface();
 
             }
     }
@@ -319,11 +318,7 @@ public InvoiceDetailsView displayInvoice(Invoice in) throws PropertyVetoExceptio
          
          InvoiceStatusEnum invoiceStatus  = (InvoiceStatusEnum)(jTable_Invoice.getModel().getValueAt(rowt, 7));
          invoice.setInvoiceStatus(invoiceStatus);
-         
-         
-         System.out.println(""+invoice);
-         
-         
+                 
         return invoice;
     }
 
@@ -403,6 +398,7 @@ public InvoiceDetailsView displayInvoice(Invoice in) throws PropertyVetoExceptio
     }
 
     private void prepareForm() {
+        
         jButton_Invoice_Details.setText(Constants.Labels.INVOICE_DETAILS);
         jButton_Refresh.setText(Constants.Labels.REFRESH_BTN);
         jLabel_Invoice_Search.setText(Constants.Labels.SEARCH);

@@ -26,7 +26,7 @@ public class AddressService implements IAdrressService{
 @Autowired
     public AddressService(AddressRepository addressRepository) {
         this.addressRepository = addressRepository;
-        log.debug("serviiiiiiiiiiiiiiiiiiiiiiiiiiicccccccccceeeeeeeee");
+        log.debug("Addresse Service --> started -->");
     }
 
 

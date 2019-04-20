@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.8" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
-  <NonVisualComponents>
-    <Component class="fr.sysdev.softcpa.utils.Converter.IdConvertor" name="idConvertor1">
-    </Component>
-    <Component class="fr.sysdev.softcpa.utils.Converter.ClientStatusConverter" name="clientStatusConverter1">
-    </Component>
-  </NonVisualComponents>
   <Properties>
     <Property name="closable" type="boolean" value="true"/>
     <Property name="iconifiable" type="boolean" value="true"/>
     <Property name="maximizable" type="boolean" value="true"/>
     <Property name="resizable" type="boolean" value="true"/>
+    <Property name="frameIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+      <Image iconType="3" name="/Icons/009-dollar.png"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -318,7 +315,7 @@
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${client.id}" target="jLabel_Client_Id_Value" targetPath="text" updateStrategy="0" immediately="false">
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                <ComponentRef name="idConvertor1"/>
+                <ComponentRef name="default"/>
               </Property>
             </BindingProperty>
           </BindingProperties>
@@ -484,7 +481,7 @@
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${client.status}" target="jLabel_Client_Status_Value" targetPath="text" updateStrategy="0" immediately="false">
               <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                <ComponentRef name="clientStatusConverter1"/>
+                <ComponentRef name="default"/>
               </Property>
             </BindingProperty>
           </BindingProperties>
