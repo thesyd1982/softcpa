@@ -200,7 +200,6 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         jLabel_Client_Id_Value.setPreferredSize(new java.awt.Dimension(150, 14));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${client.id}"), jLabel_Client_Id_Value, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setConverter(null);
         bindingGroup.addBinding(binding);
 
         jLabel_Client_Status.setText("jLabel1");
@@ -272,8 +271,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
 
         jLabel_Client_Status_Value.setPreferredSize(new java.awt.Dimension(150, 14));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${client.status}"), jLabel_Client_Status_Value, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        binding.setConverter(null);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${client.clientStatus.name}"), jLabel_Client_Status_Value, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout jPanel_Invoicing_ClientLayout = new javax.swing.GroupLayout(jPanel_Invoicing_Client);
@@ -527,15 +525,19 @@ public class InvoicingView extends javax.swing.JInternalFrame {
             }).findAny();
 
             if (clientOptional.isPresent()) {
+                
                 client = clientOptional.get();
+                refresh();
+                jLabel_Client_Status_Value.setText( client.getClientStatus().getName()); //a supprimer
                 if (client.getClientStatus() == ClientStatusEnum.INDIVIDUAL) {
+                    
                     showClientPanel();
                     hideCompanyPanel();
                 } else {
                     showClientPanel();
                     showCompanyPanel();
                 }
-                refresh();
+              
             } else {
                 hideClientPanel();
             }
@@ -822,7 +824,7 @@ public class InvoicingView extends javax.swing.JInternalFrame {
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${client.id}"), jLabel_Client_Id_Value, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${client.status}"), jLabel_Client_Status_Value, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${client.clientStatus.name}"), jLabel_Client_Status_Value, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${client.name}"), jLabel_Client_Name_Value, org.jdesktop.beansbinding.BeanProperty.create("text"));

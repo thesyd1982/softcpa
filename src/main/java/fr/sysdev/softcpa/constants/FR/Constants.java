@@ -77,7 +77,6 @@ public abstract class Constants {
     public static final String UPDATE_BTN = "Modifier";
     public static final String NAME = "Nom";
     public static final String SURNAME = "Prénom";
-    public static final String PESEL = "Pesel";
     public static final String PHONE_NUMBER = "Numéro de téléphone";
     public static final String EMAIL = "E-mail";
     public static final String ADDRESS = "Adresse";
@@ -122,7 +121,7 @@ public abstract class Constants {
     public static final String SEARCH = "Recherche";
     public static final String CREATE = "Créer";
     public static final String CLIENT_STATUS_PRO ="Professionnel";
-    public static final String CLIENT_STATUS_INDIVIDUAL = "particulier";
+    public static final String CLIENT_STATUS_INDIVIDUAL = "Particulier";
     public static final String CLIENT_STATUS = "Statut du client";
     public static final String COMPANY_NAME = "Nom de société";
     public static final String COMPANY_ID = "Société Id";
@@ -193,7 +192,17 @@ public abstract class Constants {
     }
 //</editor-fold>
     
-
+    public interface Headers {
+    public static String CLIENT_ID="Id";
+    public static final String CLIENT_NAME = "Nom";
+    public static final String CLIENT_SURNAME = "Prénom";
+    public static final String CLIENT_PHONE_NUMBER = "téléphone";
+    public static final String CLIENT_EMAIL = "E-mail";
+    public static final String CLIENT_ADDRESS= "Adresse";
+    public static final String CLIENT_STATUS= "Statut";
+    public static String CLIENT_COMPANY_NAME = "Société";
+    
+    }
     interface ValidationMessages {
         String REQUIRED_DATA_NOT_FILLED_OR_BAD_DATA = "Tous les champs obligatoires n'ont pas été renseignés ou les données renseignées sont incorrectes";
         String PESEL_LENGTH_INCORRECT = "PESEL should contain 11 characters.";

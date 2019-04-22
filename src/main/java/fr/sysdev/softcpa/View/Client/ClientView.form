@@ -475,7 +475,7 @@
         </Property>
       </Properties>
       <BindingProperties>
-        <BindingProperty name="selectedItem" source="jTable_client" sourcePath="${selectedElement.clientStatus.name}" target="jComboBox_Client_Status" targetPath="selectedItem" updateStrategy="2" immediately="false"/>
+        <BindingProperty name="selectedItem" source="Form" sourcePath="${client.clientStatus.name}" target="jComboBox_Client_Status" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
       </BindingProperties>
       <Events>
         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBox_Client_StatusItemStateChanged"/>

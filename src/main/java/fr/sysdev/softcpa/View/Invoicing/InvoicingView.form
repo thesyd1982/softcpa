@@ -313,11 +313,7 @@
             </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="text" source="Form" sourcePath="${client.id}" target="jLabel_Client_Id_Value" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                <ComponentRef name="default"/>
-              </Property>
-            </BindingProperty>
+            <BindingProperty name="text" source="Form" sourcePath="${client.id}" target="jLabel_Client_Id_Value" targetPath="text" updateStrategy="0" immediately="false"/>
           </BindingProperties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel_Client_Status">
@@ -479,11 +475,7 @@
             </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="text" source="Form" sourcePath="${client.status}" target="jLabel_Client_Status_Value" targetPath="text" updateStrategy="0" immediately="false">
-              <Property name="converter" type="org.jdesktop.beansbinding.Converter" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                <ComponentRef name="default"/>
-              </Property>
-            </BindingProperty>
+            <BindingProperty name="text" source="Form" sourcePath="${client.clientStatus.name}" target="jLabel_Client_Status_Value" targetPath="text" updateStrategy="0" immediately="false"/>
           </BindingProperties>
         </Component>
       </SubComponents>

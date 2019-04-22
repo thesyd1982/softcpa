@@ -288,7 +288,7 @@ public class ClientView extends javax.swing.JInternalFrame {
 
         jComboBox_Client_Status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Individual", "Professional", " ", " ", " " }));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_ONCE, jTable_client, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.clientStatus.name}"), jComboBox_Client_Status, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${client.clientStatus.name}"), jComboBox_Client_Status, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         jComboBox_Client_Status.addItemListener(new java.awt.event.ItemListener() {
@@ -469,12 +469,12 @@ public class ClientView extends javax.swing.JInternalFrame {
         int row = jTable_client.getSelectedRow();
         int rowt = jTable_client.getRowSorter().convertRowIndexToModel(row);
         setClientFromForm(new Long(jTextField_Client_Id.getText()));
-        bindingClientTable();
 
         jTable_client.setRowSelectionInterval(rowt, rowt);
         jTable_client.setSelectionBackground(Color.blue);
         jTable_client.setSelectionForeground(Color.white);
-        client = getClientFromSelectedTableRow();
+        //client = getClientFromSelectedTableRow();
+        bindingClientTable();
         selectClientRow(rowt);
         
         //client.setInvoices(new ArrayList<Invoice>());
@@ -554,15 +554,16 @@ public class ClientView extends javax.swing.JInternalFrame {
 
         
         String strStatus = (String) jComboBox_Client_Status.getSelectedItem();
-        
-        
-        //JOptionPane.showMessageDialog(null,"item combo :"+strStatus);
         ClientStatusEnum status;
+
         if(strStatus.equals(ClientStatusEnum.INDIVIDUAL.getName()))
-            status = ClientStatusEnum.INDIVIDUAL;
+        {status = ClientStatusEnum.INDIVIDUAL;
+        company.setName("");
+        company.setCin("");
+        }
         else 
             status = ClientStatusEnum.PROFESSIONAL;
-            
+          
         c.setId(id);
         c.setCompany(company);
         c.setAddress(address);
@@ -571,9 +572,8 @@ public class ClientView extends javax.swing.JInternalFrame {
         c.setPhoneNumber(phone);
         c.setEmail(email);
         c.setClientStatus(status);
-
         this.setClient(c);
-
+        
     }
 
 
@@ -670,37 +670,37 @@ public class ClientView extends javax.swing.JInternalFrame {
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable_client);
 
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${id}"));
-        columnBinding.setColumnName(Constants.Labels.CLIENT_ID);
+        columnBinding.setColumnName(Constants.Headers.CLIENT_ID);
         columnBinding.setColumnClass(Long.class);
 
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${name}"));
-        columnBinding.setColumnName(Constants.Labels.NAME);
+        columnBinding.setColumnName(Constants.Headers.CLIENT_NAME);
         columnBinding.setColumnClass(String.class);
         
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${surname}"));
-        columnBinding.setColumnName(Constants.Labels.SURNAME);
+        columnBinding.setColumnName(Constants.Headers.CLIENT_SURNAME);
         columnBinding.setColumnClass(String.class);
         
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${email}"));
-        columnBinding.setColumnName(Constants.Labels.EMAIL);
+        columnBinding.setColumnName(Constants.Headers.CLIENT_EMAIL);
         columnBinding.setColumnClass(String.class);
         
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${phoneNumber}"));
-        columnBinding.setColumnName(Constants.Labels.PHONE_NUMBER);
+        columnBinding.setColumnName(Constants.Headers.CLIENT_PHONE_NUMBER);
         columnBinding.setColumnClass(String.class);
         
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${address}"));
-        columnBinding.setColumnName(Constants.Labels.ADDRESS);
+        columnBinding.setColumnName(Constants.Headers.CLIENT_ADDRESS);
         columnBinding.setColumnClass(fr.sysdev.softcpa.entity.Address.class);
 
 
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${clientStatus}"));
-        columnBinding.setColumnName(Constants.Labels.CLIENT_STATUS);
+        columnBinding.setColumnName(Constants.Headers.CLIENT_STATUS);
         columnBinding.setColumnClass(fr.sysdev.softcpa.entity.ClientStatusEnum.class);
 
 
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${company}"));
-        columnBinding.setColumnName(Constants.Labels.COMPANY);
+        columnBinding.setColumnName(Constants.Headers.CLIENT_COMPANY_NAME);
         columnBinding.setColumnClass(fr.sysdev.softcpa.entity.Company.class);
 
         bindingGroup.addBinding(jTableBinding);
@@ -889,6 +889,9 @@ public class ClientView extends javax.swing.JInternalFrame {
         address.setCity(formatCity(address.getCity()));
         ClientStatusEnum status = (ClientStatusEnum) (jTable_client.getModel().getValueAt(rowt, 6));
 
+        
+        
+        
         Company company = (Company) (jTable_client.getModel().getValueAt(rowt, 7));
 
         c.setId(id);
@@ -899,7 +902,7 @@ public class ClientView extends javax.swing.JInternalFrame {
         c.setPhoneNumber(phone);
         c.setEmail(email);
         
-        JOptionPane.showMessageDialog(null, status.toString());
+       
         
         if (status.equals(ClientStatusEnum.INDIVIDUAL)) {
             c.setClientStatus(ClientStatusEnum.INDIVIDUAL);
@@ -907,6 +910,9 @@ public class ClientView extends javax.swing.JInternalFrame {
         } else {
             c.setClientStatus(ClientStatusEnum.PROFESSIONAL);
         }
+        
+        
+      
         return c;
 
     }

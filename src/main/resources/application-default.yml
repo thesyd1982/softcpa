@@ -1,0 +1,19 @@
+## YAML Template.
+---
+spring:
+    profiles:
+    active: dev
+    jmx:
+     enabled: false
+endpoints:
+    jmx:
+    enabled: false 
+logging:
+  level:
+    org.springframework.web: ERROR
+    fr.sysdev.softcpa: DEBUG
+    org.hibernate.stat: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file: /Users/mkyong/application.log
