@@ -41,7 +41,7 @@
                           <Component id="jPanel_Invoicing_Client" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace min="29" pref="29" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
@@ -61,19 +61,23 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jButton_Refresh" pref="140" max="32767" attributes="0"/>
+                                  <Component id="jButton_Refresh" pref="113" max="32767" attributes="0"/>
                                   <Component id="jButton1" max="32767" attributes="0"/>
                               </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jToggleButton_Auto" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane1" min="-2" pref="943" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane2" min="-2" pref="943" max="-2" attributes="0"/>
-                              </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jScrollPane2" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jScrollPane1" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="22" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -117,6 +121,7 @@
                           <Component id="jLabel_Search_Part" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextField_Search_Part" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButton_Refresh" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jToggleButton_Auto" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="124" max="-2" attributes="0"/>
@@ -138,7 +143,7 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jButton_Validate" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="17" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -189,7 +194,6 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
             <Property name="columns" type="int" value="0"/>
             <Property name="rows" type="int" value="50"/>
-            <Property name="verticalGap" type="int" value="5"/>
           </Layout>
         </Container>
       </SubComponents>
@@ -212,7 +216,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel_Client_Id" alignment="1" max="32767" attributes="0"/>
+                      <Component id="jLabel_Client_Id" alignment="1" pref="84" max="32767" attributes="0"/>
                       <Component id="jLabel_Client_Status" alignment="1" max="32767" attributes="0"/>
                       <Component id="jLabel_Client_Name" alignment="1" max="32767" attributes="0"/>
                       <Component id="jLabel_Client_Surname" alignment="1" max="32767" attributes="0"/>
@@ -225,7 +229,7 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="jLabel_Client_Status_Value" pref="200" max="32767" attributes="0"/>
+                      <Component id="jLabel_Client_Status_Value" max="32767" attributes="0"/>
                       <Component id="jLabel_Client_Name_Value" alignment="0" max="32767" attributes="0"/>
                       <Component id="jLabel_Client_Surname_Value" alignment="0" max="32767" attributes="0"/>
                       <Component id="jLabel_Client_Email_Value" alignment="0" max="32767" attributes="0"/>
@@ -423,6 +427,9 @@
           <BindingProperties>
             <BindingProperty name="text" source="Form" sourcePath="${client.address.street}" target="jLabel_Address_Street_Value" targetPath="text" updateStrategy="0" immediately="false"/>
           </BindingProperties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="InvoicingView_jLabel_Address_Street_Value"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel_Address_Street">
           <Properties>
@@ -474,9 +481,9 @@
               <Dimension value="[150, 14]"/>
             </Property>
           </Properties>
-          <BindingProperties>
-            <BindingProperty name="text" source="Form" sourcePath="${client.clientStatus.name}" target="jLabel_Client_Status_Value" targetPath="text" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="InvoicingView_jLabel_Client_Status_Value"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -614,6 +621,14 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_ValidateActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JToggleButton" name="jToggleButton_Auto">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Icons/Icons16X16/scan-barcode-with-scanner-tool.png"/>
+        </Property>
+        <Property name="actionCommand" type="java.lang.String" value="Auto"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

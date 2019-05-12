@@ -189,6 +189,7 @@ public abstract class Constants {
     public static String INVOICES ="Factures";
     public static String INDIVIDUAL ="Particulier";
     public static String PROFESSIONAL="Professionel";
+    public static String HEADER_REF="Ref";
     }
 //</editor-fold>
     

@@ -26,7 +26,7 @@ public enum ClientStatusEnum {
     }
     
     @Override 
-        public String toString(){ 
+    public String toString(){ 
             return name; 
         } 
 }

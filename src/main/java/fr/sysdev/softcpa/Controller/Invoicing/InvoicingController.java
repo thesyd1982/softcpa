@@ -13,6 +13,7 @@ import fr.sysdev.softcpa.entity.Invoice;
 import java.awt.event.ActionListener;
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
+import javax.swing.JToggleButton;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -39,6 +40,7 @@ public class InvoicingController {
         
         registerAction(view.getRefreshBtn(), (e) -> loadingClients());
         registerAction(view.getValidateBtn(), (e) -> chooseAction());
+        registerAction(view.getAutoBtn(), (e) -> loadMod());
     }
     
 
@@ -64,7 +66,12 @@ public class InvoicingController {
     protected void registerAction(JButton button, ActionListener listener) {
         button.addActionListener(listener);
     }
-
+    
+    protected void registerAction(JToggleButton button, ActionListener listener) {
+        button.addActionListener(listener);
+    }
+    
+    
     public void loadingParts() {
         System.out.println("Invoicing loadingParts()");
         this.view.setParts(iPartService.getParts());
@@ -97,6 +104,8 @@ public class InvoicingController {
             default: {;}
         }
     }
-    
+    private void loadMod(){
+        this.getView().loadMod();
+    }
     
 }
