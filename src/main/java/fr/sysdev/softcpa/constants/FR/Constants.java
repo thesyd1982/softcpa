@@ -135,7 +135,7 @@ public abstract class Constants {
     public static String PROVIDER = "Fournisseur";
     public static String PUR_PRICE = "Prix d'achat";
     public static String QUANTITY = "Quantité";
-    public static String SELLING_PRICE = "Prix de vente";
+    public static String SELLING_PRICE = "Prix Vente";
     public static String REF = "Référence";
     public static String SELECT_A_FILE = "Sélectionner un fichier";
     public static String CSV_FILE = "Fichier CSV";
@@ -146,10 +146,10 @@ public abstract class Constants {
     public static String RROVIDERS = "Fournisseurs";
     public static String ONE_PROVIDER= "Un seul fournisseur trouvé!";
     public static String STOCK = "Stock";
-    public static String SELLING_PRICE_HEADER ="PVP";
+    public static String SELLING_PRICE_HEADER ="PV";
     public static String PUR_PRICE_HEADER="PA";
-    public static String PRO_SELLING_PRICE=" Pro price" ;
-    public static String PRO_SELLING_PRICE_HEADER ="PP";
+    public static String PRO_SELLING_PRICE="Prix Vente(Pro)" ;
+    public static String PRO_SELLING_PRICE_HEADER ="PVP";
     public static String SELECTION_COUNT="Nombre de sélection";
     public static String INVOICE = "Facture";
     public static String CREDIT_NOTE = "Avoir";
@@ -190,6 +190,7 @@ public abstract class Constants {
     public static String INDIVIDUAL ="Particulier";
     public static String PROFESSIONAL="Professionel";
     public static String HEADER_REF="Ref";
+    public static String SAVE ="Enregistrer";
     }
 //</editor-fold>
     

@@ -10,9 +10,11 @@ import fr.sysdev.softcpa.Service.IInvoiceService;
 import fr.sysdev.softcpa.Service.IPartService;
 import fr.sysdev.softcpa.View.Invoicing.InvoicingView;
 import fr.sysdev.softcpa.entity.Invoice;
+import fr.sysdev.softcpa.entity.Part;
 import java.awt.event.ActionListener;
 import javax.annotation.PostConstruct;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,12 +26,11 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class InvoicingController {
     @Autowired
-    private final IClientService iClientService;
+    private final IClientService clientService;
     @Autowired
-    private final IPartService iPartService;
+    private final IPartService partService;
     @Autowired
     private final IInvoiceService invoiceService;
-
     @Autowired
     private final InvoicingView view;
     
@@ -40,15 +41,16 @@ public class InvoicingController {
         
         registerAction(view.getRefreshBtn(), (e) -> loadingClients());
         registerAction(view.getValidateBtn(), (e) -> chooseAction());
+        registerAction(view.getSavePricesBtn(), (e) -> savePrices());
         registerAction(view.getAutoBtn(), (e) -> loadMod());
     }
     
 
-    public InvoicingController(IClientService iClientService,IPartService iPartService, IInvoiceService invoiceService) {
-         this.iClientService = iClientService;
-         this.iPartService = iPartService;
+    public InvoicingController(IClientService clientService,IPartService partService, IInvoiceService invoiceService) {
+         this.clientService = clientService;
+         this.partService = partService;
          this.invoiceService =invoiceService;
-         this.view = new InvoicingView(iClientService.getClients(), iPartService.getParts()); 
+         this.view = new InvoicingView(clientService.getClients(), partService.getParts()); 
          prepareListeners() ;
     }
 
@@ -57,7 +59,7 @@ public class InvoicingController {
     }
 
     public void loadingClients(){
-    this.view.setClients(iClientService.getClients());
+    this.view.setClients(clientService.getClients());
     this.view.loadClients() ;
     }
  
@@ -74,7 +76,7 @@ public class InvoicingController {
     
     public void loadingParts() {
         System.out.println("Invoicing loadingParts()");
-        this.view.setParts(iPartService.getParts());
+        this.view.setParts(partService.getParts());
         this.view.loadParts() ;
     }
     
@@ -98,6 +100,7 @@ public class InvoicingController {
             case 0:{
                 addInvoice();
                 this.getView().displayInvoice();
+                
                 this.getView().resetView();
             break;
             }
@@ -106,6 +109,14 @@ public class InvoicingController {
     }
     private void loadMod(){
         this.getView().loadMod();
+    }
+
+    private void savePrices() {
+        this.getView().getPartsToSave().forEach((Part part) -> {
+                    partService.updatePart(part);
+                    
+            });
+        
     }
     
 }

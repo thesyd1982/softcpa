@@ -57,7 +57,7 @@ public class PartsPredicates {
     }
     
      public static Predicate<Part> refOrEanCodeEquals(String s) {
-        return p ->p.getEanCode().equals(s.toUpperCase())|| p.getEanCode().equals(s.toUpperCase());
+      return p ->p.getReference().toUpperCase().equals(s.toUpperCase())|| p.getEanCode().equals(s.toUpperCase());
     }
     
     

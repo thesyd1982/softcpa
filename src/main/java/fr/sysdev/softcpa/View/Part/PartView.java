@@ -670,6 +670,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
             parts.clear();
             parts.addAll(allParts);
             bindingPartTable();
+            search();
         }
         search();
     }//GEN-LAST:event_jTextField_Part_SearchKeyReleased
@@ -857,11 +858,14 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         getPartFromSelectedTableRow();
         int indexInAllParts = allParts.indexOf(findPartById(parts, part.getId()));
         bindingPartTable();
+        
+        
         jTable_Part.setRowSelectionInterval(rowt, rowt);
         getPartFromSelectedTableRow();
         int indexInParts = parts.indexOf(findPartById(parts, part.getId()));
         allParts.set(indexInAllParts, part);
         parts.set(indexInParts, part);
+        search();
     }
 
     public void getPartsToInvoice() {
@@ -1067,7 +1071,7 @@ public class PartView extends javax.swing.JInternalFrame implements ActionListen
         } else {
             List<Part> filter = PartsPredicates.filterParts(allParts, PartsPredicates.refOrEanOrDesignationOrBrandContains(s));
             parts.clear();
-            parts.addAll(removingDuplicatesAndSortPartList(filter));
+            parts.addAll(filter);
 
             if (parts.size() > 0) {
 
