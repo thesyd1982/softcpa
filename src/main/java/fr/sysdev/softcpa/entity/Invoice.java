@@ -112,7 +112,7 @@ public class Invoice implements Serializable {
                s+="Invoice{" + "id=" + id ;
                s+= ", invoiceStatus=" + invoiceStatus ;
                s+=  ", invoiceNumber=" + invoiceNumber ;
-               s+=  ", payments=" + payments ;
+               //s+=  ", payments=" + payments ;
                s+=  ", client=" + client ;
                s+=  ", invocesLines=" + invocesLines ;
                s+=  ", platenumber=" + platenumber ;

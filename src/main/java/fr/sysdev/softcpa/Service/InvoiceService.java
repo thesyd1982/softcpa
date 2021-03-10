@@ -35,7 +35,7 @@ public class InvoiceService extends Observable implements IInvoiceService {
 
     public InvoiceService(IInvoiceRepository invoiceRepository) {
 
-        log.debug("\"Invoice Service\" --> Started ...");
+      //  log.debug("\"Invoice Service\" --> Started ...");
         this.invoiceRepository = invoiceRepository;
     }
 

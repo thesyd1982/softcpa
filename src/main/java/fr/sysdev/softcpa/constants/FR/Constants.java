@@ -161,7 +161,7 @@ public abstract class Constants {
     public static String VALIDATE = "Valider";
     public static String DATE = "Date";
     public static String UNPAID = "Impayée";
-    public static String INVOICE_PREFIX ="INV";
+    public static String INVOICE_PREFIX ="FACT";
     public static String INVOICE_NUMBER = "Numéro de facture";
     public static String PAYMENT_DATE ="Date du paiement";
     public static String PAYED="Payée";

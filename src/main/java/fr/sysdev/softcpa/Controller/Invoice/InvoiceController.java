@@ -68,7 +68,7 @@ public class InvoiceController {
     public void invoiceDetails() {
         ArrayList<Invoice> slist = (ArrayList<Invoice>) this.view.getSelectedInvoices();
 
-        /*        if (slist.size() > 1) {
+          if (slist.size() > 1) {
         slist.forEach((Invoice i)
         -> {
         try {
@@ -78,14 +78,14 @@ public class InvoiceController {
         Logger.getLogger(InvoiceController.class.getName()).log(Level.SEVERE, null, ex);
         }
         });
-        } else {*/
+        } else {
             try {
                 detailsView = this.view.displayInvoice(invoiceService.getInvoiceById(slist.get(0).getId()));
                 registerAction(detailsView.getPayBtn(), (e) -> addPayment());
             } catch (PropertyVetoException ex) {
                 Logger.getLogger(InvoiceController.class.getName()).log(Level.SEVERE, null, ex);
             }
-//        }
+          }
     }
 
     public void addPayment() {

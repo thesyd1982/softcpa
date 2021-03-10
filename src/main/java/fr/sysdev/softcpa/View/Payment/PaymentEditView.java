@@ -221,7 +221,8 @@ private Payment payment;
 
     public void addPayment() {
        payment.setAmount(new Double(jTextField_Payment_Amount_Value.getText()));
-       payment.setPaymentMethod((PaymentMethodEnum) jComboBox_Payment_Method_Value.getSelectedItem());
+       payment.setPaymentMethod(PaymentMethodEnum.valueOf(PaymentMethodEnum.BANKCARD.toString()));
+               //jComboBox_Payment_Method_Value.getSelectedItem().toString()));
        payment.setDateOfPayment(LocalDate.now());
        
     }

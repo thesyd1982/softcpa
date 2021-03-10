@@ -212,7 +212,7 @@ public class InvoiceView extends javax.swing.JInternalFrame {
          getInvoiceFromSelectedTableRow();
         jTable_Invoice.setSelectionBackground(Color.blue);
         jTable_Invoice.setSelectionForeground(Color.white);
-      
+        jButton_Invoice_Details.setVisible(true);
         if (evt.getClickCount() == 2) {
              
              
@@ -224,12 +224,8 @@ public class InvoiceView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTable_InvoiceMouseClicked
 public InvoiceDetailsView displayInvoice(Invoice in) throws PropertyVetoException {
         InvoiceDetailsView idv = new InvoiceDetailsView(in);
-        
-        idv.setVisible(true);
-        this.getParent().add(idv);
-        idv.setSelected(true);
-        idv.toFront();
-        idv.setFocusable(true);
+         this.getParent().getParent().add(idv);
+
        return idv;
     }
 
@@ -268,6 +264,7 @@ public InvoiceDetailsView displayInvoice(Invoice in) throws PropertyVetoExceptio
             invoices.clear();
             invoices.addAll(allInvoices);
             bindingInvoicesTable();
+            jButton_Invoice_Details.setVisible(false);
           
         } else {
             List<Invoice> filter = InvoicesPredicates.filterInvoices(allInvoices, InvoicesPredicates.oneOfAllContains(s));
@@ -281,9 +278,10 @@ public InvoiceDetailsView displayInvoice(Invoice in) throws PropertyVetoExceptio
                 jTable_Invoice.setRowSelectionInterval(0, 0);
                 jTable_Invoice.setSelectionBackground(Color.blue);
                 jTable_Invoice.setSelectionForeground(Color.red);
+                jButton_Invoice_Details.setVisible(true);
 
             } else {
-
+                jButton_Invoice_Details.setVisible(false);
                 invoices.clear();
                 bindingInvoicesTable();
 
@@ -300,7 +298,7 @@ public InvoiceDetailsView displayInvoice(Invoice in) throws PropertyVetoExceptio
         String iN = (String) (jTable_Invoice.getModel().getValueAt(rowt, 1));
         invoice.setInvoiceNumber(iN);
 
-       Client client = (Client) (jTable_Invoice.getModel().getValueAt(rowt, 2));
+        Client client = (Client) (jTable_Invoice.getModel().getValueAt(rowt, 2));
         invoice.setClient(client);
 
          String platenumber =(String) (jTable_Invoice.getModel().getValueAt(rowt, 3));
@@ -373,7 +371,7 @@ public InvoiceDetailsView displayInvoice(Invoice in) throws PropertyVetoExceptio
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if (jTable_Invoice.isEditing())
-     jTable_Invoice.getCellEditor().stopCellEditing();
+                     jTable_Invoice.getCellEditor().stopCellEditing();
                 
                 jTable_InvoiceMouseClicked(evt);
                
@@ -402,6 +400,7 @@ public InvoiceDetailsView displayInvoice(Invoice in) throws PropertyVetoExceptio
         jButton_Invoice_Details.setText(Constants.Labels.INVOICE_DETAILS);
         jButton_Refresh.setText(Constants.Labels.REFRESH_BTN);
         jLabel_Invoice_Search.setText(Constants.Labels.SEARCH);
+        jButton_Invoice_Details.setVisible(false);
         bindingInvoicesTable();
     }
     

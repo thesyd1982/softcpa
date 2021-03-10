@@ -5,7 +5,7 @@
  */
 package fr.sysdev.softcpa.entity;
 
-import fr.sysdev.softcpa.constants.Constants;
+import fr.sysdev.softcpa.constants.FR.Constants;
 
 /**
  *

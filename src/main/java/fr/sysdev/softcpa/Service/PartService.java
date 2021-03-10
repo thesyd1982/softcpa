@@ -35,7 +35,7 @@ public class PartService extends Observable implements IPartService{
     private String message ="";
     
     public PartService(IPartRepository partRepository) {
-       log.debug("Part Service --> Started ...");
+      // log.debug("Part Service --> Started ...");
         this.partRepository = partRepository ;
     }
      

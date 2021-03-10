@@ -37,7 +37,7 @@ public class ClientService extends Observable implements IClientService {
     public ClientService(IClientRepository clientRepository) {
         
         this.clientRepository = clientRepository;
-        log.debug("CLient Service --> Started ...");
+       // log.debug("CLient Service --> Started ...");
     }
 
     @Override

@@ -56,12 +56,15 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
     }
 
     public InvoiceDetailsView(Invoice invoice) {
-
-        initComponents();
         this.invoice = invoice;
+        
         this.invoiceLines = invoice.getInvocesLines();
         this.payment = new Payment();
-        this.title = Constants.Labels.INVOICE_DETAILS+" "+invoice.getInvoiceNumber();
+        initComponents();
+        this.setTitle(invoice.getInvoiceNumber());
+        
+       
+        
         prepareForm();
     }
 
@@ -139,11 +142,14 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/inv-details.png"))); // NOI18N
+        setPreferredSize(new java.awt.Dimension(1272, 727));
         try {
             setSelected(true);
         } catch (java.beans.PropertyVetoException e1) {
             e1.printStackTrace();
         }
+        setVisible(true);
 
         jPanel_Client.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -335,7 +341,7 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(13, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel_Invoice_Payment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -603,7 +609,7 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton_Invoice_Delete)
                             .addComponent(jButton_Invoice_Payment))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
         );
 
         pack();
@@ -611,7 +617,7 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
 
     private void jButton_Invoice_PaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_Invoice_PaymentActionPerformed
               
-   //addPayment();
+   addPayment();
      
     }//GEN-LAST:event_jButton_Invoice_PaymentActionPerformed
 
@@ -750,16 +756,18 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         
         List<Payment> payments = invoice.getPayments();
         //System.out.println(""+this.invoice.getPayments());
-
-        if (payments != null) {
+        
+       
+            
+        jPanel_Invoice_Payment.setVisible(false);
+            if (payments!=null&&!payments.isEmpty()) {
+               
             jPanel_Invoice_Payment.setVisible(true);
             JLabel paymentLabel = new JLabel();
             JLabel paymentLabelValue = new JLabel();
             JPanel paymentLine = new JPanel();
-
-            if (!payments.isEmpty()) {
-
                 payments.forEach(p -> {
+                     System.out.println(""+p.toString());
                     paymentLabel.setText(Constants.Labels.PAYMENT + " " + payments.indexOf(p));
                     paymentLabelValue.setText(p.getAmount() + "");
                     paymentLine.add(paymentLabel);
@@ -767,10 +775,7 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
                     jPanel_Invoice_Payment.add(paymentLine);
                 });
 
-            }
-        } else {
-            jPanel_Invoice_Payment.setVisible(false);
-        }
+            } 
         jPanel_InvoiceLines.add(createHeadersPanel());
         invoiceLines.forEach(il -> {
             JPanel p = createILPanel(il);
@@ -781,6 +786,7 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         jPanel_InvoiceLines.setVisible(true);
         jPanel_InvoiceLines.revalidate();
         jPanel_InvoiceLines.repaint();
+        
 
     }
 
@@ -993,6 +999,7 @@ public class InvoiceDetailsView extends javax.swing.JInternalFrame {
         paymentEditView.setSelected(true);
         paymentEditView.toFront();
         paymentEditView.setFocusable(true);
+        
         paymentEditView.setVisible(true);
 
         return paymentEditView;
